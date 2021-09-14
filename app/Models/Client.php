@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Client extends Model
 {
@@ -80,6 +81,16 @@ class Client extends Model
             ->pluck('latest_transaction_date');
 
         return $accounts[0];
+    }
+
+    /**
+     * Get all of the domains for the Client
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function domains(): HasMany
+    {
+        return $this->hasMany(Domain::class);
     }
 
 }
