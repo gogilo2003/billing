@@ -16,13 +16,13 @@ class CreateDomainsTable extends Migration
         Schema::create('domains', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('domain')->unique();
-            $table->date('registered_on');
-            $table->date('expires_on');
+            $table->datetime('registered_on');
+            $table->datetime('expires_on');
             $table->string('remarks')->nullable();
             $table->string('status')->default('active');
             $table->unsignedInteger('client_id');
             $table->timestamps();
-            $$table->foreign('client_id')
+            $table->foreign('client_id')->references('id')->on('clients');
         });
     }
 

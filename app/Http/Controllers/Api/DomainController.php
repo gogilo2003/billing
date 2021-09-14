@@ -28,29 +28,31 @@ class DomainController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(),[
-            'domain'=>'required|unique:domains,domain',
-            "registered_on"=>"required|date",
-            "expires_on"=>"required|date",
+        $validator = Validator::make($request->all(), [
+            'domain' => 'required|unique:domains,domain',
+            "registered_on" => "required|date",
+            "expires_on" => "required|date",
+            "client" => "required|exists:clients,id"
         ]);
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
-                "success"=>false,
-                "message"=>"Validation Error",
-                "details"=>$validator->errors()
-            ],415);
+                "success" => false,
+                "message" => "Validation Error",
+                "details" => $validator->errors()
+            ], 415);
         }
         $domain = new Domain;
         $domain->domain = $request->domain;
         $domain->registered_on = $request->registered_on;
         $domain->expires_on = $request->expires_on;
         $domain->remarks = $request->remarks;
+        $domain->client_id = $request->client;
         $domain->save();
 
         return response()->json([
-            "success"=>true,
-            "message"=>"Domain Created",
-            "domain"=>$domain
+            "success" => true,
+            "message" => "Domain Created",
+            "domain" => $domain
         ]);
     }
 
@@ -63,17 +65,32 @@ class DomainController extends Controller
      */
     public function update(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'domain' => 'required|unique:domains,domain',
+            "registered_on" => "required|date",
+            "expires_on" => "required|date",
+            "client" => "required|exists:clients,id"
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                "success" => false,
+                "message" => "Validation Error",
+                "details" => $validator->errors()
+            ], 415);
+        }
+
         $domain = Domain::find($request->id);
         $domain->domain = $request->domain;
         $domain->registered_on = $request->registered_on;
         $domain->expires_on = $request->expires_on;
         $domain->remarks = $request->remarks;
+        $domain->client_id = $request->client;
         $domain->save();
 
         return response()->json([
-            "success"=>true,
-            "message"=>"Domain Updated",
-            "domain"=>$domain
+            "success" => true,
+            "message" => "Domain Updated",
+            "domain" => $domain
         ]);
     }
 
