@@ -2,33 +2,48 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\Client;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
 class ClientController extends Controller
 {
-    public function creatClient(Request $request)
+    public function index()
     {
-    	$validator = Validator::make($request->all(),[
-    			'name' => 'required',
-    			'email' => 'email|unique:clients',
-    		]);
+        $clients = Client::orderBy('name', 'ASC')->get()->map(function ($item) {
+            return new class($item->id, $item->name) {
+                public function __construct($id, $name)
+                {
+                    $this->id = $id;
+                    $this->name = strtoupper($name);
+                }
+            };
+        });
 
-    	if ($validator->fails()) {
-    		return redirect()
-    				->back()
-    				->withErrors($validator)
-    				->withInput()
-    				->with('message');
-    	}
+        return response()->json($clients->toArray());
     }
 
+    public function createClient(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+                'name' => 'required',
+                'email' => 'email|unique:clients',
+            ]);
 
-    function updateNotification(Request $request){
-        $validator = Validator::make($request->all(),[
-            'id'=>'required|exists:clients'
+        if ($validator->fails()) {
+            return redirect()
+                    ->back()
+                    ->withErrors($validator)
+                    ->withInput()
+                    ->with('message');
+        }
+    }
+
+    public function updateNotification(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|exists:clients',
         ]);
 
         if ($validator->fails()) {
@@ -40,15 +55,16 @@ class ClientController extends Controller
         $account->save();
 
         return response()->json([
-            'success'=>true,
-            'notification'=>$account->notification,
-            "message"=>'Notification changed successfuly'
+            'success' => true,
+            'notification' => $account->notification,
+            'message' => 'Notification changed successfuly',
         ]);
     }
 
-    function showNotification(Request $request){
-        $validator = Validator::make($request->all(),[
-            'id'=>'required|exists:clients'
+    public function showNotification(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|exists:clients',
         ]);
 
         if ($validator->fails()) {
@@ -58,9 +74,9 @@ class ClientController extends Controller
         $account = Client::find($request->id);
 
         return response()->json([
-            'success'=>true,
-            'notification'=>$account->notification,
-            "message"=>'Current nottification status'
+            'success' => true,
+            'notification' => $account->notification,
+            'message' => 'Current nottification status',
         ]);
     }
 }

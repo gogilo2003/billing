@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\Domain;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
 class DomainController extends Controller
@@ -16,32 +16,32 @@ class DomainController extends Controller
      */
     public function index()
     {
-        $domains = Domain::all();
+        $domains = Domain::paginate(10);
+
         return response()->json($domains);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'domain' => 'required|unique:domains,domain',
-            "registered_on" => "required|date",
-            "expires_on" => "required|date",
-            "client" => "required|exists:clients,id"
+            'registered_on' => 'required|date',
+            'expires_on' => 'required|date',
+            'client' => 'required|exists:clients,id',
         ]);
         if ($validator->fails()) {
             return response()->json([
-                "success" => false,
-                "message" => "Validation Error",
-                "details" => $validator->errors()
+                'success' => false,
+                'message' => 'Validation Error',
+                'details' => $validator->errors(),
             ], 415);
         }
-        $domain = new Domain;
+        $domain = new Domain();
         $domain->domain = $request->domain;
         $domain->registered_on = $request->registered_on;
         $domain->expires_on = $request->expires_on;
@@ -50,32 +50,32 @@ class DomainController extends Controller
         $domain->save();
 
         return response()->json([
-            "success" => true,
-            "message" => "Domain Created",
-            "domain" => $domain
+            'success' => true,
+            'message' => 'Domain Created',
+            'domain' => $domain,
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'domain' => 'required|unique:domains,domain',
-            "registered_on" => "required|date",
-            "expires_on" => "required|date",
-            "client" => "required|exists:clients,id"
+            'registered_on' => 'required|date',
+            'expires_on' => 'required|date',
+            'client' => 'required|exists:clients,id',
         ]);
         if ($validator->fails()) {
             return response()->json([
-                "success" => false,
-                "message" => "Validation Error",
-                "details" => $validator->errors()
+                'success' => false,
+                'message' => 'Validation Error',
+                'details' => $validator->errors(),
             ], 415);
         }
 
@@ -88,20 +88,25 @@ class DomainController extends Controller
         $domain->save();
 
         return response()->json([
-            "success" => true,
-            "message" => "Domain Updated",
-            "domain" => $domain
+            'success' => true,
+            'message' => 'Domain Updated',
+            'domain' => $domain,
         ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+    }
+
+    public function status()
+    {
+        return response()->json(['active', 'expired']);
     }
 }
