@@ -2065,6 +2065,38 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2246,6 +2278,8 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     save: function save() {
+      var _this4 = this;
+
       if (this.edit) {
         axios.patch("/api/domains", this.domain).then(function (response) {
           $.notify({
@@ -2254,6 +2288,15 @@ __webpack_require__.r(__webpack_exports__);
             z_index: 9999,
             type: "success"
           });
+          _this4.domain = {
+            domain: null,
+            registered_on: null,
+            expires_on: null,
+            remarks: null,
+            status: null,
+            client_id: null
+          };
+          $('#domanisModalDialog').modal('hide');
         })["catch"](function (error) {
           console.log(error);
         });
@@ -2265,15 +2308,41 @@ __webpack_require__.r(__webpack_exports__);
             z_index: 9999,
             type: "success"
           });
+          _this4.domain = {
+            domain: null,
+            registered_on: null,
+            expires_on: null,
+            remarks: null,
+            status: null,
+            client_id: null
+          };
+          $('#domanisModalDialog').modal('hide');
+
+          _this4.domains.unshift(response.data.domain);
         })["catch"](function (error) {
-          console.log(error.response.data.details);
-          $.notify({
-            title: "<h4>".concat(error.response.data.message, "</h4>"),
-            message: ''
-          }, {
-            z_index: 9999,
-            type: "danger"
-          });
+          if (error.response.status == 415) {
+            var details = "<ol>";
+
+            for (var _i = 0, _Object$entries = Object.entries(error.response.data.details); _i < _Object$entries.length; _i++) {
+              var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
+                  key = _Object$entries$_i[0],
+                  value = _Object$entries$_i[1];
+
+              details += "<li class=\"text-white\">".concat(value, "</li>");
+            }
+
+            details += "</ol>";
+            $.notify({
+              title: "<h4 class=\"text-white text-uppercase\">".concat(error.response.data.message, "</h4>"),
+              message: details
+            }, {
+              z_index: 9999,
+              type: "danger",
+              allow_dismiss: false
+            });
+          } else {
+            console.log(error.response.data.message);
+          }
         });
       }
     }
@@ -38215,7 +38284,27 @@ var render = function() {
       _vm._m(0),
       _vm._v(" "),
       _c("div", { staticClass: "card-body" }, [
-        _vm._v("\n      " + _vm._s(_vm.domains) + "\n    ")
+        _c("table", { staticClass: "table" }, [
+          _vm._m(1),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            _vm._l(_vm.domains, function(domain, index) {
+              return _c("tr", { key: index }, [
+                _c("td", [_vm._v(_vm._s(index + 1))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(domain.domain))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(domain.registered_on))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(domain.expires_on))]),
+                _vm._v(" "),
+                _c("td")
+              ])
+            }),
+            0
+          )
+        ])
       ])
     ]),
     _vm._v(" "),
@@ -38224,7 +38313,7 @@ var render = function() {
       {
         staticClass: "modal fade",
         attrs: {
-          id: "modelId",
+          id: "domanisModalDialog",
           tabindex: "-1",
           role: "dialog",
           "aria-labelledby": "modelTitleId",
@@ -38242,7 +38331,7 @@ var render = function() {
                   _vm._v(_vm._s(_vm.title))
                 ]),
                 _vm._v(" "),
-                _vm._m(1)
+                _vm._m(2)
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
@@ -38536,11 +38625,31 @@ var staticRenderFns = [
           attrs: {
             type: "button",
             "data-toggle": "modal",
-            "data-target": "#modelId"
+            "data-target": "#domanisModalDialog"
           }
         },
         [_vm._v("\n        New\n      ")]
       )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th"),
+        _vm._v(" "),
+        _c("th", [_vm._v("Domain")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Registered On")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Expires On")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Days")]),
+        _vm._v(" "),
+        _c("th")
+      ])
     ])
   },
   function() {

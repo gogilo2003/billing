@@ -115,7 +115,7 @@
 
             <li @if ($pageSlug == 'domains') class="active " @endif>
                 <a href="{{ route('domains') }}">
-                    <i class="tim-icons icon-settings"></i>
+                    <i class="tim-icons icon-world"></i>
                     <p>{{ _('Domains') }}</p>
                 </a>
             </li>

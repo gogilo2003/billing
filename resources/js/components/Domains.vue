@@ -8,19 +8,39 @@
           type="button"
           class="btn btn-primary"
           data-toggle="modal"
-          data-target="#modelId"
+          data-target="#domanisModalDialog"
         >
           New
         </button>
       </div>
       <div class="card-body">
-        {{ domains }}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Domain</th>
+                    <th>Registered On</th>
+                    <th>Expires On</th>
+                    <th>Days</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(domain, index) in domains" :key="index">
+                    <td>{{ index +1 }}</td>
+                    <td>{{ domain.domain }}</td>
+                    <td>{{ domain.registered_on }}</td>
+                    <td>{{ domain.expires_on }}</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
       </div>
     </div>
     <!-- Modal -->
     <div
       class="modal fade"
-      id="modelId"
+      id="domanisModalDialog"
       tabindex="-1"
       role="dialog"
       aria-labelledby="modelTitleId"
@@ -187,6 +207,15 @@ export default {
                 type: "success",
               }
             );
+            this.domain = {
+              domain: null,
+              registered_on: null,
+              expires_on: null,
+              remarks: null,
+              status: null,
+              client_id: null,
+            };
+            $('#domanisModalDialog').modal('hide')
           })
           .catch((error) => {
             console.log(error);
@@ -204,19 +233,40 @@ export default {
                 type: "success",
               }
             );
+            this.domain = {
+              domain: null,
+              registered_on: null,
+              expires_on: null,
+              remarks: null,
+              status: null,
+              client_id: null,
+            };
+            $('#domanisModalDialog').modal('hide')
+            this.domains.unshift(response.data.domain)
           })
           .catch((error) => {
-            console.log(error.response.data.details);
-            $.notify(
-              {
-                title: `<h4>${error.response.data.message}</h4>`,
-                message: '',
-              },
-              {
-                z_index: 9999,
-                type: "danger",
+            if (error.response.status == 415) {
+              let details = `<ol>`;
+              for (const [key, value] of Object.entries(
+                error.response.data.details
+              )) {
+                details += `<li class="text-white">${value}</li>`;
               }
-            );
+              details += `</ol>`;
+              $.notify(
+                {
+                  title: `<h4 class="text-white text-uppercase">${error.response.data.message}</h4>`,
+                  message: details,
+                },
+                {
+                  z_index: 9999,
+                  type: "danger",
+                  allow_dismiss: false,
+                }
+              );
+            } else {
+              console.log(error.response.data.message);
+            }
           });
       }
     },

@@ -15,7 +15,7 @@ class CreateDomainsTable extends Migration
     {
         Schema::create('domains', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('domain')->unique();
+            $table->string('domain')->unique();
             $table->datetime('registered_on');
             $table->datetime('expires_on');
             $table->string('remarks')->nullable();

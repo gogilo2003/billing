@@ -45,7 +45,9 @@ class DomainController extends Controller
         $domain->domain = $request->domain;
         $domain->registered_on = $request->registered_on;
         $domain->expires_on = $request->expires_on;
-        $domain->remarks = $request->remarks;
+        if ($request->remarks) {
+            $domain->remarks = $request->remarks;
+        }
         $domain->client_id = $request->client;
         $domain->save();
 
