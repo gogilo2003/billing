@@ -2237,6 +2237,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -38296,6 +38297,8 @@ var render = function() {
                 _c("td", [_vm._v(_vm._s(domain.domain))]),
                 _vm._v(" "),
                 _c("td", [_vm._v(_vm._s(domain.registered_on))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(domain.expires_on))]),
                 _vm._v(" "),
                 _c("td", [_vm._v(_vm._s(domain.expires_on))]),
                 _vm._v(" "),

@@ -31,6 +31,7 @@
                     <td>{{ domain.domain }}</td>
                     <td>{{ domain.registered_on }}</td>
                     <td>{{ domain.expires_on }}</td>
+                    <td>{{ domain.expires_on }}</td>
                     <td></td>
                 </tr>
             </tbody>
