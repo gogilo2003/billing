@@ -16,7 +16,13 @@ class DomainController extends Controller
      */
     public function index()
     {
-        $domains = Domain::paginate(10);
+        $expired = Domain::where('expires_on', '<', now())
+                    ->orderBy('expires_on', 'ASC');
+
+        $domains = Domain::where('expires_on', '>=', now())
+                    ->orderBy('expires_on', 'DESC')
+                    ->union($expired)
+                    ->paginate(5);
 
         return response()->json($domains);
     }
@@ -32,7 +38,7 @@ class DomainController extends Controller
             'domain' => 'required|unique:domains,domain',
             'registered_on' => 'required|date',
             'expires_on' => 'required|date',
-            'client' => 'required|exists:clients,id',
+            'client_id' => 'required|exists:clients,id',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -48,7 +54,8 @@ class DomainController extends Controller
         if ($request->remarks) {
             $domain->remarks = $request->remarks;
         }
-        $domain->client_id = $request->client;
+        $domain->client_id = $request->client_id;
+        $domain->status = $request->status;
         $domain->save();
 
         return response()->json([
@@ -68,10 +75,11 @@ class DomainController extends Controller
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'domain' => 'required|unique:domains,domain',
+            'id' => 'required|integer|exists:domains',
+            'domain' => 'required|unique:domains,domain,'.$request->id,
             'registered_on' => 'required|date',
             'expires_on' => 'required|date',
-            'client' => 'required|exists:clients,id',
+            'client_id' => 'required|exists:clients,id',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -85,8 +93,11 @@ class DomainController extends Controller
         $domain->domain = $request->domain;
         $domain->registered_on = $request->registered_on;
         $domain->expires_on = $request->expires_on;
-        $domain->remarks = $request->remarks;
-        $domain->client_id = $request->client;
+        if ($request->remarks) {
+            $domain->remarks = $request->remarks;
+        }
+        $domain->client_id = $request->client_id;
+        $domain->status = $request->status;
         $domain->save();
 
         return response()->json([

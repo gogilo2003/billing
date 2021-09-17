@@ -9,33 +9,40 @@
           class="btn btn-primary"
           data-toggle="modal"
           data-target="#domanisModalDialog"
+          @click="newDomain"
         >
           New
         </button>
       </div>
       <div class="card-body">
-        <table class="table">
+        <div class="table-responsive">
+          <table class="table">
             <thead>
-                <tr>
-                    <th></th>
-                    <th>Domain</th>
-                    <th>Registered On</th>
-                    <th>Expires On</th>
-                    <th>Days</th>
-                    <th></th>
-                </tr>
+              <tr>
+                <th></th>
+                <th>Domain</th>
+                <th>Registered On</th>
+                <th>Expires On</th>
+                <th>Days</th>
+                <th></th>
+              </tr>
             </thead>
             <tbody>
-                <tr v-for="(domain, index) in domains" :key="index">
-                    <td>{{ index +1 }}</td>
-                    <td>{{ domain.domain }}</td>
-                    <td>{{ domain.registered_on }}</td>
-                    <td>{{ domain.expires_on }}</td>
-                    <td>{{ domain.expires_on }}</td>
-                    <td></td>
-                </tr>
+              <tr v-for="(domain, index) in domains" :key="index">
+                <td>{{ index + 1 }}</td>
+                <td>{{ domain.domain }}</td>
+                <td>{{ domain.registered_on }}</td>
+                <td>{{ domain.expires_on }}</td>
+                <td>{{ dateDiff(domain.expires_on) }}</td>
+                <td>
+                  <button class="btn btn-link" @click="editDomain(domain)">
+                    <span class="tim-icons icon-pencil"></span>
+                  </button>
+                </td>
+              </tr>
             </tbody>
-        </table>
+          </table>
+        </div>
       </div>
     </div>
     <!-- Modal -->
@@ -68,7 +75,7 @@
                   class="form-control"
                   name="clientInput"
                   id="clientInput"
-                  v-model="domain.client"
+                  v-model="domain.client_id"
                 >
                   <option
                     v-for="item in clients"
@@ -84,10 +91,10 @@
                   class="form-control"
                   name="statusInput"
                   id="statusInput"
-                  v-model="domain.state"
+                  v-model="domain.status"
                 >
                   <option
-                    v-for="item in status"
+                    v-for="item in states"
                     :key="item"
                     :value="item"
                     v-html="item"
@@ -119,16 +126,24 @@
                 />
               </div>
               <div class="form-group col-md-6">
-                <label for="expitersOnInput">Expires On</label>
+                <label for="expiresOnInput">Expires On</label>
                 <input
                   type="date"
                   class="form-control"
-                  name="expitersOnInput"
+                  name="expiresOnInput"
                   id=""
                   aria-describedby="helpId"
                   placeholder="Expires On"
                   v-model="domain.expires_on"
                 />
+                <label for="expiresOnDate">Expires On</label>
+                <date-picker
+                  input-class="form-control"
+                  v-model="domain.expires_on"
+                  style="width: 100%"
+                  v-ref="expiresOnDate"
+                >
+                </date-picker>
               </div>
               <div class="form-group col-md-12">
                 <label for="remarksInput">Remarks</label>
@@ -160,12 +175,15 @@
   </div>
 </template>
 <script>
+import mixins from "../mixins/mixins";
+import DatePicker from "vue2-datepicker";
+import "vue2-datepicker/index.css";
 export default {
   data() {
     return {
       domains: [],
       clients: [],
-      status: [],
+      states: [],
       title: "New Domain",
       edit: false,
       domain: {
@@ -178,7 +196,27 @@ export default {
       },
     };
   },
+  mixins: [mixins],
+  components: {
+    DatePicker,
+  },
   methods: {
+    newDomain() {
+      this.domain = {
+        domain: null,
+        registered_on: null,
+        expires_on: null,
+        remarks: null,
+        status: null,
+        client_id: null,
+      };
+      this.edit = false;
+    },
+    editDomain(domain) {
+      this.edit = true;
+      this.domain = domain;
+      $("#domanisModalDialog").modal("show");
+    },
     getDomains() {
       axios.get("/api/domains").then((response) => {
         this.domains = response.data.data;
@@ -186,7 +224,7 @@ export default {
     },
     getStatus() {
       axios.get("/api/domains/status").then((response) => {
-        this.status = response.data;
+        this.states = response.data;
       });
     },
     getClients() {
@@ -216,10 +254,31 @@ export default {
               status: null,
               client_id: null,
             };
-            $('#domanisModalDialog').modal('hide')
+            $("#domanisModalDialog").modal("hide");
           })
           .catch((error) => {
-            console.log(error);
+            if (error.response.status == 415) {
+              let details = `<ol>`;
+              for (const [key, value] of Object.entries(
+                error.response.data.details
+              )) {
+                details += `<li class="text-white">${value}</li>`;
+              }
+              details += `</ol>`;
+              $.notify(
+                {
+                  title: `<h4 class="text-white text-uppercase">${error.response.data.message}</h4>`,
+                  message: details,
+                },
+                {
+                  z_index: 9999,
+                  type: "danger",
+                  allow_dismiss: false,
+                }
+              );
+            } else {
+              console.log(error.response.data.message);
+            }
           });
       } else {
         axios
@@ -242,8 +301,8 @@ export default {
               status: null,
               client_id: null,
             };
-            $('#domanisModalDialog').modal('hide')
-            this.domains.unshift(response.data.domain)
+            $("#domanisModalDialog").modal("hide");
+            this.domains.unshift(response.data.domain);
           })
           .catch((error) => {
             if (error.response.status == 415) {
