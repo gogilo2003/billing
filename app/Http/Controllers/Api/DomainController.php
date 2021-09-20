@@ -17,14 +17,13 @@ class DomainController extends Controller
     public function index()
     {
         $expired = Domain::where('expires_on', '<', now())
-                    ->orderBy('expires_on', 'ASC');
+                    ->orderBy('expires_on', 'DESC')->paginate(5);
 
-        $domains = Domain::where('expires_on', '>=', now())
-                    ->orderBy('expires_on', 'DESC')
-                    ->union($expired)
+        $active = Domain::where('expires_on', '>=', now())
+                    ->orderBy('expires_on', 'ASC')
                     ->paginate(5);
 
-        return response()->json($domains);
+        return response()->json(['domains' => ['active' => $active, 'expired' => $expired]]);
     }
 
     /**

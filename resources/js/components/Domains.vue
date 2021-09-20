@@ -2,17 +2,55 @@
   <div>
     <div class="card">
       <div class="card-header">
-        <h1 class="card-title">Domains</h1>
-        <!-- Button trigger modal -->
-        <button
-          type="button"
-          class="btn btn-primary"
-          data-toggle="modal"
-          data-target="#domanisModalDialog"
-          @click="newDomain"
-        >
-          New
-        </button>
+        <div class="row">
+          <div class="col-md-6 text-uppercase">
+            <h3 class="card-title">Domains</h3>
+            <h5 class="card-title" v-if="isActive">Active Domains</h5>
+            <h5 class="card-title" v-else>Expired Domains</h5>
+          </div>
+          <div class="col-md-6 d-flex" style="justify-content:flex-end; align-items:flex-start">
+            <!-- Button trigger modal -->
+            <label
+              class="btn btn-dark btn-sm"
+              data-toggle="modal"
+              data-target="#domanisModalDialog"
+              @click="newDomain"
+            >
+              NEW
+            </label>
+            <div class="btn-group btn-group-toggle">
+              <label
+                class="btn btn-primary btn-sm btn-simple"
+                :class="{ active: isActive}"
+                for="activeDomainsRadio"
+                >ACTIVE</label
+              >
+              <label
+                class="btn btn-primary btn-sm btn-simple"
+                :class="{ active: !isActive}"
+                for="expiredDomainsRadio"
+                >EXPIRED</label
+              >
+            </div>
+            <input
+              type="radio"
+              name="test"
+              id="activeDomainsRadio"
+              :value="true"
+              v-model="isActive"
+              v-show="false"
+              checked
+            />
+            <input
+              type="radio"
+              name="test"
+              id="expiredDomainsRadio"
+              :value="false"
+              v-model="isActive"
+              v-show="false"
+            />
+          </div>
+        </div>
       </div>
       <div class="card-body">
         <div class="table-responsive">
@@ -27,8 +65,22 @@
                 <th></th>
               </tr>
             </thead>
-            <tbody>
-              <tr v-for="(domain, index) in domains" :key="index">
+            <tbody v-if="isActive">
+              <tr v-for="(domain, index) in domains.active" :key="domain.id">
+                <td>{{ index + 1 }}</td>
+                <td>{{ domain.domain }}</td>
+                <td>{{ domain.registered_on }}</td>
+                <td>{{ domain.expires_on }}</td>
+                <td>{{ dateDiff(domain.expires_on) }}</td>
+                <td>
+                  <button class="btn btn-link" @click="editDomain(domain)">
+                    <span class="tim-icons icon-pencil"></span>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+            <tbody v-else>
+              <tr v-for="(domain, index) in domains.expired" :key="domain.id">
                 <td>{{ index + 1 }}</td>
                 <td>{{ domain.domain }}</td>
                 <td>{{ domain.registered_on }}</td>
@@ -127,7 +179,7 @@
               </div>
               <div class="form-group col-md-6">
                 <label for="expiresOnInput">Expires On</label>
-                <input
+                <!-- <input
                   type="date"
                   class="form-control"
                   name="expiresOnInput"
@@ -135,13 +187,11 @@
                   aria-describedby="helpId"
                   placeholder="Expires On"
                   v-model="domain.expires_on"
-                />
-                <label for="expiresOnDate">Expires On</label>
+                /> -->
                 <date-picker
                   input-class="form-control"
                   v-model="domain.expires_on"
                   style="width: 100%"
-                  v-ref="expiresOnDate"
                 >
                 </date-picker>
               </div>
@@ -181,11 +231,12 @@ import "vue2-datepicker/index.css";
 export default {
   data() {
     return {
-      domains: [],
+      domains: {},
       clients: [],
       states: [],
       title: "New Domain",
       edit: false,
+      isActive: true,
       domain: {
         domain: null,
         registered_on: null,
@@ -219,7 +270,8 @@ export default {
     },
     getDomains() {
       axios.get("/api/domains").then((response) => {
-        this.domains = response.data.data;
+        this.domains.active = response.data.domains.active.data;
+        this.domains.expired = response.data.domains.expired.data;
       });
     },
     getStatus() {
