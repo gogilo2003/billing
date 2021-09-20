@@ -2256,17 +2256,68 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      domains: [],
+      domains: {},
       clients: [],
       states: [],
       title: "New Domain",
       edit: false,
+      isActive: true,
       domain: {
         domain: null,
         registered_on: null,
@@ -2302,7 +2353,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       var _this = this;
 
       axios.get("/api/domains").then(function (response) {
-        _this.domains = response.data.data;
+        _this.domains.active = response.data.domains.active.data;
+        _this.domains.expired = response.data.domains.expired.data;
       });
     },
     getStatus: function getStatus() {
@@ -39510,21 +39562,126 @@ var render = function() {
   return _c("div", [
     _c("div", { staticClass: "card" }, [
       _c("div", { staticClass: "card-header" }, [
-        _c("h1", { staticClass: "card-title" }, [_vm._v("Domains")]),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-primary",
-            attrs: {
-              type: "button",
-              "data-toggle": "modal",
-              "data-target": "#domanisModalDialog"
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-6 text-uppercase" }, [
+            _c("h3", { staticClass: "card-title" }, [_vm._v("Domains")]),
+            _vm._v(" "),
+            _vm.isActive
+              ? _c("h5", { staticClass: "card-title" }, [
+                  _vm._v("Active Domains")
+                ])
+              : _c("h5", { staticClass: "card-title" }, [
+                  _vm._v("Expired Domains")
+                ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "col-md-6 d-flex",
+              staticStyle: {
+                "justify-content": "flex-end",
+                "align-items": "flex-start"
+              }
             },
-            on: { click: _vm.newDomain }
-          },
-          [_vm._v("\n        New\n      ")]
-        )
+            [
+              _c(
+                "label",
+                {
+                  staticClass: "btn btn-dark btn-sm",
+                  attrs: {
+                    "data-toggle": "modal",
+                    "data-target": "#domanisModalDialog"
+                  },
+                  on: { click: _vm.newDomain }
+                },
+                [_vm._v("\n            NEW\n          ")]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "btn-group btn-group-toggle" }, [
+                _c(
+                  "label",
+                  {
+                    staticClass: "btn btn-primary btn-sm btn-simple",
+                    class: { active: _vm.isActive },
+                    attrs: { for: "activeDomainsRadio" }
+                  },
+                  [_vm._v("ACTIVE")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "label",
+                  {
+                    staticClass: "btn btn-primary btn-sm btn-simple",
+                    class: { active: !_vm.isActive },
+                    attrs: { for: "expiredDomainsRadio" }
+                  },
+                  [_vm._v("EXPIRED")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.isActive,
+                    expression: "isActive"
+                  },
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: false,
+                    expression: "false"
+                  }
+                ],
+                attrs: {
+                  type: "radio",
+                  name: "test",
+                  id: "activeDomainsRadio",
+                  checked: ""
+                },
+                domProps: { value: true, checked: _vm._q(_vm.isActive, true) },
+                on: {
+                  change: function($event) {
+                    _vm.isActive = true
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.isActive,
+                    expression: "isActive"
+                  },
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: false,
+                    expression: "false"
+                  }
+                ],
+                attrs: {
+                  type: "radio",
+                  name: "test",
+                  id: "expiredDomainsRadio"
+                },
+                domProps: {
+                  value: false,
+                  checked: _vm._q(_vm.isActive, false)
+                },
+                on: {
+                  change: function($event) {
+                    _vm.isActive = false
+                  }
+                }
+              })
+            ]
+          )
+        ])
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "card-body" }, [
@@ -39532,38 +39689,75 @@ var render = function() {
           _c("table", { staticClass: "table" }, [
             _vm._m(0),
             _vm._v(" "),
-            _c(
-              "tbody",
-              _vm._l(_vm.domains, function(domain, index) {
-                return _c("tr", { key: index }, [
-                  _c("td", [_vm._v(_vm._s(index + 1))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(domain.domain))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(domain.registered_on))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(domain.expires_on))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(_vm.dateDiff(domain.expires_on)))]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-link",
-                        on: {
-                          click: function($event) {
-                            return _vm.editDomain(domain)
-                          }
-                        }
-                      },
-                      [_c("span", { staticClass: "tim-icons icon-pencil" })]
-                    )
-                  ])
-                ])
-              }),
-              0
-            )
+            _vm.isActive
+              ? _c(
+                  "tbody",
+                  _vm._l(_vm.domains.active, function(domain, index) {
+                    return _c("tr", { key: domain.id }, [
+                      _c("td", [_vm._v(_vm._s(index + 1))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(domain.domain))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(domain.registered_on))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(domain.expires_on))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(_vm._s(_vm.dateDiff(domain.expires_on)))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-link",
+                            on: {
+                              click: function($event) {
+                                return _vm.editDomain(domain)
+                              }
+                            }
+                          },
+                          [_c("span", { staticClass: "tim-icons icon-pencil" })]
+                        )
+                      ])
+                    ])
+                  }),
+                  0
+                )
+              : _c(
+                  "tbody",
+                  _vm._l(_vm.domains.expired, function(domain, index) {
+                    return _c("tr", { key: domain.id }, [
+                      _c("td", [_vm._v(_vm._s(index + 1))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(domain.domain))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(domain.registered_on))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(domain.expires_on))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(_vm._s(_vm.dateDiff(domain.expires_on)))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-link",
+                            on: {
+                              click: function($event) {
+                                return _vm.editDomain(domain)
+                              }
+                            }
+                          },
+                          [_c("span", { staticClass: "tim-icons icon-pencil" })]
+                        )
+                      ])
+                    ])
+                  }),
+                  0
+                )
           ])
         ])
       ])
@@ -39776,51 +39970,7 @@ var render = function() {
                         _vm._v("Expires On")
                       ]),
                       _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.domain.expires_on,
-                            expression: "domain.expires_on"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "date",
-                          name: "expiresOnInput",
-                          id: "",
-                          "aria-describedby": "helpId",
-                          placeholder: "Expires On"
-                        },
-                        domProps: { value: _vm.domain.expires_on },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.domain,
-                              "expires_on",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("label", { attrs: { for: "expiresOnDate" } }, [
-                        _vm._v("Expires On")
-                      ]),
-                      _vm._v(" "),
                       _c("date-picker", {
-                        directives: [
-                          {
-                            name: "ref",
-                            rawName: "v-ref",
-                            value: _vm.expiresOnDate,
-                            expression: "expiresOnDate"
-                          }
-                        ],
                         staticStyle: { width: "100%" },
                         attrs: { "input-class": "form-control" },
                         model: {

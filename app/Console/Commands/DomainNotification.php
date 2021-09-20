@@ -2,25 +2,23 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Sms;
-use App\Services\SmsGatewayContract;
 use Illuminate\Console\Command;
 
-class SmsStatus extends Command
+class DomainNotification extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'message:update';
+    protected $signature = 'command:name';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Continuously check status of sent messages and update';
+    protected $description = 'Track and send notification on domains close to expiry';
 
     /**
      * Create a new command instance.
@@ -37,13 +35,8 @@ class SmsStatus extends Command
      *
      * @return int
      */
-    public function handle(SmsGatewayContract $smsGateway)
+    public function handle()
     {
-        $messages = Sms::where('status', '!=', 'Sent')->get();
-        foreach ($messages as $message) {
-            $smsGateway->update($message->message_id);
-        }
-
         return 0;
     }
 }
