@@ -77,6 +77,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::patch('', [DomainController::class, 'update'])->name('-update');
         Route::delete('', [DomainController::class, 'destroy'])->name('-delete');
         Route::get('status', [DomainController::class, 'status'])->name('-status');
+        Route::post('import', [DomainController::class, 'import'])->name('-import');
     });
 
     Route::get('test', function () {

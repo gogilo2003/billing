@@ -20,8 +20,8 @@ class CreateDomainsTable extends Migration
             $table->datetime('expires_on');
             $table->string('remarks')->nullable();
             $table->string('status')->default('active');
-            $table->unsignedInteger('client_id');
-            $table->boolean('notification');
+            $table->unsignedInteger('client_id')->nullable();
+            $table->boolean('notification')->default(false);
             $table->timestamps();
             $table->foreign('client_id')->references('id')->on('clients');
         });

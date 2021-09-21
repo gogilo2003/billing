@@ -11,7 +11,7 @@ class DomainNotification extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'domain:notification';
 
     /**
      * The console command description.
@@ -37,6 +37,8 @@ class DomainNotification extends Command
      */
     public function handle()
     {
+        $this->comment('Domain Notification');
+
         return 0;
     }
 }

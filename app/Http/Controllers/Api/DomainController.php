@@ -17,11 +17,11 @@ class DomainController extends Controller
     public function index()
     {
         $expired = Domain::where('expires_on', '<', now())
-                    ->orderBy('expires_on', 'DESC')->paginate(5);
+                    ->orderBy('expires_on', 'DESC')->paginate(20);
 
         $active = Domain::where('expires_on', '>=', now())
                     ->orderBy('expires_on', 'ASC')
-                    ->paginate(5);
+                    ->paginate(20);
 
         return response()->json(['domains' => ['active' => $active, 'expired' => $expired]]);
     }
@@ -120,5 +120,38 @@ class DomainController extends Controller
     public function status()
     {
         return response()->json(['active', 'expired']);
+    }
+
+    public function import(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'csv' => 'required|file',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation Error',
+                'details' => $validator->errors(),
+            ], 415);
+        }
+
+        $csv = \League\Csv\Reader::createFromPath($request->csv->getRealPath(), 'r');
+        $csv->setHeaderOffset(0);
+        $records = \League\Csv\Statement::create()->process($csv);
+
+        foreach ($records->getRecords() as $key => $record) {
+            $domain = new Domain();
+            $domain->domain = $record['domain'];
+            $domain->registered_on = $record['registered_on'];
+            $domain->expires_on = $record['expires_on'];
+            $domain->status = date_create($domain->expires_on) > now() ? 'active' : 'expired';
+            $domain->save();
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => count($records).' Domains Imported',
+            'domains' => Domain::all(),
+        ]);
     }
 }
