@@ -78,6 +78,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::delete('', [DomainController::class, 'destroy'])->name('-delete');
         Route::get('status', [DomainController::class, 'status'])->name('-status');
         Route::post('import', [DomainController::class, 'import'])->name('-import');
+        Route::post('notify', [DomainController::class, 'notify'])->name('-notify');
     });
 
     Route::get('test', function () {

@@ -21,7 +21,7 @@ class CreateDomainsTable extends Migration
             $table->string('remarks')->nullable();
             $table->string('status')->default('active');
             $table->unsignedInteger('client_id')->nullable();
-            $table->boolean('notification')->default(false);
+            $table->boolean('notify')->default(false);
             $table->timestamps();
             $table->foreign('client_id')->references('id')->on('clients');
         });
