@@ -154,4 +154,31 @@ class DomainController extends Controller
             'domains' => Domain::all(),
         ]);
     }
+
+    /**
+     * Disable or enable notification for a domain.
+     */
+    public function notify(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|integer|exists:domains',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation Error',
+                'details' => $validator->errors(),
+            ], 415);
+        }
+
+        $domain = Domain::find($request->id);
+        $domain->notify = $domain->notify ? 0 : 1;
+        $domain->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Notification '.($domain->notify ? 'enabled' : 'disabled').' for ('.$domain->domain.')',
+            'domain' => $domain,
+        ]);
+    }
 }
