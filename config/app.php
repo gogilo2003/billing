@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -14,9 +13,9 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
-    'phone'=>'+254711347184',
-    'email'=>'billing@micartech.co.ke',
-    'address'=>'P.O. Box 6546 - 00300, NAIROBI',
+    'phone' => '+254711347184',
+    'email' => 'billing@micartech.co.ke',
+    'address' => 'P.O. Box 6546 - 00300, NAIROBI',
 
     /*
     |--------------------------------------------------------------------------
@@ -70,7 +69,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Africa/Nairobi',
 
     /*
     |--------------------------------------------------------------------------
@@ -138,7 +137,6 @@ return [
     */
 
     'providers' => [
-
         /*
          * Laravel Framework Service Providers...
          */
@@ -177,7 +175,6 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
     ],
 
     /*
@@ -192,7 +189,6 @@ return [
     */
 
     'aliases' => [
-
         'App' => Illuminate\Support\Facades\App::class,
         'Arr' => Illuminate\Support\Arr::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
@@ -230,7 +226,5 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
     ],
-
 ];
