@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Client;
 use App\Models\Domain;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -17,11 +18,11 @@ class DomainController extends Controller
     public function index()
     {
         $expired = Domain::where('expires_on', '<', now())
-                    ->orderBy('expires_on', 'DESC')->paginate(20);
+                    ->orderBy('expires_on', 'DESC')->paginate(10);
 
         $active = Domain::where('expires_on', '>=', now())
                     ->orderBy('expires_on', 'ASC')
-                    ->paginate(20);
+                    ->paginate(10);
 
         return response()->json(['domains' => ['active' => $active, 'expired' => $expired]]);
     }
@@ -145,6 +146,16 @@ class DomainController extends Controller
             $domain->registered_on = $record['registered_on'];
             $domain->expires_on = $record['expires_on'];
             $domain->status = date_create($domain->expires_on) > now() ? 'active' : 'expired';
+            if ($record['client_id']) {
+                $domain->client_id = $record['client_id'];
+            } elseif ($record['name'] && $record['email'] && $record['phone']) {
+                $client = new Client();
+                $client->name = $record['name'];
+                $client->email = $record['email'];
+                $client->phone = clean_isdn($record['phone']);
+                $client->save();
+                $domain->client_id = $client->id;
+            }
             $domain->save();
         }
 
