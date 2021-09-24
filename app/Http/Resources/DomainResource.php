@@ -17,7 +17,7 @@ class DomainResource extends JsonResource
     {
         // return parent::toArray($request);
         return [
-            'id' => $request->id,
+            'id' => $this->id,
             'domain' => $this->domain,
             'registered_on' => $this->registered_on,
             'expires_on' => $this->expires_on,
