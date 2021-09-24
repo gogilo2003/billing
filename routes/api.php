@@ -72,11 +72,11 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     });
 
     Route::group(['as' => 'api-domains', 'prefix' => 'domains'], function () {
-        Route::get('', [DomainController::class, 'index']);
+        Route::get('{status?}', [DomainController::class, 'index']);
         Route::post('', [DomainController::class, 'store'])->name('-create');
         Route::patch('', [DomainController::class, 'update'])->name('-update');
         Route::delete('', [DomainController::class, 'destroy'])->name('-delete');
-        Route::get('status', [DomainController::class, 'status'])->name('-status');
+        Route::post('status', [DomainController::class, 'status'])->name('-status');
         Route::post('import', [DomainController::class, 'import'])->name('-import');
         Route::post('notify', [DomainController::class, 'notify'])->name('-notify');
     });

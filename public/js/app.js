@@ -2317,14 +2317,73 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      active: [],
-      expired: [],
+      active: {
+        data: [],
+        links: {}
+      },
+      expired: {
+        data: [],
+        links: {}
+      },
       clients: [],
       states: [],
       title: "New Domain",
@@ -2346,18 +2405,22 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   },
   methods: {
     setNotify: function setNotify(id) {
-      axios.post("/api/domains/notify", {
-        id: id
-      }).then(function (response) {
-        $.notify({
-          message: response.data.message,
-          title: 'Some title'
-        }, {
-          type: 'success'
-        });
-      })["catch"](function (error) {
-        console.log(error);
-      });
+      console.log("id", id); //   axios
+      //     .post("/api/domains/notify", { id })
+      //     .then((response) => {
+      //       $.notify(
+      //         {
+      //           message: response.data.message,
+      //           title: "Some title",
+      //         },
+      //         {
+      //           type: "success",
+      //         }
+      //       );
+      //     })
+      //     .catch((error) => {
+      //       console.log(error);
+      //     });
     },
     newDomain: function newDomain() {
       this.selectedDomain = {
@@ -2375,30 +2438,39 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       this.selectedDomain = domain;
       $("#domanisModalDialog").modal("show");
     },
-    getDomains: function getDomains() {
+    nextActivePage: function nextActivePage(url) {
       var _this = this;
 
-      axios.get("/api/domains").then(function (response) {
-        _this.active = response.data.domains.active.data;
-        _this.expired = response.data.domains.expired.data;
+      axios.get(url).then(function (response) {
+        _this.active = response.data;
+      });
+    },
+    getDomains: function getDomains() {
+      var _this2 = this;
+
+      axios.get("/api/domains/active").then(function (response) {
+        _this2.active = response.data;
+      });
+      axios.get("/api/domains/expired").then(function (response) {
+        _this2.expired = response.data;
       });
     },
     getStatus: function getStatus() {
-      var _this2 = this;
+      var _this3 = this;
 
-      axios.get("/api/domains/status").then(function (response) {
-        _this2.states = response.data;
+      axios.post("/api/domains/status").then(function (response) {
+        _this3.states = response.data;
       });
     },
     getClients: function getClients() {
-      var _this3 = this;
+      var _this4 = this;
 
       axios.get("/api/clients").then(function (response) {
-        _this3.clients = response.data;
+        _this4.clients = response.data;
       });
     },
     save: function save() {
-      var _this4 = this;
+      var _this5 = this;
 
       if (this.edit) {
         axios.patch("/api/domains", this.selectedDomain).then(function (response) {
@@ -2407,7 +2479,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
           }, {
             type: "success"
           });
-          _this4.selectedDomain = {
+          _this5.selectedDomain = {
             domain: null,
             registered_on: null,
             expires_on: null,
@@ -2446,7 +2518,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
           }, {
             type: "success"
           });
-          _this4.selectedDomain = {
+          _this5.selectedDomain = {
             domain: null,
             registered_on: null,
             expires_on: null,
@@ -2456,7 +2528,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
           };
           $("#domanisModalDialog").modal("hide");
 
-          _this4.domains.unshift(response.data.domain);
+          _this5.domains.unshift(response.data.domain);
         })["catch"](function (error) {
           if (error.response.status == 415) {
             var details = "<ol>";
@@ -2487,13 +2559,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   mounted: function mounted() {
     this.getDomains();
     this.getClients();
-    this.getStatus(); // $.notify(
-    //   {
-    //     message: "Welcome here",
-    //     title: "Test",
-    //   },
-    //   { z_index: 9000 }
-    // );
+    this.getStatus();
   }
 });
 
@@ -39723,7 +39789,218 @@ var render = function() {
             _vm.isActive
               ? _c(
                   "tbody",
-                  _vm._l(_vm.active, function(domain, index) {
+                  [
+                    _vm._l(_vm.active.data, function(domain, index) {
+                      return _c("tr", { key: domain.id }, [
+                        _c("td", [_vm._v(_vm._s(index + 1))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(domain.domain))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(domain.registered_on))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(domain.expires_on))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(_vm._s(_vm.dateDiff(domain.expires_on)))
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.active.data[index].notify,
+                                expression: "active.data[index].notify"
+                              }
+                            ],
+                            attrs: { type: "checkbox" },
+                            domProps: {
+                              checked: Array.isArray(
+                                _vm.active.data[index].notify
+                              )
+                                ? _vm._i(_vm.active.data[index].notify, null) >
+                                  -1
+                                : _vm.active.data[index].notify
+                            },
+                            on: {
+                              change: [
+                                function($event) {
+                                  var $$a = _vm.active.data[index].notify,
+                                    $$el = $event.target,
+                                    $$c = $$el.checked ? true : false
+                                  if (Array.isArray($$a)) {
+                                    var $$v = null,
+                                      $$i = _vm._i($$a, $$v)
+                                    if ($$el.checked) {
+                                      $$i < 0 &&
+                                        _vm.$set(
+                                          _vm.active.data[index],
+                                          "notify",
+                                          $$a.concat([$$v])
+                                        )
+                                    } else {
+                                      $$i > -1 &&
+                                        _vm.$set(
+                                          _vm.active.data[index],
+                                          "notify",
+                                          $$a
+                                            .slice(0, $$i)
+                                            .concat($$a.slice($$i + 1))
+                                        )
+                                    }
+                                  } else {
+                                    _vm.$set(
+                                      _vm.active.data[index],
+                                      "notify",
+                                      $$c
+                                    )
+                                  }
+                                },
+                                function($event) {
+                                  return _vm.setNotify(domain)
+                                }
+                              ]
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-link",
+                              on: {
+                                click: function($event) {
+                                  return _vm.editDomain(domain)
+                                }
+                              }
+                            },
+                            [
+                              _c("span", {
+                                staticClass: "tim-icons icon-pencil"
+                              })
+                            ]
+                          )
+                        ])
+                      ])
+                    }),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("td", { attrs: { colspan: "7" } }, [
+                        _vm._v(
+                          "\n                " +
+                            _vm._s(_vm.active.links) +
+                            "\n                "
+                        ),
+                        _c("hr"),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "btn-group" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-sm btn-primary btn-simple",
+                              staticStyle: { cursor: "pointer" },
+                              attrs: {
+                                disabled:
+                                  _vm.active.links.first == null ||
+                                  _vm.active.meta.current_page == 1
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.nextActivePage(
+                                    _vm.active.links.first
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _c("span", {
+                                staticClass: "tim-icons icon-minimal-left"
+                              })
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-sm btn-primary btn-simple",
+                              staticStyle: { cursor: "pointer" },
+                              attrs: {
+                                disabled: _vm.active.links.prev == null
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.nextActivePage(
+                                    _vm.active.links.prev
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _c("span", {
+                                staticClass: "tim-icons icon-double-left"
+                              })
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-sm btn-primary btn-simple",
+                              staticStyle: { cursor: "pointer" },
+                              attrs: {
+                                disabled: _vm.active.links.next == null
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.nextActivePage(
+                                    _vm.active.links.next
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _c("span", {
+                                staticClass: "tim-icons icon-double-right"
+                              })
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-sm btn-primary btn-simple",
+                              staticStyle: { cursor: "pointer" },
+                              attrs: {
+                                disabled:
+                                  _vm.active.links.last == null ||
+                                  _vm.active.meta.current_page ==
+                                    _vm.active.meta.last_page
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.nextActivePage(
+                                    _vm.active.links.last
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _c("span", {
+                                staticClass: "tim-icons icon-minimal-right"
+                              })
+                            ]
+                          )
+                        ])
+                      ])
+                    ])
+                  ],
+                  2
+                )
+              : _c(
+                  "tbody",
+                  _vm._l(_vm.expired.data, function(domain, index) {
                     return _c("tr", { key: domain.id }, [
                       _c("td", [_vm._v(_vm._s(index + 1))]),
                       _vm._v(" "),
@@ -39743,20 +40020,23 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.active[index].notify,
-                              expression: "active[index].notify"
+                              value: _vm.expired.data[index].notify,
+                              expression: "expired.data[index].notify"
                             }
                           ],
                           attrs: { type: "checkbox" },
                           domProps: {
-                            checked: Array.isArray(_vm.active[index].notify)
-                              ? _vm._i(_vm.active[index].notify, null) > -1
-                              : _vm.active[index].notify
+                            checked: Array.isArray(
+                              _vm.expired.data[index].notify
+                            )
+                              ? _vm._i(_vm.expired.data[index].notify, null) >
+                                -1
+                              : _vm.expired.data[index].notify
                           },
                           on: {
                             change: [
                               function($event) {
-                                var $$a = _vm.active[index].notify,
+                                var $$a = _vm.expired.data[index].notify,
                                   $$el = $event.target,
                                   $$c = $$el.checked ? true : false
                                 if (Array.isArray($$a)) {
@@ -39765,14 +40045,14 @@ var render = function() {
                                   if ($$el.checked) {
                                     $$i < 0 &&
                                       _vm.$set(
-                                        _vm.active[index],
+                                        _vm.expired.data[index],
                                         "notify",
                                         $$a.concat([$$v])
                                       )
                                   } else {
                                     $$i > -1 &&
                                       _vm.$set(
-                                        _vm.active[index],
+                                        _vm.expired.data[index],
                                         "notify",
                                         $$a
                                           .slice(0, $$i)
@@ -39780,7 +40060,11 @@ var render = function() {
                                       )
                                   }
                                 } else {
-                                  _vm.$set(_vm.active[index], "notify", $$c)
+                                  _vm.$set(
+                                    _vm.expired.data[index],
+                                    "notify",
+                                    $$c
+                                  )
                                 }
                               },
                               function($event) {
@@ -39789,40 +40073,6 @@ var render = function() {
                             ]
                           }
                         })
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-link",
-                            on: {
-                              click: function($event) {
-                                return _vm.editDomain(domain)
-                              }
-                            }
-                          },
-                          [_c("span", { staticClass: "tim-icons icon-pencil" })]
-                        )
-                      ])
-                    ])
-                  }),
-                  0
-                )
-              : _c(
-                  "tbody",
-                  _vm._l(_vm.expired, function(domain, index) {
-                    return _c("tr", { key: domain.id }, [
-                      _c("td", [_vm._v(_vm._s(index + 1))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(domain.domain))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(domain.registered_on))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(domain.expires_on))]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _vm._v(_vm._s(_vm.dateDiff(domain.expires_on)))
                       ]),
                       _vm._v(" "),
                       _c("td", [

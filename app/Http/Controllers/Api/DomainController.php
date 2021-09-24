@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\DomainCollection;
 use App\Models\Client;
 use App\Models\Domain;
 use Illuminate\Http\Request;
@@ -15,16 +16,26 @@ class DomainController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($status = null)
     {
-        $expired = Domain::where('expires_on', '<', now())
-                    ->orderBy('expires_on', 'DESC')->paginate(10);
-
-        $active = Domain::where('expires_on', '>=', now())
+        if ($status == 'active') {
+            $active = Domain::where('expires_on', '>=', now())
                     ->orderBy('expires_on', 'ASC')
-                    ->paginate(10);
+                    ->paginate(5);
 
-        return response()->json(['domains' => ['active' => $active, 'expired' => $expired]]);
+            return new DomainCollection($active);
+        }
+        if ($status == 'expired') {
+            $expired = Domain::where('expires_on', '<', now())
+                    ->orderBy('expires_on', 'DESC')->paginate(5);
+
+            return new DomainCollection($expired);
+        }
+        $domains = Domain::where('expires_on', '>=', now())
+                    ->orderBy('expires_on', 'ASC')
+                    ->paginate(5);
+
+        return new DomainCollection($domains);
     }
 
     /**

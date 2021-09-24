@@ -70,7 +70,7 @@
               </tr>
             </thead>
             <tbody v-if="isActive">
-              <tr v-for="(domain, index) in active" :key="domain.id">
+              <tr v-for="(domain, index) in active.data" :key="domain.id">
                 <td>{{ index + 1 }}</td>
                 <td>{{ domain.domain }}</td>
                 <td>{{ domain.registered_on }}</td>
@@ -79,8 +79,8 @@
                 <td>
                   <input
                     type="checkbox"
-                    v-model="active[index].notify"
-                    @change="setNotify(domain.id)"
+                    v-model="active.data[index].notify"
+                    @change="setNotify(domain)"
                   />
                 </td>
                 <td>
@@ -89,14 +89,67 @@
                   </button>
                 </td>
               </tr>
+              <tr>
+                <td colspan="7">
+                  {{ active.links }}
+                  <hr />
+                  <div class="btn-group">
+                    <button
+                      @click="nextActivePage(active.links.first)"
+                      style="cursor: pointer"
+                      :disabled="
+                        active.links.first == null ||
+                        active.meta.current_page == 1
+                      "
+                      class="btn btn-sm btn-primary btn-simple"
+                    >
+                      <span class="tim-icons icon-minimal-left"></span>
+                    </button>
+                    <button
+                      @click="nextActivePage(active.links.prev)"
+                      style="cursor: pointer"
+                      :disabled="active.links.prev == null"
+                      class="btn btn-sm btn-primary btn-simple"
+                    >
+                      <span class="tim-icons icon-double-left"></span>
+                    </button>
+                    <button
+                      @click="nextActivePage(active.links.next)"
+                      style="cursor: pointer"
+                      :disabled="active.links.next == null"
+                      class="btn btn-sm btn-primary btn-simple"
+                    >
+                      <span class="tim-icons icon-double-right"></span>
+                    </button>
+                    <button
+                      @click="nextActivePage(active.links.last)"
+                      style="cursor: pointer"
+                      :disabled="
+                        active.links.last == null ||
+                        active.meta.current_page == active.meta.last_page
+                      "
+                      class="btn btn-sm btn-primary btn-simple"
+                    >
+                      <span class="tim-icons icon-minimal-right"></span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
             </tbody>
             <tbody v-else>
-              <tr v-for="(domain, index) in expired" :key="domain.id">
+              <tr v-for="(domain, index) in expired.data" :key="domain.id">
                 <td>{{ index + 1 }}</td>
                 <td>{{ domain.domain }}</td>
                 <td>{{ domain.registered_on }}</td>
                 <td>{{ domain.expires_on }}</td>
                 <td>{{ dateDiff(domain.expires_on) }}</td>
+                <td>
+                  <input
+                    type="checkbox"
+                    v-model="expired.data[index].notify"
+                    @change="setNotify(domain.id)"
+                  />
+                </td>
                 <td>
                   <button class="btn btn-link" @click="editDomain(domain)">
                     <span class="tim-icons icon-pencil"></span>
@@ -242,8 +295,11 @@ import "vue2-datepicker/index.css";
 export default {
   data() {
     return {
-      active: [],
-      expired: [],
+      active: {
+        data: [],
+        links: {},
+      },
+      expired: { data: [], links: {} },
       clients: [],
       states: [],
       title: "New Domain",
@@ -265,21 +321,23 @@ export default {
   },
   methods: {
     setNotify(id) {
-      axios
-        .post("/api/domains/notify", { id })
-        .then((response) => {
-          $.notify(
-            {
-              message: response.data.message,
-              title: 'Some title'
-            },{
-                type: 'success'
-            }
-          );
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      console.log("id", id);
+      //   axios
+      //     .post("/api/domains/notify", { id })
+      //     .then((response) => {
+      //       $.notify(
+      //         {
+      //           message: response.data.message,
+      //           title: "Some title",
+      //         },
+      //         {
+      //           type: "success",
+      //         }
+      //       );
+      //     })
+      //     .catch((error) => {
+      //       console.log(error);
+      //     });
     },
     newDomain() {
       this.selectedDomain = {
@@ -297,14 +355,21 @@ export default {
       this.selectedDomain = domain;
       $("#domanisModalDialog").modal("show");
     },
+    nextActivePage(url) {
+      axios.get(url).then((response) => {
+        this.active = response.data;
+      });
+    },
     getDomains() {
-      axios.get("/api/domains").then((response) => {
-        this.active = response.data.domains.active.data;
-        this.expired = response.data.domains.expired.data;
+      axios.get("/api/domains/active").then((response) => {
+        this.active = response.data;
+      });
+      axios.get("/api/domains/expired").then((response) => {
+        this.expired = response.data;
       });
     },
     getStatus() {
-      axios.get("/api/domains/status").then((response) => {
+      axios.post("/api/domains/status").then((response) => {
         this.states = response.data;
       });
     },
@@ -411,13 +476,6 @@ export default {
     this.getDomains();
     this.getClients();
     this.getStatus();
-    // $.notify(
-    //   {
-    //     message: "Welcome here",
-    //     title: "Test",
-    //   },
-    //   { z_index: 9000 }
-    // );
   },
 };
 </script>
