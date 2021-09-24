@@ -2306,19 +2306,31 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      domains: {},
+      active: [],
+      expired: [],
       clients: [],
       states: [],
       title: "New Domain",
       edit: false,
       isActive: true,
-      domain: {
+      selectedDomain: {
         domain: null,
         registered_on: null,
         expires_on: null,
@@ -2333,8 +2345,22 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     DatePicker: vue2_datepicker__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   methods: {
+    setNotify: function setNotify(id) {
+      axios.post("/api/domains/notify", {
+        id: id
+      }).then(function (response) {
+        $.notify({
+          message: response.data.message,
+          title: 'Some title'
+        }, {
+          type: 'success'
+        });
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
     newDomain: function newDomain() {
-      this.domain = {
+      this.selectedDomain = {
         domain: null,
         registered_on: null,
         expires_on: null,
@@ -2346,15 +2372,15 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     },
     editDomain: function editDomain(domain) {
       this.edit = true;
-      this.domain = domain;
+      this.selectedDomain = domain;
       $("#domanisModalDialog").modal("show");
     },
     getDomains: function getDomains() {
       var _this = this;
 
       axios.get("/api/domains").then(function (response) {
-        _this.domains.active = response.data.domains.active.data;
-        _this.domains.expired = response.data.domains.expired.data;
+        _this.active = response.data.domains.active.data;
+        _this.expired = response.data.domains.expired.data;
       });
     },
     getStatus: function getStatus() {
@@ -2375,14 +2401,13 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       var _this4 = this;
 
       if (this.edit) {
-        axios.patch("/api/domains", this.domain).then(function (response) {
+        axios.patch("/api/domains", this.selectedDomain).then(function (response) {
           $.notify({
             message: response.data.message
           }, {
-            z_index: 9999,
             type: "success"
           });
-          _this4.domain = {
+          _this4.selectedDomain = {
             domain: null,
             registered_on: null,
             expires_on: null,
@@ -2408,23 +2433,20 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
               title: "<h4 class=\"text-white text-uppercase\">".concat(error.response.data.message, "</h4>"),
               message: details
             }, {
-              z_index: 9999,
-              type: "danger",
-              allow_dismiss: false
+              type: "danger"
             });
           } else {
             console.log(error.response.data.message);
           }
         });
       } else {
-        axios.post("/api/domains", this.domain).then(function (response) {
+        axios.post("/api/domains", this.selectedDomain).then(function (response) {
           $.notify({
             message: response.data.message
           }, {
-            z_index: 9999,
             type: "success"
           });
-          _this4.domain = {
+          _this4.selectedDomain = {
             domain: null,
             registered_on: null,
             expires_on: null,
@@ -2452,7 +2474,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
               title: "<h4 class=\"text-white text-uppercase\">".concat(error.response.data.message, "</h4>"),
               message: details
             }, {
-              z_index: 9999,
               type: "danger",
               allow_dismiss: false
             });
@@ -2536,6 +2557,16 @@ try {
   __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.js");
 
   __webpack_require__(/*! bootstrap-notify */ "./node_modules/bootstrap-notify/bootstrap-notify.js");
+
+  $.notifyDefaults({
+    z_index: 10000,
+    delay: 8000,
+    onShow: function onShow() {
+      document.querySelectorAll('.alert .close').forEach(function (item) {
+        item.style.top = "20px";
+      });
+    }
+  });
 } catch (e) {
   console.log(e);
 }
@@ -39692,7 +39723,7 @@ var render = function() {
             _vm.isActive
               ? _c(
                   "tbody",
-                  _vm._l(_vm.domains.active, function(domain, index) {
+                  _vm._l(_vm.active, function(domain, index) {
                     return _c("tr", { key: domain.id }, [
                       _c("td", [_vm._v(_vm._s(index + 1))]),
                       _vm._v(" "),
@@ -39704,6 +39735,60 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [
                         _vm._v(_vm._s(_vm.dateDiff(domain.expires_on)))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.active[index].notify,
+                              expression: "active[index].notify"
+                            }
+                          ],
+                          attrs: { type: "checkbox" },
+                          domProps: {
+                            checked: Array.isArray(_vm.active[index].notify)
+                              ? _vm._i(_vm.active[index].notify, null) > -1
+                              : _vm.active[index].notify
+                          },
+                          on: {
+                            change: [
+                              function($event) {
+                                var $$a = _vm.active[index].notify,
+                                  $$el = $event.target,
+                                  $$c = $$el.checked ? true : false
+                                if (Array.isArray($$a)) {
+                                  var $$v = null,
+                                    $$i = _vm._i($$a, $$v)
+                                  if ($$el.checked) {
+                                    $$i < 0 &&
+                                      _vm.$set(
+                                        _vm.active[index],
+                                        "notify",
+                                        $$a.concat([$$v])
+                                      )
+                                  } else {
+                                    $$i > -1 &&
+                                      _vm.$set(
+                                        _vm.active[index],
+                                        "notify",
+                                        $$a
+                                          .slice(0, $$i)
+                                          .concat($$a.slice($$i + 1))
+                                      )
+                                  }
+                                } else {
+                                  _vm.$set(_vm.active[index], "notify", $$c)
+                                }
+                              },
+                              function($event) {
+                                return _vm.setNotify(domain.id)
+                              }
+                            ]
+                          }
+                        })
                       ]),
                       _vm._v(" "),
                       _c("td", [
@@ -39726,7 +39811,7 @@ var render = function() {
                 )
               : _c(
                   "tbody",
-                  _vm._l(_vm.domains.expired, function(domain, index) {
+                  _vm._l(_vm.expired, function(domain, index) {
                     return _c("tr", { key: domain.id }, [
                       _c("td", [_vm._v(_vm._s(index + 1))]),
                       _vm._v(" "),
@@ -39803,8 +39888,8 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.domain.client_id,
-                            expression: "domain.client_id"
+                            value: _vm.selectedDomain.client_id,
+                            expression: "selectedDomain.client_id"
                           }
                         ],
                         staticClass: "form-control",
@@ -39820,7 +39905,7 @@ var render = function() {
                                 return val
                               })
                             _vm.$set(
-                              _vm.domain,
+                              _vm.selectedDomain,
                               "client_id",
                               $event.target.multiple
                                 ? $$selectedVal
@@ -39854,8 +39939,8 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.domain.status,
-                            expression: "domain.status"
+                            value: _vm.selectedDomain.status,
+                            expression: "selectedDomain.status"
                           }
                         ],
                         staticClass: "form-control",
@@ -39871,7 +39956,7 @@ var render = function() {
                                 return val
                               })
                             _vm.$set(
-                              _vm.domain,
+                              _vm.selectedDomain,
                               "status",
                               $event.target.multiple
                                 ? $$selectedVal
@@ -39900,8 +39985,8 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.domain.domain,
-                          expression: "domain.domain"
+                          value: _vm.selectedDomain.domain,
+                          expression: "selectedDomain.domain"
                         }
                       ],
                       staticClass: "form-control",
@@ -39912,13 +39997,17 @@ var render = function() {
                         "aria-describedby": "helpId",
                         placeholder: "Domain"
                       },
-                      domProps: { value: _vm.domain.domain },
+                      domProps: { value: _vm.selectedDomain.domain },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(_vm.domain, "domain", $event.target.value)
+                          _vm.$set(
+                            _vm.selectedDomain,
+                            "domain",
+                            $event.target.value
+                          )
                         }
                       }
                     })
@@ -39934,8 +40023,8 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.domain.registered_on,
-                          expression: "domain.registered_on"
+                          value: _vm.selectedDomain.registered_on,
+                          expression: "selectedDomain.registered_on"
                         }
                       ],
                       staticClass: "form-control",
@@ -39946,14 +40035,14 @@ var render = function() {
                         "aria-describedby": "helpId",
                         placeholder: "Registered On"
                       },
-                      domProps: { value: _vm.domain.registered_on },
+                      domProps: { value: _vm.selectedDomain.registered_on },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
                             return
                           }
                           _vm.$set(
-                            _vm.domain,
+                            _vm.selectedDomain,
                             "registered_on",
                             $event.target.value
                           )
@@ -39974,11 +40063,11 @@ var render = function() {
                         staticStyle: { width: "100%" },
                         attrs: { "input-class": "form-control" },
                         model: {
-                          value: _vm.domain.expires_on,
+                          value: _vm.selectedDomain.expires_on,
                           callback: function($$v) {
-                            _vm.$set(_vm.domain, "expires_on", $$v)
+                            _vm.$set(_vm.selectedDomain, "expires_on", $$v)
                           },
-                          expression: "domain.expires_on"
+                          expression: "selectedDomain.expires_on"
                         }
                       })
                     ],
@@ -39995,8 +40084,8 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.domain.remarks,
-                          expression: "domain.remarks"
+                          value: _vm.selectedDomain.remarks,
+                          expression: "selectedDomain.remarks"
                         }
                       ],
                       staticClass: "form-control",
@@ -40005,13 +40094,17 @@ var render = function() {
                         id: "remarksInput",
                         rows: "3"
                       },
-                      domProps: { value: _vm.domain.remarks },
+                      domProps: { value: _vm.selectedDomain.remarks },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(_vm.domain, "remarks", $event.target.value)
+                          _vm.$set(
+                            _vm.selectedDomain,
+                            "remarks",
+                            $event.target.value
+                          )
                         }
                       }
                     })
@@ -40066,6 +40159,8 @@ var staticRenderFns = [
         _c("th", [_vm._v("Expires On")]),
         _vm._v(" "),
         _c("th", [_vm._v("Days")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Notify")]),
         _vm._v(" "),
         _c("th")
       ])

@@ -8,7 +8,10 @@
             <h5 class="card-title" v-if="isActive">Active Domains</h5>
             <h5 class="card-title" v-else>Expired Domains</h5>
           </div>
-          <div class="col-md-6 d-flex" style="justify-content:flex-end; align-items:flex-start">
+          <div
+            class="col-md-6 d-flex"
+            style="justify-content: flex-end; align-items: flex-start"
+          >
             <!-- Button trigger modal -->
             <label
               class="btn btn-dark btn-sm"
@@ -21,13 +24,13 @@
             <div class="btn-group btn-group-toggle">
               <label
                 class="btn btn-primary btn-sm btn-simple"
-                :class="{ active: isActive}"
+                :class="{ active: isActive }"
                 for="activeDomainsRadio"
                 >ACTIVE</label
               >
               <label
                 class="btn btn-primary btn-sm btn-simple"
-                :class="{ active: !isActive}"
+                :class="{ active: !isActive }"
                 for="expiredDomainsRadio"
                 >EXPIRED</label
               >
@@ -62,16 +65,24 @@
                 <th>Registered On</th>
                 <th>Expires On</th>
                 <th>Days</th>
+                <th>Notify</th>
                 <th></th>
               </tr>
             </thead>
             <tbody v-if="isActive">
-              <tr v-for="(domain, index) in domains.active" :key="domain.id">
+              <tr v-for="(domain, index) in active" :key="domain.id">
                 <td>{{ index + 1 }}</td>
                 <td>{{ domain.domain }}</td>
                 <td>{{ domain.registered_on }}</td>
                 <td>{{ domain.expires_on }}</td>
                 <td>{{ dateDiff(domain.expires_on) }}</td>
+                <td>
+                  <input
+                    type="checkbox"
+                    v-model="active[index].notify"
+                    @change="setNotify(domain.id)"
+                  />
+                </td>
                 <td>
                   <button class="btn btn-link" @click="editDomain(domain)">
                     <span class="tim-icons icon-pencil"></span>
@@ -80,7 +91,7 @@
               </tr>
             </tbody>
             <tbody v-else>
-              <tr v-for="(domain, index) in domains.expired" :key="domain.id">
+              <tr v-for="(domain, index) in expired" :key="domain.id">
                 <td>{{ index + 1 }}</td>
                 <td>{{ domain.domain }}</td>
                 <td>{{ domain.registered_on }}</td>
@@ -127,7 +138,7 @@
                   class="form-control"
                   name="clientInput"
                   id="clientInput"
-                  v-model="domain.client_id"
+                  v-model="selectedDomain.client_id"
                 >
                   <option
                     v-for="item in clients"
@@ -143,7 +154,7 @@
                   class="form-control"
                   name="statusInput"
                   id="statusInput"
-                  v-model="domain.status"
+                  v-model="selectedDomain.status"
                 >
                   <option
                     v-for="item in states"
@@ -162,7 +173,7 @@
                   id="domainInput"
                   aria-describedby="helpId"
                   placeholder="Domain"
-                  v-model="domain.domain"
+                  v-model="selectedDomain.domain"
                 />
               </div>
               <div class="form-group col-md-6">
@@ -174,7 +185,7 @@
                   id=""
                   aria-describedby="helpId"
                   placeholder="Registered On"
-                  v-model="domain.registered_on"
+                  v-model="selectedDomain.registered_on"
                 />
               </div>
               <div class="form-group col-md-6">
@@ -186,11 +197,11 @@
                   id=""
                   aria-describedby="helpId"
                   placeholder="Expires On"
-                  v-model="domain.expires_on"
+                  v-model="selectedDomain.expires_on"
                 /> -->
                 <date-picker
                   input-class="form-control"
-                  v-model="domain.expires_on"
+                  v-model="selectedDomain.expires_on"
                   style="width: 100%"
                 >
                 </date-picker>
@@ -198,7 +209,7 @@
               <div class="form-group col-md-12">
                 <label for="remarksInput">Remarks</label>
                 <textarea
-                  v-model="domain.remarks"
+                  v-model="selectedDomain.remarks"
                   class="form-control"
                   name="remarksInput"
                   id="remarksInput"
@@ -231,13 +242,14 @@ import "vue2-datepicker/index.css";
 export default {
   data() {
     return {
-      domains: {},
+      active: [],
+      expired: [],
       clients: [],
       states: [],
       title: "New Domain",
       edit: false,
       isActive: true,
-      domain: {
+      selectedDomain: {
         domain: null,
         registered_on: null,
         expires_on: null,
@@ -252,8 +264,25 @@ export default {
     DatePicker,
   },
   methods: {
+    setNotify(id) {
+      axios
+        .post("/api/domains/notify", { id })
+        .then((response) => {
+          $.notify(
+            {
+              message: response.data.message,
+              title: 'Some title'
+            },{
+                type: 'success'
+            }
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     newDomain() {
-      this.domain = {
+      this.selectedDomain = {
         domain: null,
         registered_on: null,
         expires_on: null,
@@ -265,13 +294,13 @@ export default {
     },
     editDomain(domain) {
       this.edit = true;
-      this.domain = domain;
+      this.selectedDomain = domain;
       $("#domanisModalDialog").modal("show");
     },
     getDomains() {
       axios.get("/api/domains").then((response) => {
-        this.domains.active = response.data.domains.active.data;
-        this.domains.expired = response.data.domains.expired.data;
+        this.active = response.data.domains.active.data;
+        this.expired = response.data.domains.expired.data;
       });
     },
     getStatus() {
@@ -287,18 +316,17 @@ export default {
     save() {
       if (this.edit) {
         axios
-          .patch("/api/domains", this.domain)
+          .patch("/api/domains", this.selectedDomain)
           .then((response) => {
             $.notify(
               {
                 message: response.data.message,
               },
               {
-                z_index: 9999,
                 type: "success",
               }
             );
-            this.domain = {
+            this.selectedDomain = {
               domain: null,
               registered_on: null,
               expires_on: null,
@@ -323,9 +351,7 @@ export default {
                   message: details,
                 },
                 {
-                  z_index: 9999,
                   type: "danger",
-                  allow_dismiss: false,
                 }
               );
             } else {
@@ -334,18 +360,17 @@ export default {
           });
       } else {
         axios
-          .post("/api/domains", this.domain)
+          .post("/api/domains", this.selectedDomain)
           .then((response) => {
             $.notify(
               {
                 message: response.data.message,
               },
               {
-                z_index: 9999,
                 type: "success",
               }
             );
-            this.domain = {
+            this.selectedDomain = {
               domain: null,
               registered_on: null,
               expires_on: null,
@@ -371,7 +396,6 @@ export default {
                   message: details,
                 },
                 {
-                  z_index: 9999,
                   type: "danger",
                   allow_dismiss: false,
                 }
