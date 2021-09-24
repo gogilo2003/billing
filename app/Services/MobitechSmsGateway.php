@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services;
 
 use App\Models\Sms;
@@ -20,10 +21,10 @@ class MobitechSmsGateway extends SmsGatewayContract
 
     public function send($phone, $message)
     {
-        $recepients = explode(',',$phone);
+        $recepients = explode(',', $phone);
 
-        foreach($recepients as $recepient){
-            $sms = new Sms;
+        foreach ($recepients as $recepient) {
+            $sms = new Sms();
             $sms->recepient = $recepient;
             $sms->message = $message;
             $sms->save();
@@ -41,15 +42,11 @@ class MobitechSmsGateway extends SmsGatewayContract
 
         $results = $this->sendRequest($endpoint, $data);
 
-
-        foreach($results as $result){
-
+        foreach ($results as $result) {
             $this->update($result->message_id);
-
         }
 
         return $results;
-
     }
 
     public function status($message_id)
@@ -75,13 +72,12 @@ class MobitechSmsGateway extends SmsGatewayContract
         ]);
 
         return $this->sendRequest($endpoint, $data);
-
     }
 
     public function update($message_id)
     {
         $status = $this->status($message_id);
-        $sms = Sms::where('recepient',$status->recepient)->where('message',$status->message)->first() ?? new Sms;
+        $sms = Sms::where('recepient', $status->recepient)->where('message', $status->message)->first() ?? new Sms();
         $sms->message_id = $message_id;
         $sms->message = $status->message;
         $sms->recepient = $status->recepient;
@@ -92,5 +88,4 @@ class MobitechSmsGateway extends SmsGatewayContract
         $sms->network_name = $status->network_name;
         $sms->save();
     }
-
 }
