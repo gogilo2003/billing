@@ -2054,10 +2054,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Domains.vue?vue&type=script&lang=js&":
-/*!**************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Domains.vue?vue&type=script&lang=js& ***!
-  \**************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Domain.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Domain.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2065,9 +2065,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _mixins_mixins__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixins/mixins */ "./resources/js/mixins/mixins.js");
-/* harmony import */ var vue2_datepicker__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue2-datepicker */ "./node_modules/vue2-datepicker/index.esm.js");
-/* harmony import */ var vue2_datepicker_index_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue2-datepicker/index.css */ "./node_modules/vue2-datepicker/index.css");
+/* harmony import */ var vue2_datepicker__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue2-datepicker */ "./node_modules/vue2-datepicker/index.esm.js");
+/* harmony import */ var vue2_datepicker_index_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue2-datepicker/index.css */ "./node_modules/vue2-datepicker/index.css");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -2197,198 +2196,29 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: {
+    domain: {
+      type: Object,
+      "default": {
+        domain: null,
+        registered_on: null,
+        expires_on: null,
+        remarks: null,
+        status: null,
+        client_id: null
+      },
+      required: true
+    },
+    edit: {
+      type: Boolean,
+      "default": false
+    }
+  },
   data: function data() {
     return {
-      active: {
-        data: [],
-        links: {}
-      },
-      expired: {
-        data: [],
-        links: {}
-      },
-      clients: [],
-      states: [],
-      title: "New Domain",
-      edit: false,
-      isActive: true,
       selectedDomain: {
         domain: null,
         registered_on: null,
@@ -2396,81 +2226,29 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         remarks: null,
         status: null,
         client_id: null
-      }
+      },
+      title: "Manage Domain",
+      clients: [],
+      states: []
     };
   },
-  mixins: [_mixins_mixins__WEBPACK_IMPORTED_MODULE_0__["default"]],
-  components: {
-    DatePicker: vue2_datepicker__WEBPACK_IMPORTED_MODULE_1__["default"]
-  },
   methods: {
-    setNotify: function setNotify(id) {
-      console.log("id", id); //   axios
-      //     .post("/api/domains/notify", { id })
-      //     .then((response) => {
-      //       $.notify(
-      //         {
-      //           message: response.data.message,
-      //           title: "Some title",
-      //         },
-      //         {
-      //           type: "success",
-      //         }
-      //       );
-      //     })
-      //     .catch((error) => {
-      //       console.log(error);
-      //     });
-    },
-    newDomain: function newDomain() {
-      this.selectedDomain = {
-        domain: null,
-        registered_on: null,
-        expires_on: null,
-        remarks: null,
-        status: null,
-        client_id: null
-      };
-      this.edit = false;
-    },
-    editDomain: function editDomain(domain) {
-      this.edit = true;
-      this.selectedDomain = domain;
-      $("#domanisModalDialog").modal("show");
-    },
-    nextActivePage: function nextActivePage(url) {
+    getStatus: function getStatus() {
       var _this = this;
 
-      axios.get(url).then(function (response) {
-        _this.active = response.data;
-      });
-    },
-    getDomains: function getDomains() {
-      var _this2 = this;
-
-      axios.get("/api/domains/active").then(function (response) {
-        _this2.active = response.data;
-      });
-      axios.get("/api/domains/expired").then(function (response) {
-        _this2.expired = response.data;
-      });
-    },
-    getStatus: function getStatus() {
-      var _this3 = this;
-
       axios.post("/api/domains/status").then(function (response) {
-        _this3.states = response.data;
+        _this.states = response.data;
       });
     },
     getClients: function getClients() {
-      var _this4 = this;
+      var _this2 = this;
 
       axios.get("/api/clients").then(function (response) {
-        _this4.clients = response.data;
+        _this2.clients = response.data;
       });
     },
     save: function save() {
-      var _this5 = this;
+      var _this3 = this;
 
       if (this.edit) {
         axios.patch("/api/domains", this.selectedDomain).then(function (response) {
@@ -2479,7 +2257,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
           }, {
             type: "success"
           });
-          _this5.selectedDomain = {
+          _this3.selectedDomain = {
             domain: null,
             registered_on: null,
             expires_on: null,
@@ -2518,7 +2296,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
           }, {
             type: "success"
           });
-          _this5.selectedDomain = {
+          _this3.selectedDomain = {
             domain: null,
             registered_on: null,
             expires_on: null,
@@ -2528,7 +2306,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
           };
           $("#domanisModalDialog").modal("hide");
 
-          _this5.domains.unshift(response.data.domain);
+          _this3.domains.unshift(response.data.domain);
         })["catch"](function (error) {
           if (error.response.status == 415) {
             var details = "<ol>";
@@ -2557,9 +2335,282 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     }
   },
   mounted: function mounted() {
-    this.getDomains();
     this.getClients();
     this.getStatus();
+  },
+  watch: {
+    domain: function domain(val) {
+      this.selectedDomain = val;
+    }
+  },
+  components: {
+    DatePicker: vue2_datepicker__WEBPACK_IMPORTED_MODULE_0__["default"]
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Domains.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Domains.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _mixins_mixins__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixins/mixins */ "./resources/js/mixins/mixins.js");
+/* harmony import */ var _Domain_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Domain.vue */ "./resources/js/components/Domain.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      active: {
+        data: [],
+        links: {}
+      },
+      expired: {
+        data: [],
+        links: {}
+      },
+      clients: [],
+      states: [],
+      title: "New Domain",
+      edit: false,
+      isActive: true,
+      selectedDomain: {
+        domain: null,
+        registered_on: null,
+        expires_on: null,
+        remarks: null,
+        status: null,
+        client_id: null
+      }
+    };
+  },
+  mixins: [_mixins_mixins__WEBPACK_IMPORTED_MODULE_0__["default"]],
+  components: {
+    Domain: _Domain_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  methods: {
+    setNotify: function setNotify(id) {
+      axios.post("/api/domains/notify", {
+        id: id
+      }).then(function (response) {
+        $.notify({
+          message: response.data.message,
+          title: "Some title"
+        }, {
+          type: "success"
+        });
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    newDomain: function newDomain() {
+      this.selectedDomain = {
+        domain: null,
+        registered_on: null,
+        expires_on: null,
+        remarks: null,
+        status: null,
+        client_id: null
+      };
+      this.edit = false;
+    },
+    editDomain: function editDomain(domain) {
+      this.edit = true;
+      this.selectedDomain = domain;
+      $("#domanisModalDialog").modal("show");
+    },
+    nextActivePage: function nextActivePage(url) {
+      var _this = this;
+
+      axios.get(url).then(function (response) {
+        _this.active = response.data;
+      });
+    },
+    getDomains: function getDomains() {
+      var _this2 = this;
+
+      axios.get("/api/domains/active").then(function (response) {
+        _this2.active = response.data;
+      });
+      axios.get("/api/domains/expired").then(function (response) {
+        _this2.expired = response.data;
+      });
+    }
+  },
+  mounted: function mounted() {
+    this.getDomains();
   }
 });
 
@@ -39568,6 +39619,45 @@ module.exports = function (list, options) {
 
 /***/ }),
 
+/***/ "./resources/js/components/Domain.vue":
+/*!********************************************!*\
+  !*** ./resources/js/components/Domain.vue ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Domain_vue_vue_type_template_id_305b80ef___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Domain.vue?vue&type=template&id=305b80ef& */ "./resources/js/components/Domain.vue?vue&type=template&id=305b80ef&");
+/* harmony import */ var _Domain_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Domain.vue?vue&type=script&lang=js& */ "./resources/js/components/Domain.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Domain_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Domain_vue_vue_type_template_id_305b80ef___WEBPACK_IMPORTED_MODULE_0__.render,
+  _Domain_vue_vue_type_template_id_305b80ef___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Domain.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/Domains.vue":
 /*!*********************************************!*\
   !*** ./resources/js/components/Domains.vue ***!
@@ -39607,6 +39697,22 @@ component.options.__file = "resources/js/components/Domains.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/Domain.vue?vue&type=script&lang=js&":
+/*!*********************************************************************!*\
+  !*** ./resources/js/components/Domain.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Domain_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Domain.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Domain.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Domain_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/js/components/Domains.vue?vue&type=script&lang=js&":
 /*!**********************************************************************!*\
   !*** ./resources/js/components/Domains.vue?vue&type=script&lang=js& ***!
@@ -39620,6 +39726,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Domains_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Domains.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Domains.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Domains_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Domain.vue?vue&type=template&id=305b80ef&":
+/*!***************************************************************************!*\
+  !*** ./resources/js/components/Domain.vue?vue&type=template&id=305b80ef& ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Domain_vue_vue_type_template_id_305b80ef___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Domain_vue_vue_type_template_id_305b80ef___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Domain_vue_vue_type_template_id_305b80ef___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Domain.vue?vue&type=template&id=305b80ef& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Domain.vue?vue&type=template&id=305b80ef&");
+
 
 /***/ }),
 
@@ -39640,6 +39763,335 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Domain.vue?vue&type=template&id=305b80ef&":
+/*!******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Domain.vue?vue&type=template&id=305b80ef& ***!
+  \******************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass: "modal fade",
+      attrs: {
+        id: "domanisModalDialog",
+        tabindex: "-1",
+        role: "dialog",
+        "aria-labelledby": "modelTitleId",
+        "aria-hidden": "true"
+      }
+    },
+    [
+      _c("div", { staticClass: "modal-dialog", attrs: { role: "document" } }, [
+        _c("div", { staticClass: "modal-content" }, [
+          _c("div", { staticClass: "modal-header" }, [
+            _c("h5", { staticClass: "modal-title" }, [
+              _vm._v(_vm._s(_vm.title))
+            ]),
+            _vm._v(" "),
+            _vm._m(0)
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "modal-body" }, [
+            _c("div", { staticClass: "form-row" }, [
+              _c("div", { staticClass: "form-group col-md-8" }, [
+                _c("label", { attrs: { for: "clientInput" } }, [
+                  _vm._v("Client")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.selectedDomain.client_id,
+                        expression: "selectedDomain.client_id"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { name: "clientInput", id: "clientInput" },
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.selectedDomain,
+                          "client_id",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      }
+                    }
+                  },
+                  _vm._l(_vm.clients, function(item) {
+                    return _c("option", {
+                      key: item.id,
+                      domProps: { value: item.id, innerHTML: _vm._s(item.name) }
+                    })
+                  }),
+                  0
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group col-md-4" }, [
+                _c("label", { attrs: { for: "statusInput" } }, [
+                  _vm._v("Status")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.selectedDomain.status,
+                        expression: "selectedDomain.status"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { name: "statusInput", id: "statusInput" },
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.selectedDomain,
+                          "status",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      }
+                    }
+                  },
+                  _vm._l(_vm.states, function(item) {
+                    return _c("option", {
+                      key: item,
+                      domProps: { value: item, innerHTML: _vm._s(item) }
+                    })
+                  }),
+                  0
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group col-md-12" }, [
+                _c("label", { attrs: { for: "domainInput" } }, [
+                  _vm._v("Domain")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.selectedDomain.domain,
+                      expression: "selectedDomain.domain"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "text",
+                    name: "domainInput",
+                    id: "domainInput",
+                    "aria-describedby": "helpId",
+                    placeholder: "Domain"
+                  },
+                  domProps: { value: _vm.selectedDomain.domain },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.selectedDomain,
+                        "domain",
+                        $event.target.value
+                      )
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "form-group col-md-6" },
+                [
+                  _c("label", { attrs: { for: "registeredOnInput" } }, [
+                    _vm._v("Registered On")
+                  ]),
+                  _vm._v(" "),
+                  _c("date-picker", {
+                    staticStyle: { width: "100%" },
+                    attrs: {
+                      placeholder: "Expires On",
+                      "input-attr": {
+                        class: "form-control",
+                        id: "registeredOnInput"
+                      },
+                      "value-type": "format",
+                      format: "YYYY-MM-DD HH:mm:ss"
+                    },
+                    model: {
+                      value: _vm.selectedDomain.registered_on,
+                      callback: function($$v) {
+                        _vm.$set(_vm.selectedDomain, "registered_on", $$v)
+                      },
+                      expression: "selectedDomain.registered_on"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "form-group col-md-6" },
+                [
+                  _c("label", { attrs: { for: "expiresOnInput" } }, [
+                    _vm._v("Expires On")
+                  ]),
+                  _vm._v(" "),
+                  _c("date-picker", {
+                    staticStyle: { width: "100%" },
+                    attrs: {
+                      placeholder: "Expires On",
+                      "input-attr": {
+                        class: "form-control",
+                        id: "expiresOnInput"
+                      },
+                      "value-type": "format",
+                      format: "YYYY-MM-DD HH:mm:ss"
+                    },
+                    model: {
+                      value: _vm.selectedDomain.expires_on,
+                      callback: function($$v) {
+                        _vm.$set(_vm.selectedDomain, "expires_on", $$v)
+                      },
+                      expression: "selectedDomain.expires_on"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group col-md-12" }, [
+                _c("label", { attrs: { for: "remarksInput" } }, [
+                  _vm._v("Remarks")
+                ]),
+                _vm._v(" "),
+                _c("textarea", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.selectedDomain.remarks,
+                      expression: "selectedDomain.remarks"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    name: "remarksInput",
+                    id: "remarksInput",
+                    rows: "3"
+                  },
+                  domProps: { value: _vm.selectedDomain.remarks },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.selectedDomain,
+                        "remarks",
+                        $event.target.value
+                      )
+                    }
+                  }
+                })
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "modal-footer" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-secondary",
+                attrs: { type: "button", "data-dismiss": "modal" }
+              },
+              [_vm._v("\n          Close\n        ")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary",
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    return _vm.save()
+                  }
+                }
+              },
+              [_vm._v("\n          Save\n        ")]
+            )
+          ])
+        ])
+      ])
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Domains.vue?vue&type=template&id=427f83d8&":
 /*!*******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Domains.vue?vue&type=template&id=427f83d8& ***!
@@ -39656,141 +40108,355 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "card" }, [
-      _c("div", { staticClass: "card-header" }, [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-6 text-uppercase" }, [
-            _c("h3", { staticClass: "card-title" }, [_vm._v("Domains")]),
-            _vm._v(" "),
-            _vm.isActive
-              ? _c("h5", { staticClass: "card-title" }, [
-                  _vm._v("Active Domains")
-                ])
-              : _c("h5", { staticClass: "card-title" }, [
-                  _vm._v("Expired Domains")
-                ])
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "col-md-6 d-flex",
-              staticStyle: {
-                "justify-content": "flex-end",
-                "align-items": "flex-start"
-              }
-            },
-            [
-              _c(
-                "label",
-                {
-                  staticClass: "btn btn-dark btn-sm",
-                  attrs: {
-                    "data-toggle": "modal",
-                    "data-target": "#domanisModalDialog"
-                  },
-                  on: { click: _vm.newDomain }
-                },
-                [_vm._v("\n            NEW\n          ")]
-              ),
+  return _c(
+    "div",
+    [
+      _c("div", { staticClass: "card" }, [
+        _c("div", { staticClass: "card-header" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-6 text-uppercase" }, [
+              _c("h3", { staticClass: "card-title" }, [_vm._v("Domains")]),
               _vm._v(" "),
-              _c("div", { staticClass: "btn-group btn-group-toggle" }, [
+              _vm.isActive
+                ? _c("h5", { staticClass: "card-title" }, [
+                    _vm._v("Active Domains")
+                  ])
+                : _c("h5", { staticClass: "card-title" }, [
+                    _vm._v("Expired Domains")
+                  ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "col-md-6 d-flex",
+                staticStyle: {
+                  "justify-content": "flex-end",
+                  "align-items": "flex-start"
+                }
+              },
+              [
                 _c(
                   "label",
                   {
-                    staticClass: "btn btn-primary btn-sm btn-simple",
-                    class: { active: _vm.isActive },
-                    attrs: { for: "activeDomainsRadio" }
+                    staticClass: "btn btn-dark btn-sm",
+                    attrs: {
+                      "data-toggle": "modal",
+                      "data-target": "#domanisModalDialog"
+                    },
+                    on: { click: _vm.newDomain }
                   },
-                  [_vm._v("ACTIVE")]
+                  [_vm._v("\n            NEW\n          ")]
                 ),
                 _vm._v(" "),
-                _c(
-                  "label",
-                  {
-                    staticClass: "btn btn-primary btn-sm btn-simple",
-                    class: { active: !_vm.isActive },
-                    attrs: { for: "expiredDomainsRadio" }
+                _c("div", { staticClass: "btn-group btn-group-toggle" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "btn btn-primary btn-sm btn-simple",
+                      class: { active: _vm.isActive },
+                      attrs: { for: "activeDomainsRadio" }
+                    },
+                    [_vm._v("ACTIVE")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "label",
+                    {
+                      staticClass: "btn btn-primary btn-sm btn-simple",
+                      class: { active: !_vm.isActive },
+                      attrs: { for: "expiredDomainsRadio" }
+                    },
+                    [_vm._v("EXPIRED")]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.isActive,
+                      expression: "isActive"
+                    },
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: false,
+                      expression: "false"
+                    }
+                  ],
+                  attrs: {
+                    type: "radio",
+                    name: "test",
+                    id: "activeDomainsRadio",
+                    checked: ""
                   },
-                  [_vm._v("EXPIRED")]
-                )
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.isActive,
-                    expression: "isActive"
+                  domProps: {
+                    value: true,
+                    checked: _vm._q(_vm.isActive, true)
                   },
-                  {
-                    name: "show",
-                    rawName: "v-show",
+                  on: {
+                    change: function($event) {
+                      _vm.isActive = true
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.isActive,
+                      expression: "isActive"
+                    },
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: false,
+                      expression: "false"
+                    }
+                  ],
+                  attrs: {
+                    type: "radio",
+                    name: "test",
+                    id: "expiredDomainsRadio"
+                  },
+                  domProps: {
                     value: false,
-                    expression: "false"
-                  }
-                ],
-                attrs: {
-                  type: "radio",
-                  name: "test",
-                  id: "activeDomainsRadio",
-                  checked: ""
-                },
-                domProps: { value: true, checked: _vm._q(_vm.isActive, true) },
-                on: {
-                  change: function($event) {
-                    _vm.isActive = true
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.isActive,
-                    expression: "isActive"
+                    checked: _vm._q(_vm.isActive, false)
                   },
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: false,
-                    expression: "false"
+                  on: {
+                    change: function($event) {
+                      _vm.isActive = false
+                    }
                   }
-                ],
-                attrs: {
-                  type: "radio",
-                  name: "test",
-                  id: "expiredDomainsRadio"
-                },
-                domProps: {
-                  value: false,
-                  checked: _vm._q(_vm.isActive, false)
-                },
-                on: {
-                  change: function($event) {
-                    _vm.isActive = false
-                  }
-                }
-              })
-            ]
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-body" }, [
-        _c("div", { staticClass: "table-responsive" }, [
-          _c("table", { staticClass: "table" }, [
-            _vm._m(0),
-            _vm._v(" "),
-            _vm.isActive
-              ? _c(
-                  "tbody",
-                  [
-                    _vm._l(_vm.active.data, function(domain, index) {
+                })
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-body" }, [
+          _c("div", { staticClass: "table-responsive" }, [
+            _c("table", { staticClass: "table" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _vm.isActive
+                ? _c(
+                    "tbody",
+                    [
+                      _vm._l(_vm.active.data, function(domain, index) {
+                        return _c("tr", { key: domain.id }, [
+                          _c("td", [_vm._v(_vm._s(index + 1))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(domain.domain))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(domain.registered_on))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(domain.expires_on))]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(_vm._s(_vm.dateDiff(domain.expires_on)))
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.active.data[index].notify,
+                                  expression: "active.data[index].notify"
+                                }
+                              ],
+                              attrs: { type: "checkbox" },
+                              domProps: {
+                                checked: Array.isArray(
+                                  _vm.active.data[index].notify
+                                )
+                                  ? _vm._i(
+                                      _vm.active.data[index].notify,
+                                      null
+                                    ) > -1
+                                  : _vm.active.data[index].notify
+                              },
+                              on: {
+                                change: [
+                                  function($event) {
+                                    var $$a = _vm.active.data[index].notify,
+                                      $$el = $event.target,
+                                      $$c = $$el.checked ? true : false
+                                    if (Array.isArray($$a)) {
+                                      var $$v = null,
+                                        $$i = _vm._i($$a, $$v)
+                                      if ($$el.checked) {
+                                        $$i < 0 &&
+                                          _vm.$set(
+                                            _vm.active.data[index],
+                                            "notify",
+                                            $$a.concat([$$v])
+                                          )
+                                      } else {
+                                        $$i > -1 &&
+                                          _vm.$set(
+                                            _vm.active.data[index],
+                                            "notify",
+                                            $$a
+                                              .slice(0, $$i)
+                                              .concat($$a.slice($$i + 1))
+                                          )
+                                      }
+                                    } else {
+                                      _vm.$set(
+                                        _vm.active.data[index],
+                                        "notify",
+                                        $$c
+                                      )
+                                    }
+                                  },
+                                  function($event) {
+                                    return _vm.setNotify(domain.id)
+                                  }
+                                ]
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-link",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.editDomain(domain)
+                                  }
+                                }
+                              },
+                              [
+                                _c("span", {
+                                  staticClass: "tim-icons icon-pencil"
+                                })
+                              ]
+                            )
+                          ])
+                        ])
+                      }),
+                      _vm._v(" "),
+                      _c("tr", [
+                        _c("td", { attrs: { colspan: "7" } }, [
+                          _c("div", { staticClass: "btn-group" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass:
+                                  "btn btn-sm btn-primary btn-simple",
+                                staticStyle: { cursor: "pointer" },
+                                attrs: {
+                                  disabled:
+                                    _vm.active.links.first == null ||
+                                    _vm.active.meta.current_page == 1
+                                },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.nextActivePage(
+                                      _vm.active.links.first
+                                    )
+                                  }
+                                }
+                              },
+                              [
+                                _c("span", {
+                                  staticClass: "tim-icons icon-double-left"
+                                })
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass:
+                                  "btn btn-sm btn-primary btn-simple",
+                                staticStyle: { cursor: "pointer" },
+                                attrs: {
+                                  disabled: _vm.active.links.prev == null
+                                },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.nextActivePage(
+                                      _vm.active.links.prev
+                                    )
+                                  }
+                                }
+                              },
+                              [
+                                _c("span", {
+                                  staticClass: "tim-icons icon-minimal-left"
+                                })
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass:
+                                  "btn btn-sm btn-primary btn-simple",
+                                staticStyle: { cursor: "pointer" },
+                                attrs: {
+                                  disabled: _vm.active.links.next == null
+                                },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.nextActivePage(
+                                      _vm.active.links.next
+                                    )
+                                  }
+                                }
+                              },
+                              [
+                                _c("span", {
+                                  staticClass: "tim-icons icon-minimal-right"
+                                })
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass:
+                                  "btn btn-sm btn-primary btn-simple",
+                                staticStyle: { cursor: "pointer" },
+                                attrs: {
+                                  disabled:
+                                    _vm.active.links.last == null ||
+                                    _vm.active.meta.current_page ==
+                                      _vm.active.meta.last_page
+                                },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.nextActivePage(
+                                      _vm.active.links.last
+                                    )
+                                  }
+                                }
+                              },
+                              [
+                                _c("span", {
+                                  staticClass: "tim-icons icon-double-right"
+                                })
+                              ]
+                            )
+                          ])
+                        ])
+                      ])
+                    ],
+                    2
+                  )
+                : _c(
+                    "tbody",
+                    _vm._l(_vm.expired.data, function(domain, index) {
                       return _c("tr", { key: domain.id }, [
                         _c("td", [_vm._v(_vm._s(index + 1))]),
                         _vm._v(" "),
@@ -39810,23 +40476,23 @@ var render = function() {
                               {
                                 name: "model",
                                 rawName: "v-model",
-                                value: _vm.active.data[index].notify,
-                                expression: "active.data[index].notify"
+                                value: _vm.expired.data[index].notify,
+                                expression: "expired.data[index].notify"
                               }
                             ],
                             attrs: { type: "checkbox" },
                             domProps: {
                               checked: Array.isArray(
-                                _vm.active.data[index].notify
+                                _vm.expired.data[index].notify
                               )
-                                ? _vm._i(_vm.active.data[index].notify, null) >
+                                ? _vm._i(_vm.expired.data[index].notify, null) >
                                   -1
-                                : _vm.active.data[index].notify
+                                : _vm.expired.data[index].notify
                             },
                             on: {
                               change: [
                                 function($event) {
-                                  var $$a = _vm.active.data[index].notify,
+                                  var $$a = _vm.expired.data[index].notify,
                                     $$el = $event.target,
                                     $$c = $$el.checked ? true : false
                                   if (Array.isArray($$a)) {
@@ -39835,14 +40501,14 @@ var render = function() {
                                     if ($$el.checked) {
                                       $$i < 0 &&
                                         _vm.$set(
-                                          _vm.active.data[index],
+                                          _vm.expired.data[index],
                                           "notify",
                                           $$a.concat([$$v])
                                         )
                                     } else {
                                       $$i > -1 &&
                                         _vm.$set(
-                                          _vm.active.data[index],
+                                          _vm.expired.data[index],
                                           "notify",
                                           $$a
                                             .slice(0, $$i)
@@ -39851,14 +40517,14 @@ var render = function() {
                                     }
                                   } else {
                                     _vm.$set(
-                                      _vm.active.data[index],
+                                      _vm.expired.data[index],
                                       "notify",
                                       $$c
                                     )
                                   }
                                 },
                                 function($event) {
-                                  return _vm.setNotify(domain)
+                                  return _vm.setNotify(domain.id)
                                 }
                               ]
                             }
@@ -39885,513 +40551,24 @@ var render = function() {
                         ])
                       ])
                     }),
-                    _vm._v(" "),
-                    _c("tr", [
-                      _c("td", { attrs: { colspan: "7" } }, [
-                        _vm._v(
-                          "\n                " +
-                            _vm._s(_vm.active.links) +
-                            "\n                "
-                        ),
-                        _c("hr"),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "btn-group" }, [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-sm btn-primary btn-simple",
-                              staticStyle: { cursor: "pointer" },
-                              attrs: {
-                                disabled:
-                                  _vm.active.links.first == null ||
-                                  _vm.active.meta.current_page == 1
-                              },
-                              on: {
-                                click: function($event) {
-                                  return _vm.nextActivePage(
-                                    _vm.active.links.first
-                                  )
-                                }
-                              }
-                            },
-                            [
-                              _c("span", {
-                                staticClass: "tim-icons icon-minimal-left"
-                              })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-sm btn-primary btn-simple",
-                              staticStyle: { cursor: "pointer" },
-                              attrs: {
-                                disabled: _vm.active.links.prev == null
-                              },
-                              on: {
-                                click: function($event) {
-                                  return _vm.nextActivePage(
-                                    _vm.active.links.prev
-                                  )
-                                }
-                              }
-                            },
-                            [
-                              _c("span", {
-                                staticClass: "tim-icons icon-double-left"
-                              })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-sm btn-primary btn-simple",
-                              staticStyle: { cursor: "pointer" },
-                              attrs: {
-                                disabled: _vm.active.links.next == null
-                              },
-                              on: {
-                                click: function($event) {
-                                  return _vm.nextActivePage(
-                                    _vm.active.links.next
-                                  )
-                                }
-                              }
-                            },
-                            [
-                              _c("span", {
-                                staticClass: "tim-icons icon-double-right"
-                              })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-sm btn-primary btn-simple",
-                              staticStyle: { cursor: "pointer" },
-                              attrs: {
-                                disabled:
-                                  _vm.active.links.last == null ||
-                                  _vm.active.meta.current_page ==
-                                    _vm.active.meta.last_page
-                              },
-                              on: {
-                                click: function($event) {
-                                  return _vm.nextActivePage(
-                                    _vm.active.links.last
-                                  )
-                                }
-                              }
-                            },
-                            [
-                              _c("span", {
-                                staticClass: "tim-icons icon-minimal-right"
-                              })
-                            ]
-                          )
-                        ])
-                      ])
-                    ])
-                  ],
-                  2
-                )
-              : _c(
-                  "tbody",
-                  _vm._l(_vm.expired.data, function(domain, index) {
-                    return _c("tr", { key: domain.id }, [
-                      _c("td", [_vm._v(_vm._s(index + 1))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(domain.domain))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(domain.registered_on))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(domain.expires_on))]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _vm._v(_vm._s(_vm.dateDiff(domain.expires_on)))
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.expired.data[index].notify,
-                              expression: "expired.data[index].notify"
-                            }
-                          ],
-                          attrs: { type: "checkbox" },
-                          domProps: {
-                            checked: Array.isArray(
-                              _vm.expired.data[index].notify
-                            )
-                              ? _vm._i(_vm.expired.data[index].notify, null) >
-                                -1
-                              : _vm.expired.data[index].notify
-                          },
-                          on: {
-                            change: [
-                              function($event) {
-                                var $$a = _vm.expired.data[index].notify,
-                                  $$el = $event.target,
-                                  $$c = $$el.checked ? true : false
-                                if (Array.isArray($$a)) {
-                                  var $$v = null,
-                                    $$i = _vm._i($$a, $$v)
-                                  if ($$el.checked) {
-                                    $$i < 0 &&
-                                      _vm.$set(
-                                        _vm.expired.data[index],
-                                        "notify",
-                                        $$a.concat([$$v])
-                                      )
-                                  } else {
-                                    $$i > -1 &&
-                                      _vm.$set(
-                                        _vm.expired.data[index],
-                                        "notify",
-                                        $$a
-                                          .slice(0, $$i)
-                                          .concat($$a.slice($$i + 1))
-                                      )
-                                  }
-                                } else {
-                                  _vm.$set(
-                                    _vm.expired.data[index],
-                                    "notify",
-                                    $$c
-                                  )
-                                }
-                              },
-                              function($event) {
-                                return _vm.setNotify(domain.id)
-                              }
-                            ]
-                          }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-link",
-                            on: {
-                              click: function($event) {
-                                return _vm.editDomain(domain)
-                              }
-                            }
-                          },
-                          [_c("span", { staticClass: "tim-icons icon-pencil" })]
-                        )
-                      ])
-                    ])
-                  }),
-                  0
-                )
+                    0
+                  )
+            ])
           ])
         ])
-      ])
-    ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass: "modal fade",
-        attrs: {
-          id: "domanisModalDialog",
-          tabindex: "-1",
-          role: "dialog",
-          "aria-labelledby": "modelTitleId",
-          "aria-hidden": "true"
+      ]),
+      _vm._v(" "),
+      _c("domain", {
+        attrs: { domain: _vm.selectedDomain, edit: _vm.edit },
+        on: {
+          "update:edit": function($event) {
+            _vm.edit = $event
+          }
         }
-      },
-      [
-        _c(
-          "div",
-          { staticClass: "modal-dialog", attrs: { role: "document" } },
-          [
-            _c("div", { staticClass: "modal-content" }, [
-              _c("div", { staticClass: "modal-header" }, [
-                _c("h5", { staticClass: "modal-title" }, [
-                  _vm._v(_vm._s(_vm.title))
-                ]),
-                _vm._v(" "),
-                _vm._m(1)
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-body" }, [
-                _c("div", { staticClass: "form-row" }, [
-                  _c("div", { staticClass: "form-group col-md-8" }, [
-                    _c("label", { attrs: { for: "clientInput" } }, [
-                      _vm._v("Client")
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.selectedDomain.client_id,
-                            expression: "selectedDomain.client_id"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { name: "clientInput", id: "clientInput" },
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.selectedDomain,
-                              "client_id",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          }
-                        }
-                      },
-                      _vm._l(_vm.clients, function(item) {
-                        return _c("option", {
-                          key: item.id,
-                          domProps: {
-                            value: item.id,
-                            innerHTML: _vm._s(item.name)
-                          }
-                        })
-                      }),
-                      0
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group col-md-4" }, [
-                    _c("label", { attrs: { for: "statusInput" } }, [
-                      _vm._v("Status")
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.selectedDomain.status,
-                            expression: "selectedDomain.status"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { name: "statusInput", id: "statusInput" },
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.selectedDomain,
-                              "status",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          }
-                        }
-                      },
-                      _vm._l(_vm.states, function(item) {
-                        return _c("option", {
-                          key: item,
-                          domProps: { value: item, innerHTML: _vm._s(item) }
-                        })
-                      }),
-                      0
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group col-md-12" }, [
-                    _c("label", { attrs: { for: "domainInput" } }, [
-                      _vm._v("Domain")
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.selectedDomain.domain,
-                          expression: "selectedDomain.domain"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: {
-                        type: "text",
-                        name: "domainInput",
-                        id: "domainInput",
-                        "aria-describedby": "helpId",
-                        placeholder: "Domain"
-                      },
-                      domProps: { value: _vm.selectedDomain.domain },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.selectedDomain,
-                            "domain",
-                            $event.target.value
-                          )
-                        }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group col-md-6" }, [
-                    _c("label", { attrs: { for: "registeredOnInput" } }, [
-                      _vm._v("Registered On")
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.selectedDomain.registered_on,
-                          expression: "selectedDomain.registered_on"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: {
-                        type: "date",
-                        name: "registeredOnInput",
-                        id: "",
-                        "aria-describedby": "helpId",
-                        placeholder: "Registered On"
-                      },
-                      domProps: { value: _vm.selectedDomain.registered_on },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.selectedDomain,
-                            "registered_on",
-                            $event.target.value
-                          )
-                        }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "form-group col-md-6" },
-                    [
-                      _c("label", { attrs: { for: "expiresOnInput" } }, [
-                        _vm._v("Expires On")
-                      ]),
-                      _vm._v(" "),
-                      _c("date-picker", {
-                        staticStyle: { width: "100%" },
-                        attrs: { "input-class": "form-control" },
-                        model: {
-                          value: _vm.selectedDomain.expires_on,
-                          callback: function($$v) {
-                            _vm.$set(_vm.selectedDomain, "expires_on", $$v)
-                          },
-                          expression: "selectedDomain.expires_on"
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group col-md-12" }, [
-                    _c("label", { attrs: { for: "remarksInput" } }, [
-                      _vm._v("Remarks")
-                    ]),
-                    _vm._v(" "),
-                    _c("textarea", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.selectedDomain.remarks,
-                          expression: "selectedDomain.remarks"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: {
-                        name: "remarksInput",
-                        id: "remarksInput",
-                        rows: "3"
-                      },
-                      domProps: { value: _vm.selectedDomain.remarks },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.selectedDomain,
-                            "remarks",
-                            $event.target.value
-                          )
-                        }
-                      }
-                    })
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-footer" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-secondary",
-                    attrs: { type: "button", "data-dismiss": "modal" }
-                  },
-                  [_vm._v("\n            Close\n          ")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-primary",
-                    attrs: { type: "button" },
-                    on: {
-                      click: function($event) {
-                        return _vm.save()
-                      }
-                    }
-                  },
-                  [_vm._v("\n            Save\n          ")]
-                )
-              ])
-            ])
-          ]
-        )
-      ]
-    )
-  ])
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
@@ -40415,23 +40592,6 @@ var staticRenderFns = [
         _c("th")
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "close",
-        attrs: {
-          type: "button",
-          "data-dismiss": "modal",
-          "aria-label": "Close"
-        }
-      },
-      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-    )
   }
 ]
 render._withStripped = true
