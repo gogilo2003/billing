@@ -154,6 +154,50 @@
                   </button>
                 </td>
               </tr>
+              <tr>
+                <td colspan="7">
+                  <div class="btn-group">
+                    <button
+                      @click="nextActivePage(expired.links.first)"
+                      style="cursor: pointer"
+                      :disabled="
+                        expired.links.first == null ||
+                        expired.meta.current_page == 1
+                      "
+                      class="btn btn-sm btn-primary btn-simple"
+                    >
+                      <span class="tim-icons icon-double-left"></span>
+                    </button>
+                    <button
+                      @click="nextExpiredPage(expired.links.prev)"
+                      style="cursor: pointer"
+                      :disabled="expired.links.prev == null"
+                      class="btn btn-sm btn-primary btn-simple"
+                    >
+                      <span class="tim-icons icon-minimal-left"></span>
+                    </button>
+                    <button
+                      @click="nextExpiredPage(expired.links.next)"
+                      style="cursor: pointer"
+                      :disabled="expired.links.next == null"
+                      class="btn btn-sm btn-primary btn-simple"
+                    >
+                      <span class="tim-icons icon-minimal-right"></span>
+                    </button>
+                    <button
+                      @click="nextExpiredPage(expired.links.last)"
+                      style="cursor: pointer"
+                      :disabled="
+                        expired.links.last == null ||
+                        expired.meta.current_page == expired.meta.last_page
+                      "
+                      class="btn btn-sm btn-primary btn-simple"
+                    >
+                      <span class="tim-icons icon-double-right"></span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -165,7 +209,7 @@
 </template>
 <script>
 import mixins from "../mixins/mixins";
-import Domain from './Domain.vue'
+import Domain from "./Domain.vue";
 export default {
   data() {
     return {
@@ -191,7 +235,7 @@ export default {
   },
   mixins: [mixins],
   components: {
-    Domain
+    Domain,
   },
   methods: {
     setNotify(id) {
@@ -229,6 +273,11 @@ export default {
       $("#domanisModalDialog").modal("show");
     },
     nextActivePage(url) {
+      axios.get(url).then((response) => {
+        this.active = response.data;
+      });
+    },
+    nextExpiredPage(url) {
       axios.get(url).then((response) => {
         this.active = response.data;
       });

@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('client:notification')
             ->everyMinute();
 
-        $schedule->command('domain:notofication')
+        $schedule->command('domain:notification')
             ->everyMinute();
     }
 

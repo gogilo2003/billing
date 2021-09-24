@@ -2528,6 +2528,50 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -2598,14 +2642,21 @@ __webpack_require__.r(__webpack_exports__);
         _this.active = response.data;
       });
     },
-    getDomains: function getDomains() {
+    nextExpiredPage: function nextExpiredPage(url) {
       var _this2 = this;
 
-      axios.get("/api/domains/active").then(function (response) {
+      axios.get(url).then(function (response) {
         _this2.active = response.data;
       });
+    },
+    getDomains: function getDomains() {
+      var _this3 = this;
+
+      axios.get("/api/domains/active").then(function (response) {
+        _this3.active = response.data;
+      });
       axios.get("/api/domains/expired").then(function (response) {
-        _this2.expired = response.data;
+        _this3.expired = response.data;
       });
     }
   },
@@ -40456,102 +40507,213 @@ var render = function() {
                   )
                 : _c(
                     "tbody",
-                    _vm._l(_vm.expired.data, function(domain, index) {
-                      return _c("tr", { key: domain.id }, [
-                        _c("td", [_vm._v(_vm._s(index + 1))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(domain.domain))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(domain.registered_on))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(domain.expires_on))]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _vm._v(_vm._s(_vm.dateDiff(domain.expires_on)))
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.expired.data[index].notify,
-                                expression: "expired.data[index].notify"
-                              }
-                            ],
-                            attrs: { type: "checkbox" },
-                            domProps: {
-                              checked: Array.isArray(
-                                _vm.expired.data[index].notify
-                              )
-                                ? _vm._i(_vm.expired.data[index].notify, null) >
-                                  -1
-                                : _vm.expired.data[index].notify
-                            },
-                            on: {
-                              change: [
-                                function($event) {
-                                  var $$a = _vm.expired.data[index].notify,
-                                    $$el = $event.target,
-                                    $$c = $$el.checked ? true : false
-                                  if (Array.isArray($$a)) {
-                                    var $$v = null,
-                                      $$i = _vm._i($$a, $$v)
-                                    if ($$el.checked) {
-                                      $$i < 0 &&
-                                        _vm.$set(
-                                          _vm.expired.data[index],
-                                          "notify",
-                                          $$a.concat([$$v])
-                                        )
+                    [
+                      _vm._l(_vm.expired.data, function(domain, index) {
+                        return _c("tr", { key: domain.id }, [
+                          _c("td", [_vm._v(_vm._s(index + 1))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(domain.domain))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(domain.registered_on))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(domain.expires_on))]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(_vm._s(_vm.dateDiff(domain.expires_on)))
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.expired.data[index].notify,
+                                  expression: "expired.data[index].notify"
+                                }
+                              ],
+                              attrs: { type: "checkbox" },
+                              domProps: {
+                                checked: Array.isArray(
+                                  _vm.expired.data[index].notify
+                                )
+                                  ? _vm._i(
+                                      _vm.expired.data[index].notify,
+                                      null
+                                    ) > -1
+                                  : _vm.expired.data[index].notify
+                              },
+                              on: {
+                                change: [
+                                  function($event) {
+                                    var $$a = _vm.expired.data[index].notify,
+                                      $$el = $event.target,
+                                      $$c = $$el.checked ? true : false
+                                    if (Array.isArray($$a)) {
+                                      var $$v = null,
+                                        $$i = _vm._i($$a, $$v)
+                                      if ($$el.checked) {
+                                        $$i < 0 &&
+                                          _vm.$set(
+                                            _vm.expired.data[index],
+                                            "notify",
+                                            $$a.concat([$$v])
+                                          )
+                                      } else {
+                                        $$i > -1 &&
+                                          _vm.$set(
+                                            _vm.expired.data[index],
+                                            "notify",
+                                            $$a
+                                              .slice(0, $$i)
+                                              .concat($$a.slice($$i + 1))
+                                          )
+                                      }
                                     } else {
-                                      $$i > -1 &&
-                                        _vm.$set(
-                                          _vm.expired.data[index],
-                                          "notify",
-                                          $$a
-                                            .slice(0, $$i)
-                                            .concat($$a.slice($$i + 1))
-                                        )
+                                      _vm.$set(
+                                        _vm.expired.data[index],
+                                        "notify",
+                                        $$c
+                                      )
                                     }
-                                  } else {
-                                    _vm.$set(
-                                      _vm.expired.data[index],
-                                      "notify",
-                                      $$c
+                                  },
+                                  function($event) {
+                                    return _vm.setNotify(domain.id)
+                                  }
+                                ]
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-link",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.editDomain(domain)
+                                  }
+                                }
+                              },
+                              [
+                                _c("span", {
+                                  staticClass: "tim-icons icon-pencil"
+                                })
+                              ]
+                            )
+                          ])
+                        ])
+                      }),
+                      _vm._v(" "),
+                      _c("tr", [
+                        _c("td", { attrs: { colspan: "7" } }, [
+                          _c("div", { staticClass: "btn-group" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass:
+                                  "btn btn-sm btn-primary btn-simple",
+                                staticStyle: { cursor: "pointer" },
+                                attrs: {
+                                  disabled:
+                                    _vm.expired.links.first == null ||
+                                    _vm.expired.meta.current_page == 1
+                                },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.nextActivePage(
+                                      _vm.expired.links.first
                                     )
                                   }
-                                },
-                                function($event) {
-                                  return _vm.setNotify(domain.id)
                                 }
+                              },
+                              [
+                                _c("span", {
+                                  staticClass: "tim-icons icon-double-left"
+                                })
                               ]
-                            }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-link",
-                              on: {
-                                click: function($event) {
-                                  return _vm.editDomain(domain)
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass:
+                                  "btn btn-sm btn-primary btn-simple",
+                                staticStyle: { cursor: "pointer" },
+                                attrs: {
+                                  disabled: _vm.expired.links.prev == null
+                                },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.nextExpiredPage(
+                                      _vm.expired.links.prev
+                                    )
+                                  }
                                 }
-                              }
-                            },
-                            [
-                              _c("span", {
-                                staticClass: "tim-icons icon-pencil"
-                              })
-                            ]
-                          )
+                              },
+                              [
+                                _c("span", {
+                                  staticClass: "tim-icons icon-minimal-left"
+                                })
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass:
+                                  "btn btn-sm btn-primary btn-simple",
+                                staticStyle: { cursor: "pointer" },
+                                attrs: {
+                                  disabled: _vm.expired.links.next == null
+                                },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.nextExpiredPage(
+                                      _vm.expired.links.next
+                                    )
+                                  }
+                                }
+                              },
+                              [
+                                _c("span", {
+                                  staticClass: "tim-icons icon-minimal-right"
+                                })
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass:
+                                  "btn btn-sm btn-primary btn-simple",
+                                staticStyle: { cursor: "pointer" },
+                                attrs: {
+                                  disabled:
+                                    _vm.expired.links.last == null ||
+                                    _vm.expired.meta.current_page ==
+                                      _vm.expired.meta.last_page
+                                },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.nextExpiredPage(
+                                      _vm.expired.links.last
+                                    )
+                                  }
+                                }
+                              },
+                              [
+                                _c("span", {
+                                  staticClass: "tim-icons icon-double-right"
+                                })
+                              ]
+                            )
+                          ])
                         ])
                       ])
-                    }),
-                    0
+                    ],
+                    2
                   )
             ])
           ])
