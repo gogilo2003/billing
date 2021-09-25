@@ -45,7 +45,9 @@ class DomainNotification extends Command
             return date_create('now', new \DateTimeZone('Africa/Nairobi'))->add(new \DateInterval('P'.$i))->format('Y-m-d');
         });
 
-        $domains = Domain::with('client')->whereDate('expires_on', now());
+        $domains = Domain::with('client')
+                        ->where('notify', 1)
+                        ->whereDate('expires_on', now());
 
         foreach ($ivs as $key => $date) {
             $domains->union(Domain::with('client')->whereDate('expires_on', $date));
@@ -53,15 +55,15 @@ class DomainNotification extends Command
 
         $table = $domains->orderBy('expires_on', 'ASC')
             ->get()
-            ->each(function ($item) {
+            ->each(function ($item) use ($sms) {
                 $d1 = new \DateTime($item->expires_on);
                 $d2 = new \DateTime('now');
                 $diff = $d2->diff($d1);
 
-                $message = 'This is a reminder that the domain '.$item->domain.' is scheduled to expire on '.date_create($item->expires_on)->format('j\<\s\u\p\>S\<\s\u\p\/\> F Y').' ('.$diff->days.' Days)';
+                $message = view('sms.domain')->render();
 
-                // $sms->send(str_replace('+', '', $client->phone), $message);
-                dump($message);
+                $sms->send(str_replace('+', '', $item->client->phone), $message);
+                // dump($message);
             });
 
         return 0;

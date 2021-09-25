@@ -51,6 +51,9 @@ class MobitechSmsGateway extends SmsGatewayContract
 
     public function status($message_id)
     {
+        if(env('SMS_TEST')){
+            return [];
+        }
         $endpoint = 'api/sms_delivery_status';
 
         $data = json_encode([

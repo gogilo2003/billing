@@ -28,10 +28,11 @@ class Kernel extends ConsoleKernel
             ->sendOutputTo(storage_path('schedule.txt'));
 
         $schedule->command('client:notification')
-            ->everyMinute();
+            ->everyMinute()
+            ->between('8:00', '17:00');
 
         $schedule->command('domain:notification')
-            ->everyMinute();
+            ->dailyAt('10:45');
     }
 
     /**
