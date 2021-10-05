@@ -137,7 +137,7 @@ class DomainController extends Controller
     public function import(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'csv' => 'required|file',
+            'csv_file' => 'required|file|mimes:csv,txt',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -147,7 +147,7 @@ class DomainController extends Controller
             ], 415);
         }
 
-        $csv = \League\Csv\Reader::createFromPath($request->csv->getRealPath(), 'r');
+        $csv = \League\Csv\Reader::createFromPath($request->csv_file->getRealPath(), 'r');
         $csv->setHeaderOffset(0);
         $records = \League\Csv\Statement::create()->process($csv);
 

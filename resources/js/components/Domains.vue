@@ -14,12 +14,16 @@
           >
             <!-- Button trigger modal -->
             <label
-              class="btn btn-dark btn-sm"
-              data-toggle="modal"
-              data-target="#domanisModalDialog"
+              class="btn btn-success btn-sm"
               @click="newDomain"
             >
               NEW
+            </label>
+            <label
+              class="btn btn-dark btn-sm"
+              @click="importDomains"
+            >
+              IMPORT
             </label>
             <div class="btn-group btn-group-toggle">
               <label
@@ -203,13 +207,15 @@
         </div>
       </div>
     </div>
-    <!-- Modal -->
+    <!-- Modals -->
     <domain :domain="selectedDomain" :edit.sync="edit"></domain>
+    <import/>
   </div>
 </template>
 <script>
 import mixins from "../mixins/mixins";
 import Domain from "./Domain.vue";
+import Import from "./Import.vue";
 export default {
   data() {
     return {
@@ -236,6 +242,7 @@ export default {
   mixins: [mixins],
   components: {
     Domain,
+    Import
   },
   methods: {
     setNotify(id) {
@@ -256,6 +263,9 @@ export default {
           console.log(error);
         });
     },
+    importDomains(){
+        $('#importModalDialog').modal('show')
+    },
     newDomain() {
       this.selectedDomain = {
         domain: null,
@@ -266,6 +276,7 @@ export default {
         client_id: null,
       };
       this.edit = false;
+      $('#domanisModalDialog').modal('show')
     },
     editDomain(domain) {
       this.edit = true;
@@ -296,3 +307,18 @@ export default {
   },
 };
 </script>
+<style>
+.modal-open .modal.show{
+    display: flex !important;
+}
+.modal.show .modal-dialog {
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0);
+    align-self: center;
+    width: 500px;
+}
+.alert span ol {
+    padding-left: 0;
+    margin-left: 1rem;
+}
+</style>
