@@ -1,9 +1,6 @@
 <?php
 
-use App\Models\Client;
-use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use App\Models\ProductCategory;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ClientController;
