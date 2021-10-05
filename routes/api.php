@@ -1,14 +1,16 @@
 <?php
 
-use App\Http\Controllers\Api\AccountController;
-use App\Http\Controllers\Api\ClientController;
-use App\Http\Controllers\Api\DomainController;
 use App\Models\Client;
 use App\Models\Product;
-use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use App\Models\ProductCategory;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\ClientController;
+use App\Http\Controllers\Api\DomainController;
+use App\Http\Controllers\Api\AccountController;
+use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\ProductCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,21 +43,6 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         return response()->json(compact('success', 'categories'));
     });
 
-    Route::get('products', function () {
-        $products = Product::with('product_category')->orderBy('products.name', 'ASC')->get();
-        $data = $products->map(function ($product) {
-            return [
-                'id' => $product->id,
-                'category' => $product->product_category ? $product->product_category->name : null,
-                'name' => $product->name,
-                'price' => $product->price,
-            ];
-        });
-        $success = true;
-
-        return response()->json(compact('data'));
-    });
-
     Route::group(['as' => 'api-accounts-', 'prefix' => 'accounts'], function () {
         Route::group(['as' => 'notification-', 'prefix' => 'notification'], function () {
             Route::post('update', [AccountController::class, 'updateNotification'])->name('update');
@@ -72,7 +59,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     });
 
     Route::group(['as' => 'api-domains', 'prefix' => 'domains'], function () {
-        Route::get('{status?}', [DomainController::class, 'index']);
+        Route::get('/{status?}', [DomainController::class, 'index']);
         Route::post('', [DomainController::class, 'store'])->name('-create');
         Route::patch('', [DomainController::class, 'update'])->name('-update');
         Route::delete('', [DomainController::class, 'destroy'])->name('-delete');
@@ -81,12 +68,28 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::post('notify', [DomainController::class, 'notify'])->name('-notify');
     });
 
-    Route::get('test', function () {
-        // $client = Client::find(2);
-        $d1 = now();
-        $d2 = new Carbon('2021-08-04T02:20:48.144610Z');
-        $diff = $d1->diffInSeconds($d2);
+    Route::group(['as' => 'api-products', 'prefix' => 'products'], function () {
+        Route::get('/{id?}', [ProductController::class, 'index']);
+        Route::post('', [ProductController::class, 'store'])->name('-create');
+        Route::patch('', [ProductController::class, 'update'])->name('-update');
+        Route::delete('', [ProductController::class, 'destroy'])->name('-delete');
+        Route::post('import', [ProductController::class, 'import'])->name('-import');
+    });
 
-        return response()->json([compact('d1', 'd2'), 'data' => $diff]);
-    })->name('test');
+    Route::group(['as' => 'api-product-categories', 'prefix' => 'product-categories'], function () {
+        Route::get('/{id?}', [ProductCategoryController::class, 'index']);
+        Route::post('', [ProductCategoryController::class, 'store'])->name('-create');
+        Route::patch('', [ProductCategoryController::class, 'update'])->name('-update');
+        Route::delete('', [ProductCategoryController::class, 'destroy'])->name('-delete');
+        Route::post('import', [ProductCategoryController::class, 'import'])->name('-import');
+    });
+
+    // Route::get('test', function () {
+    //     // $client = Client::find(2);
+    //     $d1 = now();
+    //     $d2 = new Carbon('2021-08-04T02:20:48.144610Z');
+    //     $diff = $d1->diffInSeconds($d2);
+
+    //     return response()->json([compact('d1', 'd2'), 'data' => $diff]);
+    // })->name('test');
 });

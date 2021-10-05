@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProvisionsTable extends Migration
+class AlterTableProductsAddColumnDescription extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class CreateProvisionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('provisions', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('products', function (Blueprint $table) {
+            $table->mediumText('description')->nullable();
         });
     }
 
@@ -26,6 +25,8 @@ class CreateProvisionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('provisions');
+        Schema::table('products', function (Blueprint $table) {
+            $table->dropColumn('description');
+        });
     }
 }
