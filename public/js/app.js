@@ -2618,8 +2618,7 @@ __webpack_require__.r(__webpack_exports__);
         id: id
       }).then(function (response) {
         $.notify({
-          message: response.data.message,
-          title: "Some title"
+          message: response.data.message
         }, {
           type: "success"
         });

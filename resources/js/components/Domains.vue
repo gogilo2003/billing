@@ -252,7 +252,6 @@ export default {
           $.notify(
             {
               message: response.data.message,
-              title: "Some title",
             },
             {
               type: "success",
