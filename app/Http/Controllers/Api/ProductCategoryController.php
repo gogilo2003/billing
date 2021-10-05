@@ -84,11 +84,7 @@ class ProductCategoryController extends Controller
             'csv_file' => 'required|file|mimes:csv,txt',
         ]);
         if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Validation Error',
-                'details' => $validator->errors(),
-            ], 415);
+            return $this->validationError($validator);
         }
 
         $csv = \League\Csv\Reader::createFromPath($request->csv_file->getRealPath(), 'r');
