@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
 Route::group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'], function () {
     Route::get('/', ['as' => 'welcome', 'uses' => 'HomeController@index']);
     Route::get('/profile', ['as' => 'profile', 'uses' => 'HomeController@showProfile']);
@@ -75,6 +78,10 @@ Route::group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'], fu
         Route::get('', ['as' => '', 'uses' => 'SetupController@getSetup']);
         Route::post('migrate', ['as' => '-migrate', 'uses' => 'SetupController@postMigrate']);
     });
+
+    Route::get('/products', function () {
+        return view('products.index');
+    })->name('products');
 
     Route::get('/domains', function () {
         return view('domains.index');

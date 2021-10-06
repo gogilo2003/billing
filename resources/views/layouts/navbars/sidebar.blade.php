@@ -113,6 +113,13 @@
                 </div>
             </li>
 
+            <li @if ($pageSlug == 'products') class="active " @endif>
+                <a href="{{ route('products') }}">
+                    <i class="tim-icons icon-bag-16"></i>
+                    <p>{{ _('Products') }}</p>
+                </a>
+            </li>
+
             <li @if ($pageSlug == 'domains') class="active " @endif>
                 <a href="{{ route('domains') }}">
                     <i class="tim-icons icon-world"></i>
