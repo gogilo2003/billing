@@ -55,11 +55,20 @@
 						<td class="text-right" colspan="4" style="font-weight:bold;">
 							TOTAL
 						</td>
-						<td style="font-weight: bold; font-size: 1.1em" class="text-right">KES {{ number_format($invoice->amount(),2) }}</td>
+						<td style="font-weight: bold; font-size: 1.1em; border-bottom: 1px double #333" class="text-right">KES {{ number_format($invoice->amount(),2) }}</td>
 					</tr>
 				</tfoot>
 			</table>
 			<div class="invoice-footer">
+				<h4 class="text-uppercase">MPESA</h4>
+                <ol>
+                <li>Go to Lipa Na M-PESA</li>
+                <li>Select Buy Goods</li>
+                <li>Enter the Till Number <strong>{{ config('app.mpesa.buy_goods') }}</strong></li>
+                <li>Enter the amount (Kshs {{ number_format($invoice->amount(),2) }})</li>
+                <li>Enter Your PIN and confirm sending to <strong>MICARTECH LTD</strong></li>
+                </ol>
+                <h4 class="text-uppercase">Cheque Payment</h4>
 				<p class="category">Make all cheques payable to {{ config("app.name") }}.
 				<br>All prices inclusive of {{ config("app.vat") }} VAT</p>
 			</div>
@@ -76,5 +85,8 @@
 		.card .card-footer{
 		    font-size: 11px;
 		}
+        .text-uppercase{
+            text-transform: uppercase;
+        }
 	</style>
 @endpush
