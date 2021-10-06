@@ -53,7 +53,7 @@ class ProductController extends Controller
         $product->description = $request->description;
         $product->save();
 
-        $product->load('product_category');
+        $product->load('category');
 
         return $this->storeSuccess('Product Created', ['product' => new ProductResource($product)]);
     }
@@ -81,7 +81,7 @@ class ProductController extends Controller
         $product->description = $request->description;
         $product->save();
 
-        $product->load('product_category');
+        $product->load('category');
 
         return $this->updateSuccess('Product Updated', ['product' => new ProductResource($product)]);
     }
@@ -120,6 +120,7 @@ class ProductController extends Controller
         $records = \League\Csv\Statement::create()->process($csv);
 
         foreach ($records->getRecords() as $key => $record) {
+            // die(var_export($record['description'],true));
             $product = new Product();
             $product->name = $record['name'];
             $product->code = $record['code'];
