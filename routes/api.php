@@ -63,6 +63,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::post('status', [DomainController::class, 'status'])->name('-status');
         Route::post('import', [DomainController::class, 'import'])->name('-import');
         Route::post('notify', [DomainController::class, 'notify'])->name('-notify');
+        Route::post('renew', [DomainController::class, 'renew'])->name('-renew');
     });
 
     Route::group(['as' => 'api-products', 'prefix' => 'products'], function () {

@@ -2578,6 +2578,165 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2627,7 +2786,20 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     importDomains: function importDomains() {
-      $('#importModalDialog').modal('show');
+      $("#importModalDialog").modal("show");
+    },
+    renewDomain: function renewDomain(id) {
+      var _this = this;
+
+      axios.post("/api/domains/renew", {
+        id: id
+      }).then(function (response) {
+        if (response.data.success) {
+          _this.getDomains();
+        }
+      })["catch"](function (error) {
+        console.log(error.message);
+      });
     },
     newDomain: function newDomain() {
       this.selectedDomain = {
@@ -2639,7 +2811,7 @@ __webpack_require__.r(__webpack_exports__);
         client_id: null
       };
       this.edit = false;
-      $('#domanisModalDialog').modal('show');
+      $("#domanisModalDialog").modal("show");
     },
     editDomain: function editDomain(domain) {
       this.edit = true;
@@ -2647,27 +2819,27 @@ __webpack_require__.r(__webpack_exports__);
       $("#domanisModalDialog").modal("show");
     },
     nextActivePage: function nextActivePage(url) {
-      var _this = this;
-
-      axios.get(url).then(function (response) {
-        _this.active = response.data;
-      });
-    },
-    nextExpiredPage: function nextExpiredPage(url) {
       var _this2 = this;
 
       axios.get(url).then(function (response) {
         _this2.active = response.data;
       });
     },
-    getDomains: function getDomains() {
+    nextExpiredPage: function nextExpiredPage(url) {
       var _this3 = this;
 
-      axios.get("/api/domains/active").then(function (response) {
+      axios.get(url).then(function (response) {
         _this3.active = response.data;
       });
+    },
+    getDomains: function getDomains() {
+      var _this4 = this;
+
+      axios.get("/api/domains/active").then(function (response) {
+        _this4.active = response.data;
+      });
       axios.get("/api/domains/expired").then(function (response) {
-        _this3.expired = response.data;
+        _this4.expired = response.data;
       });
     }
   },
@@ -7897,7 +8069,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.modal-open .modal.show{\n    display: flex !important;\n}\n.modal.show .modal-dialog {\n    transform: translate(0, 0);\n    align-self: center;\n    width: 500px;\n}\n.alert span ol {\n    padding-left: 0;\n    margin-left: 1rem;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.modal-open .modal.show {\n    display: flex !important;\n}\n.modal.show .modal-dialog {\n    transform: translate(0, 0);\n    align-self: center;\n    width: 500px;\n}\n.alert span ol {\n    padding-left: 0;\n    margin-left: 1rem;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -40718,7 +40890,9 @@ var render = function() {
               _vm._v(" "),
               _vm.isActive
                 ? _c("h5", { staticClass: "card-title" }, [
-                    _vm._v("Active Domains")
+                    _vm._v(
+                      "\n                        Active Domains\n                    "
+                    )
                   ])
                 : _c("h5", { staticClass: "card-title" }, [
                     _vm._v("Expired Domains")
@@ -40741,7 +40915,11 @@ var render = function() {
                     staticClass: "btn btn-success btn-sm",
                     on: { click: _vm.newDomain }
                   },
-                  [_vm._v("\n            NEW\n          ")]
+                  [
+                    _vm._v(
+                      "\n                        NEW\n                    "
+                    )
+                  ]
                 ),
                 _vm._v(" "),
                 _c(
@@ -40750,7 +40928,11 @@ var render = function() {
                     staticClass: "btn btn-dark btn-sm",
                     on: { click: _vm.importDomains }
                   },
-                  [_vm._v("\n            IMPORT\n          ")]
+                  [
+                    _vm._v(
+                      "\n                        IMPORT\n                    "
+                    )
+                  ]
                 ),
                 _vm._v(" "),
                 _c("div", { staticClass: "btn-group btn-group-toggle" }, [
@@ -40935,6 +41117,23 @@ var render = function() {
                                 staticClass: "btn btn-link",
                                 on: {
                                   click: function($event) {
+                                    return _vm.renewDomain(domain.id)
+                                  }
+                                }
+                              },
+                              [
+                                _c("span", {
+                                  staticClass: "tim-icons icon-refresh-01"
+                                })
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-link",
+                                on: {
+                                  click: function($event) {
                                     return _vm.editDomain(domain)
                                   }
                                 }
@@ -40956,7 +41155,7 @@ var render = function() {
                               "button",
                               {
                                 staticClass:
-                                  "btn btn-sm btn-primary btn-simple",
+                                  "\n                                            btn\n                                            btn-sm\n                                            btn-primary\n                                            btn-simple\n                                        ",
                                 staticStyle: { cursor: "pointer" },
                                 attrs: {
                                   disabled:
@@ -40973,7 +41172,8 @@ var render = function() {
                               },
                               [
                                 _c("span", {
-                                  staticClass: "tim-icons icon-double-left"
+                                  staticClass:
+                                    "\n                                                tim-icons\n                                                icon-double-left\n                                            "
                                 })
                               ]
                             ),
@@ -40982,7 +41182,7 @@ var render = function() {
                               "button",
                               {
                                 staticClass:
-                                  "btn btn-sm btn-primary btn-simple",
+                                  "\n                                            btn\n                                            btn-sm\n                                            btn-primary\n                                            btn-simple\n                                        ",
                                 staticStyle: { cursor: "pointer" },
                                 attrs: {
                                   disabled: _vm.active.links.prev == null
@@ -40997,7 +41197,8 @@ var render = function() {
                               },
                               [
                                 _c("span", {
-                                  staticClass: "tim-icons icon-minimal-left"
+                                  staticClass:
+                                    "\n                                                tim-icons\n                                                icon-minimal-left\n                                            "
                                 })
                               ]
                             ),
@@ -41006,7 +41207,7 @@ var render = function() {
                               "button",
                               {
                                 staticClass:
-                                  "btn btn-sm btn-primary btn-simple",
+                                  "\n                                            btn\n                                            btn-sm\n                                            btn-primary\n                                            btn-simple\n                                        ",
                                 staticStyle: { cursor: "pointer" },
                                 attrs: {
                                   disabled: _vm.active.links.next == null
@@ -41021,7 +41222,8 @@ var render = function() {
                               },
                               [
                                 _c("span", {
-                                  staticClass: "tim-icons icon-minimal-right"
+                                  staticClass:
+                                    "\n                                                tim-icons\n                                                icon-minimal-right\n                                            "
                                 })
                               ]
                             ),
@@ -41030,7 +41232,7 @@ var render = function() {
                               "button",
                               {
                                 staticClass:
-                                  "btn btn-sm btn-primary btn-simple",
+                                  "\n                                            btn\n                                            btn-sm\n                                            btn-primary\n                                            btn-simple\n                                        ",
                                 staticStyle: { cursor: "pointer" },
                                 attrs: {
                                   disabled:
@@ -41048,7 +41250,8 @@ var render = function() {
                               },
                               [
                                 _c("span", {
-                                  staticClass: "tim-icons icon-double-right"
+                                  staticClass:
+                                    "\n                                                tim-icons\n                                                icon-double-right\n                                            "
                                 })
                               ]
                             )
@@ -41145,6 +41348,23 @@ var render = function() {
                                 staticClass: "btn btn-link",
                                 on: {
                                   click: function($event) {
+                                    return _vm.renewDomain(domain.id)
+                                  }
+                                }
+                              },
+                              [
+                                _c("span", {
+                                  staticClass: "tim-icons icon-refresh-01"
+                                })
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-link",
+                                on: {
+                                  click: function($event) {
                                     return _vm.editDomain(domain)
                                   }
                                 }
@@ -41166,7 +41386,7 @@ var render = function() {
                               "button",
                               {
                                 staticClass:
-                                  "btn btn-sm btn-primary btn-simple",
+                                  "\n                                            btn\n                                            btn-sm\n                                            btn-primary\n                                            btn-simple\n                                        ",
                                 staticStyle: { cursor: "pointer" },
                                 attrs: {
                                   disabled:
@@ -41183,7 +41403,8 @@ var render = function() {
                               },
                               [
                                 _c("span", {
-                                  staticClass: "tim-icons icon-double-left"
+                                  staticClass:
+                                    "\n                                                tim-icons\n                                                icon-double-left\n                                            "
                                 })
                               ]
                             ),
@@ -41192,7 +41413,7 @@ var render = function() {
                               "button",
                               {
                                 staticClass:
-                                  "btn btn-sm btn-primary btn-simple",
+                                  "\n                                            btn\n                                            btn-sm\n                                            btn-primary\n                                            btn-simple\n                                        ",
                                 staticStyle: { cursor: "pointer" },
                                 attrs: {
                                   disabled: _vm.expired.links.prev == null
@@ -41207,7 +41428,8 @@ var render = function() {
                               },
                               [
                                 _c("span", {
-                                  staticClass: "tim-icons icon-minimal-left"
+                                  staticClass:
+                                    "\n                                                tim-icons\n                                                icon-minimal-left\n                                            "
                                 })
                               ]
                             ),
@@ -41216,7 +41438,7 @@ var render = function() {
                               "button",
                               {
                                 staticClass:
-                                  "btn btn-sm btn-primary btn-simple",
+                                  "\n                                            btn\n                                            btn-sm\n                                            btn-primary\n                                            btn-simple\n                                        ",
                                 staticStyle: { cursor: "pointer" },
                                 attrs: {
                                   disabled: _vm.expired.links.next == null
@@ -41231,7 +41453,8 @@ var render = function() {
                               },
                               [
                                 _c("span", {
-                                  staticClass: "tim-icons icon-minimal-right"
+                                  staticClass:
+                                    "\n                                                tim-icons\n                                                icon-minimal-right\n                                            "
                                 })
                               ]
                             ),
@@ -41240,7 +41463,7 @@ var render = function() {
                               "button",
                               {
                                 staticClass:
-                                  "btn btn-sm btn-primary btn-simple",
+                                  "\n                                            btn\n                                            btn-sm\n                                            btn-primary\n                                            btn-simple\n                                        ",
                                 staticStyle: { cursor: "pointer" },
                                 attrs: {
                                   disabled:
@@ -41258,7 +41481,8 @@ var render = function() {
                               },
                               [
                                 _c("span", {
-                                  staticClass: "tim-icons icon-double-right"
+                                  staticClass:
+                                    "\n                                                tim-icons\n                                                icon-double-right\n                                            "
                                 })
                               ]
                             )

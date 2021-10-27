@@ -6,11 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\DomainCollection;
 use App\Models\Client;
 use App\Models\Domain;
+use DateInterval;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Ogilo\ApiResponseHelpers;
 
 class DomainController extends Controller
 {
+    use ApiResponseHelpers;
     /**
      * Display a listing of the resource.
      *
@@ -20,20 +23,20 @@ class DomainController extends Controller
     {
         if ($status == 'active') {
             $active = Domain::where('expires_on', '>=', now())
-                    ->orderBy('expires_on', 'ASC')
-                    ->paginate(5);
+                ->orderBy('expires_on', 'ASC')
+                ->paginate(5);
 
             return new DomainCollection($active);
         }
         if ($status == 'expired') {
             $expired = Domain::where('expires_on', '<', now())
-                    ->orderBy('expires_on', 'DESC')->paginate(5);
+                ->orderBy('expires_on', 'DESC')->paginate(5);
 
             return new DomainCollection($expired);
         }
         $domains = Domain::where('expires_on', '>=', now())
-                    ->orderBy('expires_on', 'ASC')
-                    ->paginate(5);
+            ->orderBy('expires_on', 'ASC')
+            ->paginate(5);
 
         return new DomainCollection($domains);
     }
@@ -52,11 +55,7 @@ class DomainController extends Controller
             'client_id' => 'required|exists:clients,id',
         ]);
         if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Validation Error',
-                'details' => $validator->errors(),
-            ], 415);
+            return $this->validationError($validator);
         }
         $domain = new Domain();
         $domain->domain = $request->domain;
@@ -87,17 +86,13 @@ class DomainController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'id' => 'required|integer|exists:domains',
-            'domain' => 'required|unique:domains,domain,'.$request->id,
+            'domain' => 'required|unique:domains,domain,' . $request->id,
             'registered_on' => 'required|date',
             'expires_on' => 'required|date',
             'client_id' => 'required|exists:clients,id',
         ]);
         if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Validation Error',
-                'details' => $validator->errors(),
-            ], 415);
+            return $this->validationError($validator);
         }
 
         $domain = Domain::find($request->id);
@@ -140,11 +135,7 @@ class DomainController extends Controller
             'csv_file' => 'required|file|mimes:csv,txt',
         ]);
         if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Validation Error',
-                'details' => $validator->errors(),
-            ], 415);
+            return $this->validationError($validator);
         }
 
         $csv = \League\Csv\Reader::createFromPath($request->csv_file->getRealPath(), 'r');
@@ -172,7 +163,7 @@ class DomainController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => count($records).' Domains Imported',
+            'message' => count($records) . ' Domains Imported',
             'domains' => Domain::all(),
         ]);
     }
@@ -186,11 +177,7 @@ class DomainController extends Controller
             'id' => 'required|integer|exists:domains',
         ]);
         if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Validation Error',
-                'details' => $validator->errors(),
-            ], 415);
+            return $this->validationError($validator);
         }
 
         $domain = Domain::find($request->id);
@@ -199,8 +186,24 @@ class DomainController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Notification '.($domain->notify ? 'enabled' : 'disabled').' for ('.$domain->domain.')',
+            'message' => 'Notification ' . ($domain->notify ? 'enabled' : 'disabled') . ' for (' . $domain->domain . ')',
             'domain' => $domain,
         ]);
+    }
+
+    public function renew(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|integer|exists:domains,id'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->validationError($validator);
+        }
+        $domain = Domain::find($request->id);
+        $domain->expires_on = date_create($domain->expires_on)->add(DateInterval::createFromDateString('1 year'));
+        $domain->save();
+
+        return $this->respondWithSuccess('Domain Renewed ' . $domain->domain . ' to ' . $domain->expires_on->format('j-M-Y'));
     }
 }
