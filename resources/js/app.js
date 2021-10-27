@@ -21,6 +21,7 @@ window.Vue = require('vue').default;
 
 // Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('domains', require('./components/Domains.vue').default);
+Vue.component('products', require('./components/Products.vue').default);
 Vue.component('import', require('./components/Import.vue').default);
 
 /**
