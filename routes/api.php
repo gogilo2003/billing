@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ClientController;
 use App\Http\Controllers\Api\DomainController;
 use App\Http\Controllers\Api\AccountController;
+use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ProductCategoryController;
 
@@ -90,4 +91,12 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
     //     return response()->json([compact('d1', 'd2'), 'data' => $diff]);
     // })->name('test');
+
+    Route::prefix('invoices')->group(function(){
+        Route::get('',[InvoiceController::class,'index']);
+        Route::get('/show/{id}',[InvoiceController::class,'show']);
+        Route::post('',[InvoiceController::class,'create']);
+        Route::patch('',[InvoiceController::class,'update']);
+        Route::delete('',[InvoiceController::class,'destroy']);
+    });
 });

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Models\ProductCategory;
-use App\Support\ApiResponseHelpers;
+use Ogilo\ApiResponseHelpers;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\ProductCategoryResource;
