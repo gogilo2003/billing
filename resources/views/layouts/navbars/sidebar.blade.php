@@ -63,13 +63,13 @@
                 </div>
             </li>
 
+{{--
             <li>
                 <a data-toggle="collapse" href="#navbar-invoices" aria-expanded="false">
                     <i class="tim-icons icon-paper" ></i>
                     <span class="nav-link-text" >{{ __('Invoices') }}</span>
                     <b class="caret mt-1"></b>
                 </a>
-
                 <div class="collapse" id="navbar-invoices">
                     <ul class="nav pl-4">
                         <li @if ($pageSlug == 'invoices') class="active " @endif>
@@ -87,7 +87,13 @@
                     </ul>
                 </div>
             </li>
-
+             --}}
+            <li @if ($pageSlug == 'invoices') class="active " @endif>
+                <a href="{{ route('invoices') }}">
+                    <i class="tim-icons icon-bag-16"></i>
+                    <p>{{ _('Invoices') }}</p>
+                </a>
+            </li>
             <li>
                 <a data-toggle="collapse" href="#navbar-messages" aria-expanded="false">
                     <i class="tim-icons icon-chat-33" ></i>

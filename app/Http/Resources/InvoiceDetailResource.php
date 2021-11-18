@@ -16,11 +16,11 @@ class InvoiceDetailResource extends JsonResource
     {
         // return parent::toArray($request);
         return [
-            'id'=>$this->id,
-            'particulars'=>$this->particulars,
-            'quantity'=>$this->quantity,
-            'price'=>$this->price,
-            'amount'=>$this->price * $this->quantity,
+            'id' => $this->id,
+            'particulars' => $this->particulars,
+            'quantity' => $this->quantity,
+            'price' => $this->price,
+            'amount' => number_format($this->price * $this->quantity, 2),
         ];
     }
 }

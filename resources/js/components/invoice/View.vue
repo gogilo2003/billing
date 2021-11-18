@@ -1,0 +1,167 @@
+<template>
+    <div
+        class="modal fade"
+        id="invoiceViewModalDialog"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="modelTitleId"
+        aria-hidden="true"
+    >
+        <div
+            class="modal-dialog modal-dialog-lg"
+            role="document"
+            style="min-width: 800px; max-width: 800px"
+        >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title text-uppercase">{{ title }}</h3>
+                </div>
+                <div class="modal-body">
+                    <h3 class="modal-title text-center text-uppercase">
+                        Invoice
+                    </h3>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <h4 class="text-uppercase text-info mb-1">
+                                Invoice For:
+                            </h4>
+                            <p>
+                                {{ invoice.client.name }},<br />
+                                {{ invoice.client.postal_address }},<br />
+                                {{ invoice.client.email }},
+                                {{ invoice.client.phone }}
+                            </p>
+                        </div>
+                        <div class="col-md-7">
+                            <h4 class="text-uppercase text-info mb-1">FOR:</h4>
+                            <p>{{ invoice.name }}</p>
+                        </div>
+                        <div class="col-md-12 mt-4">
+                            <table class="table table-bordered">
+                                <thead class="bg-secondary">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>PARTICULARS</th>
+                                        <th>PRICE</th>
+                                        <th>QUANTITY</th>
+                                        <th>AMOUNT</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        v-for="(item, i) in invoice.items"
+                                        :key="i"
+                                    >
+                                        <td>{{ i + 1 }}</td>
+                                        <td>{{ item.particulars }}</td>
+                                        <td class="text-right">
+                                            {{ item.price }}
+                                        </td>
+                                        <td class="text-center">
+                                            {{ item.quantity }}
+                                        </td>
+                                        <td class="text-right">
+                                            {{ item.amount }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot class="bg-secondary">
+                                    <tr>
+                                        <td class="text-right" colspan="4">
+                                            TOTAL
+                                        </td>
+                                        <td class="text-right">
+                                            {{ invoice.amount }}
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn btn-secondary btn-round"
+                        data-dismiss="modal"
+                    >
+                        Close
+                    </button>
+                    <a
+                        :href="`/invoices/download/${invoice.id}`"
+                        class="btn btn-primary btn-round"
+                    >
+                        Download
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+    props: {
+        invoice: {
+            type: Object,
+            default: {
+                id: null,
+                name: null,
+                created_at: null,
+                amount: null,
+                client: {
+                    id: null,
+                    name: "",
+                    phone: "",
+                    email: "",
+                    postal_address: "",
+                },
+                items: [],
+            },
+            required: true,
+        },
+    },
+    data() {
+        return {
+            selectedInvoice: {
+                id: null,
+                name: null,
+                created_at: null,
+                amount: null,
+                client: {
+                    id: null,
+                    name: "",
+                    phone: "",
+                    email: "",
+                    postal_address: "",
+                },
+                items: [],
+            },
+            title: "View Invoice",
+        };
+    },
+    methods: {},
+    mounted() {},
+    watch: {
+        invoice(val) {
+            this.selectedInvoice = val;
+        },
+    },
+};
+</script>
+<style lang="scss">
+.bg-secondary {
+    background-image: linear-gradient(
+        to bottom left,
+        #344675,
+        #263148,
+        #344675
+    );
+    color: rgba(255, 255, 255, 0.7);
+    tr {
+        th {
+            color: rgba(255, 255, 255, 0.7) !important;
+        }
+    }
+}
+</style>

@@ -17,17 +17,19 @@ class InvoiceResource extends JsonResource
     {
         // return parent::toArray($request);
         $items = $this->relationLoaded('items') ? InvoiceDetailResource::collection($this->items) : null;
-        $client = $this->relationLoaded('client') ? new ClientResource($this->client) : $this->client_id;
         $amount = 0.00;
-        foreach($items as $item){
+
+        foreach ($this->items as $item) {
             $amount += ($item->quantity * $item->price);
         };
+
+        $client = $this->relationLoaded('client') ? new ClientResource($this->client) : $this->client_id;
 
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'amount' => $amount,
-            'created_at' => $this->created_at,
+            'amount' => number_format($amount, 2),
+            'created_at' => $this->created_at->format('D, j-M-Y'),
             'client' => $client,
             'items' => $items,
         ];

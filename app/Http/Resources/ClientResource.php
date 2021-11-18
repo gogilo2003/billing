@@ -16,10 +16,12 @@ class ClientResource extends JsonResource
     {
         // return parent::toArray($request);
         return [
-            'id'=>$this->id,
-            'name'=>$this->name,
-            'phone'=>$this->phone,
-            'email'=>$this->email,
+            'id' => $this->id,
+            'name' => $this->name,
+            'phone' => clean_isdns($this->phone),
+            'email' => $this->email,
+            'postal_address' => 'P.O. Box ' . $this->box_no . '-' . $this->post_code . ', ' . $this->town,
+            'address' => $this->address,
         ];
     }
 }

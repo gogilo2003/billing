@@ -446,12 +446,12 @@ export default {
                 client_id: null,
             };
             this.edit = false;
-            $("#domanisModalDialog").modal("show");
+            $("#domainsModalDialog").modal("show");
         },
         editDomain(domain) {
             this.edit = true;
             this.selectedDomain = domain;
-            $("#domanisModalDialog").modal("show");
+            $("#domainsModalDialog").modal("show");
         },
         nextActivePage(url) {
             axios.get(url).then((response) => {

@@ -19,7 +19,7 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        $invoices = Invoice::orderBy('created_at','DESC')->get();
+        $invoices = Invoice::with('client', 'items')->orderBy('created_at', 'DESC')->paginate(5);
         return InvoiceResource::collection($invoices);
     }
 
@@ -42,12 +42,12 @@ class InvoiceController extends Controller
      */
     public function show($id)
     {
-        $validator = Validator::make(['id'=>$id],['id'=>'required|exists:invoices']);
-        if($validator->fails()){
+        $validator = Validator::make(['id' => $id], ['id' => 'required|exists:invoices']);
+        if ($validator->fails()) {
             return $this->validationError($validator);
         }
 
-        return new InvoiceResource(Invoice::with('items','client')->find($id));
+        return new InvoiceResource(Invoice::with('items', 'client')->find($id));
     }
 
     /**

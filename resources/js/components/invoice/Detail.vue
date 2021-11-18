@@ -1,7 +1,7 @@
 <template>
     <div
         class="modal fade"
-        id="domainsModalDialog"
+        id="invoicesModalDialog"
         tabindex="-1"
         role="dialog"
         aria-labelledby="modelTitleId"
@@ -28,7 +28,7 @@
                                 class="form-control"
                                 name="clientInput"
                                 id="clientInput"
-                                v-model="selectedDomain.client_id"
+                                v-model="selectedInvoice.client_id"
                             >
                                 <option
                                     v-for="item in clients"
@@ -44,7 +44,7 @@
                                 class="form-control"
                                 name="statusInput"
                                 id="statusInput"
-                                v-model="selectedDomain.status"
+                                v-model="selectedInvoice.status"
                             >
                                 <option
                                     v-for="item in states"
@@ -55,21 +55,21 @@
                             </select>
                         </div>
                         <div class="form-group col-md-12">
-                            <label for="domainInput">Domain</label>
+                            <label for="invoiceInput">Invoice</label>
                             <input
                                 type="text"
                                 class="form-control"
-                                name="domainInput"
-                                id="domainInput"
+                                name="invoiceInput"
+                                id="invoiceInput"
                                 aria-describedby="helpId"
-                                placeholder="Domain"
-                                v-model="selectedDomain.domain"
+                                placeholder="Invoice"
+                                v-model="selectedInvoice.invoice"
                             />
                         </div>
                         <div class="form-group col-md-6">
                             <label for="registeredOnInput">Registered On</label>
                             <date-picker
-                                v-model="selectedDomain.registered_on"
+                                v-model="selectedInvoice.registered_on"
                                 style="width: 100%"
                                 placeholder="Expires On"
                                 :input-attr="{
@@ -84,7 +84,7 @@
                         <div class="form-group col-md-6">
                             <label for="expiresOnInput">Expires On</label>
                             <date-picker
-                                v-model="selectedDomain.expires_on"
+                                v-model="selectedInvoice.expires_on"
                                 style="width: 100%"
                                 placeholder="Expires On"
                                 :input-attr="{
@@ -99,7 +99,7 @@
                         <div class="form-group col-md-12">
                             <label for="remarksInput">Remarks</label>
                             <textarea
-                                v-model="selectedDomain.remarks"
+                                v-model="selectedInvoice.remarks"
                                 class="form-control"
                                 name="remarksInput"
                                 id="remarksInput"
@@ -134,10 +134,10 @@ import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
 export default {
     props: {
-        domain: {
+        invoice: {
             type: Object,
             default: {
-                domain: null,
+                invoice: null,
                 registered_on: null,
                 expires_on: null,
                 remarks: null,
@@ -153,25 +153,20 @@ export default {
     },
     data() {
         return {
-            selectedDomain: {
-                domain: null,
+            selectedInvoice: {
+                invoice: null,
                 registered_on: null,
                 expires_on: null,
                 remarks: null,
                 status: null,
                 client_id: null,
             },
-            title: "Manage Domain",
+            title: "Manage Invoice",
             clients: [],
             states: [],
         };
     },
     methods: {
-        getStatus() {
-            axios.post("/api/domains/status").then((response) => {
-                this.states = response.data;
-            });
-        },
         getClients() {
             axios.get("/api/clients").then((response) => {
                 this.clients = response.data;
@@ -180,7 +175,7 @@ export default {
         save() {
             if (this.edit) {
                 axios
-                    .patch("/api/domains", this.selectedDomain)
+                    .patch("/api/invoices", this.selectedInvoice)
                     .then((response) => {
                         $.notify(
                             {
@@ -190,15 +185,15 @@ export default {
                                 type: "success",
                             }
                         );
-                        this.selectedDomain = {
-                            domain: null,
+                        this.selectedInvoice = {
+                            invoice: null,
                             registered_on: null,
                             expires_on: null,
                             remarks: null,
                             status: null,
                             client_id: null,
                         };
-                        $("#domainsModalDialog").modal("hide");
+                        $("#invoicesModalDialog").modal("hide");
                     })
                     .catch((error) => {
                         if (error.response.status == 415) {
@@ -224,7 +219,7 @@ export default {
                     });
             } else {
                 axios
-                    .post("/api/domains", this.selectedDomain)
+                    .post("/api/invoices", this.selectedInvoice)
                     .then((response) => {
                         $.notify(
                             {
@@ -234,16 +229,16 @@ export default {
                                 type: "success",
                             }
                         );
-                        this.selectedDomain = {
-                            domain: null,
+                        this.selectedInvoice = {
+                            invoice: null,
                             registered_on: null,
                             expires_on: null,
                             remarks: null,
                             status: null,
                             client_id: null,
                         };
-                        $("#domainsModalDialog").modal("hide");
-                        this.domains.unshift(response.data.domain);
+                        $("#invoicesModalDialog").modal("hide");
+                        this.invoices.unshift(response.data.invoice);
                     })
                     .catch((error) => {
                         if (error.response.status == 415) {
@@ -273,11 +268,10 @@ export default {
     },
     mounted() {
         this.getClients();
-        this.getStatus();
     },
     watch: {
-        domain(val) {
-            this.selectedDomain = val;
+        invoice(val) {
+            this.selectedInvoice = val;
         },
     },
     components: {
