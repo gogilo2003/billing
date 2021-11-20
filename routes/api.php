@@ -92,11 +92,11 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     //     return response()->json([compact('d1', 'd2'), 'data' => $diff]);
     // })->name('test');
 
-    Route::prefix('invoices')->group(function(){
-        Route::get('',[InvoiceController::class,'index']);
-        Route::get('/show/{id}',[InvoiceController::class,'show']);
-        Route::post('',[InvoiceController::class,'create']);
-        Route::patch('',[InvoiceController::class,'update']);
-        Route::delete('',[InvoiceController::class,'destroy']);
+    Route::prefix('invoices')->group(function () {
+        Route::get('', [InvoiceController::class, 'index']);
+        Route::get('/show/{id}', [InvoiceController::class, 'show']);
+        Route::post('', [InvoiceController::class, 'store']);
+        Route::patch('', [InvoiceController::class, 'update']);
+        Route::delete('', [InvoiceController::class, 'destroy']);
     });
 });

@@ -16,10 +16,10 @@ class AlterTableProductsAddColumnDescription extends Migration
         Schema::table('products', function (Blueprint $table) {
             // $table->mediumText('description')->nullable();
             // $table->dropForeign(['product_category_id']);
-            $table->foreign('product_category_id')
-                ->references('id')
-                ->on('product_categories')
-                ->onDelete('cascade');
+            // $table->foreign('product_category_id')
+            //     ->references('id')
+            //     ->on('product_categories')
+            //     ->onDelete('cascade');
         });
     }
 
