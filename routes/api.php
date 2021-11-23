@@ -42,6 +42,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     });
 
     Route::group(['as' => 'api-accounts-', 'prefix' => 'accounts'], function () {
+        Route::get('', [AccountController::class, 'index']);
         Route::group(['as' => 'notification-', 'prefix' => 'notification'], function () {
             Route::post('update', [AccountController::class, 'updateNotification'])->name('update');
             Route::get('show', [AccountController::class, 'showNotification'])->name('show');
@@ -54,6 +55,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
             Route::get('show', [ClientController::class, 'showNotification'])->name('show');
         });
         Route::get('', [ClientController::class, 'index'])->name('list');
+        Route::get('accounts', [ClientController::class, 'accounts']);
     });
 
     Route::group(['as' => 'api-domains', 'prefix' => 'domains'], function () {

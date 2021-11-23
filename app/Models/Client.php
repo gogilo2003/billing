@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Client extends Model
 {
@@ -11,12 +12,17 @@ class Client extends Model
 
     public function accounts()
     {
-    	return $this->hasMany(Account::class);
+        return $this->hasMany(Account::class);
     }
 
-    public function invoices()
+    /**
+     * Get all of the invoices for the Client
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function invoices(): HasManyThrough
     {
-    	return $this->hasMany(Invoice::class);
+        return $this->hasManyThrough(Invoice::class, Account::class);
     }
 
     public function cr()
@@ -37,13 +43,13 @@ class Client extends Model
         return $dr;
     }
 
-    public function balance($formated=true)
+    public function balance($formated = true)
     {
-    	$balance = 0;
-    	foreach ($this->accounts as $account) {
-    		$balance += $account->balance();
-    	}
-    	return $formated ? number_format($balance,2) : $balance;
+        $balance = 0;
+        foreach ($this->accounts as $account) {
+            $balance += $account->balance();
+        }
+        return $formated ? number_format($balance, 2) : $balance;
     }
 
     public function getBalanceAttribute()
@@ -62,7 +68,7 @@ class Client extends Model
             ->sortByDateDesc('latest_cr_date')
             ->pluck('latest_cr_date');
 
-        return $accounts[0];
+        return $accounts[0] ?? null;
     }
 
     public function getLatestDrDateAttribute()
@@ -71,7 +77,7 @@ class Client extends Model
             ->sortByDateDesc('latest_dr_date')
             ->pluck('latest_dr_date');
 
-        return $accounts[0];
+        return $accounts[0] ?? null;
     }
 
     public function getLatestTransactionDateAttribute()
@@ -80,7 +86,7 @@ class Client extends Model
             ->sortByDateDesc('latest_transaction_date')
             ->pluck('latest_transaction_date');
 
-        return $accounts[0];
+        return $accounts[0] ?? null;
     }
 
     /**
@@ -93,4 +99,13 @@ class Client extends Model
         return $this->hasMany(Domain::class);
     }
 
+    /**
+     * Get all of the transactions for the Client
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function transactions(): HasManyThrough
+    {
+        return $this->hasManyThrough(Transaction::class, Account::class);
+    }
 }

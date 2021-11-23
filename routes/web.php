@@ -40,7 +40,7 @@ Route::group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'], fu
     });
 
     Route::group(['as' => 'invoices', 'prefix' => 'invoices'], function () {
-        Route::get('list/{client_id?}', ['as' => '', 'uses' => 'InvoiceController@index']);
+        Route::get('', ['as' => '', 'uses' => 'InvoiceController@index']);
         Route::get('create/{client_id?}', ['as' => '-create', 'uses' => 'InvoiceController@getCreate']);
         Route::get('edit/{id}', ['as' => '-edit', 'uses' => 'InvoiceController@getEdit']);
         Route::get('view/{id}', ['as' => '-view', 'uses' => 'InvoiceController@getView']);

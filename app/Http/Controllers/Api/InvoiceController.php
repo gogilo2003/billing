@@ -23,7 +23,7 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        $invoices = Invoice::with('client', 'items')->orderBy('created_at', 'DESC')->paginate(5);
+        $invoices = Invoice::with('account.client', 'items')->orderBy('created_at', 'DESC')->paginate(5);
         return InvoiceResource::collection($invoices);
     }
 
@@ -35,17 +35,17 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        $account = Account::find($request->account);
+        $account = Account::with('client')->find($request->account_id);
         $client_id = $account->client_id;
         $validator = Validator::make($request->all(), [
-            'account' => 'required|integer|exists:accounts,id',
+            'account_id' => 'required|integer|exists:accounts,id',
             'name' => ['required', Rule::unique('invoices', 'name')->where(function ($query) use ($client_id) {
                 return $query->where('client_id', $client_id);
             })],
-            'details' => 'required|min:1',
-            'details.*.particulars' => 'required',
-            'details.*.price' => 'required|numeric',
-            'details.*.quantity' => 'required|integer',
+            'items' => 'required|min:1',
+            'items.*.particulars' => 'required',
+            'items.*.price' => 'required|numeric',
+            'items.*.quantity' => 'required|integer',
         ]);
 
         if ($validator->fails()) {
@@ -56,10 +56,11 @@ class InvoiceController extends Controller
 
         $invoice->name = $request->name;
         $invoice->client_id = $account->client_id;
+        $invoice->account_id = $account->id;
 
         $invoice->save();
 
-        foreach ($request->details as $detail) {
+        foreach ($request->items as $detail) {
 
             $item = new InvoiceDetail();
 
@@ -70,7 +71,7 @@ class InvoiceController extends Controller
             $invoice->items()->save($item);
         }
 
-        AccountController::transact($account, $invoice->name, 'DR', $invoice->amount());
+        AccountController::transact($account, $invoice->name, 'DR', $invoice->amount(), null, $invoice->id);
 
         $invoice->load('items');
 
@@ -101,36 +102,34 @@ class InvoiceController extends Controller
      */
     public function update(Request $request)
     {
-        $account = Account::find($request->account);
+        $account = Account::find($request->account_id);
         $client_id = $account->client_id;
         $validator = Validator::make($request->all(), [
             'id' => 'required|integer|exists:invoices,id',
-            'account' => 'required|integer|exists:accounts,id',
-            'name' => ['required', Rule::unique('invoices', 'name')->where(function ($query) use ($client_id) {
-                return $query->where('client_id', $client_id);
+            'account_id' => 'required|integer|exists:accounts,id',
+            'name' => ['required', Rule::unique('invoices', 'name')->where(function ($query) use ($account) {
+                return $query->where('account_id', $account->id);
             })->ignore($request->id)],
-            'details' => 'required|min:1',
-            'details.*.id' => 'nullable|integer|exists:invoice_details,id',
-            'details.*.particulars' => 'required',
-            'details.*.price' => 'required|numeric',
-            'details.*.quantity' => 'required|integer',
+            'items' => 'required|min:1',
+            'items.*.id' => 'nullable|integer|exists:invoice_details,id',
+            'items.*.particulars' => 'required',
+            'items.*.price' => 'required|numeric',
+            'items.*.quantity' => 'required|integer',
         ]);
 
         if ($validator->fails()) {
             return $this->validationError($validator);
         }
 
-        $account = Account::find($request->account);
-
         $invoice = Invoice::find($request->id);
-        $old_name = $invoice->name;
 
         $invoice->name = $request->name;
         $invoice->client_id = $account->client_id;
+        $invoice->account_id = $account->id;
 
         $invoice->save();
 
-        foreach ($request->details as $detail) {
+        foreach ($request->items as $detail) {
             $item = null;
             if (isset($detail['id'])) {
                 $item = InvoiceDetail::find($detail['id']);
@@ -145,11 +144,11 @@ class InvoiceController extends Controller
             $invoice->items()->save($item);
         }
 
-        AccountController::transact($account, $invoice->name, 'DR', $invoice->amount());
+        AccountController::transact($account, $invoice->name, 'DR', $invoice->amount(), $invoice->id);
 
         $invoice->load('items');
 
-        return $this->storeSuccess('Invoice Stored', ['invoice' => new InvoiceResource($invoice)]);
+        return $this->storeSuccess('Invoice Updated', ['invoice' => new InvoiceResource($invoice)]);
     }
 
     /**
@@ -166,6 +165,16 @@ class InvoiceController extends Controller
             return $this->validationError($validator);
         }
 
-        $invoice = Invoice::with();
+        $invoice = Invoice::with('items', 'transactions');
+
+        foreach ($invoice->items as $item) {
+            $item->delete();
+        }
+
+        foreach ($invoice->transactions as $transaction) {
+            $transaction->delete();
+        }
+
+        $invoice->delete();
     }
 }

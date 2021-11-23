@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Account extends Model
 {
@@ -14,6 +15,7 @@ class Account extends Model
     {
         return $this->belongsTo(Client::class);
     }
+
     public function transactions()
     {
         return $this->hasMany(Transaction::class);
@@ -56,7 +58,7 @@ class Account extends Model
             ->sortByDateDesc('transaction_date')
             ->pluck('transaction_date');
 
-        return $transactions[0];
+        return $transactions->first();
     }
 
     public function getLatestDrDateAttribute()
@@ -66,7 +68,7 @@ class Account extends Model
             ->sortByDateDesc('transaction_date')
             ->pluck('transaction_date');
 
-        return $transactions[0];
+        return $transactions->first();
     }
 
     public function getLatestTransactionDateAttribute()
@@ -75,6 +77,16 @@ class Account extends Model
             ->sortByDateDesc('transaction_date')
             ->pluck('transaction_date');
 
-        return $transactions[0];
+        return $transactions->first();
+    }
+
+    /**
+     * Get all of the invoices for the Account
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function invoices(): HasMany
+    {
+        return $this->hasMany(Invoice::class);
     }
 }

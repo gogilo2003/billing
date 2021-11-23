@@ -42,7 +42,13 @@
                                 :key="invoice.id"
                             >
                                 <td>{{ index + 1 }}</td>
-                                <td>{{ invoice.client.name }}</td>
+                                <td>
+                                    {{
+                                        invoice.account.client
+                                            ? invoice.account.client.name
+                                            : ""
+                                    }}
+                                </td>
                                 <td>{{ invoice.name }}</td>
                                 <td>{{ invoice.created_at }}</td>
                                 <td class="text-right">{{ invoice.amount }}</td>
@@ -214,12 +220,18 @@ export default {
     methods: {
         newInvoice() {
             this.selectedInvoice = {
-                invoice: null,
-                registered_on: null,
-                expires_on: null,
-                remarks: null,
-                status: null,
-                client_id: null,
+                id: null,
+                name: null,
+                created_at: null,
+                amount: null,
+                client: {
+                    id: null,
+                    name: "",
+                    phone: "",
+                    email: "",
+                    postal_address: "",
+                },
+                items: [],
             };
             this.edit = false;
             $("#invoicesModalDialog").modal("show");

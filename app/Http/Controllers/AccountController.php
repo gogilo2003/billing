@@ -140,19 +140,23 @@ class AccountController extends Controller
             ->with('global-success', 'Account updated successfully');
     }
 
-    public static function transact($account, $particulars, $type, $amount, $method = null, $id = null)
+    public static function transact($account, $particulars, $type, $amount, $method = null, $invoice_id = null, $transaction_id = null)
     {
         $transaction = null;
 
-        if ($id) {
-            $transaction = Transaction::find($id);
+        if ($transaction_id) {
+            $transaction = Transaction::find($transaction_id);
         } else {
             $transaction = new Transaction;
         }
+
         $transaction->particulars   = $particulars;
         $transaction->type          = $type;
         $transaction->amount        = $amount;
         $transaction->method        = $method;
+        if ($invoice_id) {
+            $transaction->invoice_id = $invoice_id;
+        }
 
         $account->transactions()->save($transaction);
     }

@@ -2,17 +2,30 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Models\Client;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\SelectClientResource;
 
 class ClientController extends Controller
 {
+    public function accounts()
+    {
+        $clients = Client::with(['accounts' => function ($query) {
+            return $query->orderBy('name', 'ASC');
+        }])->orderBy('name', 'ASC')->get();
+
+        // return response()->json($clients);
+
+        return SelectClientResource::collection($clients);
+    }
+
     public function index()
     {
         $clients = Client::orderBy('name', 'ASC')->get()->map(function ($item) {
-            return new class($item->id, $item->name) {
+            return new class($item->id, $item->name)
+            {
                 public function __construct($id, $name)
                 {
                     $this->id = $id;
@@ -27,16 +40,16 @@ class ClientController extends Controller
     public function createClient(Request $request)
     {
         $validator = Validator::make($request->all(), [
-                'name' => 'required',
-                'email' => 'email|unique:clients',
-            ]);
+            'name' => 'required',
+            'email' => 'email|unique:clients',
+        ]);
 
         if ($validator->fails()) {
             return redirect()
-                    ->back()
-                    ->withErrors($validator)
-                    ->withInput()
-                    ->with('message');
+                ->back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('message');
         }
     }
 

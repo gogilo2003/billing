@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\ClientResource;
+use App\Http\Resources\AccountResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class InvoiceResource extends JsonResource
@@ -23,15 +23,24 @@ class InvoiceResource extends JsonResource
             $amount += ($item->quantity * $item->price);
         };
 
-        $client = $this->relationLoaded('client') ? new ClientResource($this->client) : $this->client_id;
+        $account = $this->relationLoaded('account') ? new AccountResource($this->account) : $this->account_id;
 
-        return [
+        $res = [
             'id' => $this->id,
             'name' => $this->name,
             'amount' => number_format($amount, 2),
             'created_at' => $this->created_at->format('D, j-M-Y'),
-            'client' => $client,
-            'items' => $items,
+            'account_id' => $this->account->id,
         ];
+
+        if ($account) {
+            $res['account'] = $account;
+        }
+
+        if ($items) {
+            $res['items'] = $items;
+        }
+
+        return $res;
     }
 }
