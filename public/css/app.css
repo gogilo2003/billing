@@ -1,1 +1,4 @@
-.alert span ol{margin-left:1rem;padding-left:0}
+.alert span ol {
+  padding-left: 0;
+  margin-left: 1rem;
+}

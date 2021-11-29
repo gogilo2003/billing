@@ -26,10 +26,12 @@
                                 Invoice For:
                             </h4>
                             <p>
-                                {{ invoice.client.name }},<br />
-                                {{ invoice.client.postal_address }},<br />
-                                {{ invoice.client.email }},
-                                {{ invoice.client.phone }}
+                                {{ invoice.account.client.name }},<br />
+                                {{
+                                    invoice.account.client.postal_address
+                                }},<br />
+                                {{ invoice.account.client.email }},
+                                {{ invoice.account.client.phone }}
                             </p>
                         </div>
                         <div class="col-md-7">
