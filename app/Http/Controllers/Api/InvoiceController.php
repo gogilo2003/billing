@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Client;
 use App\Models\Account;
 use App\Models\Invoice;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use App\Models\InvoiceDetail;
 use Ogilo\ApiResponseHelpers;
@@ -21,9 +23,13 @@ class InvoiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $invoices = Invoice::with('account.client', 'items')->orderBy('created_at', 'DESC')->paginate(5);
+        $search = $request->has('search') ? $request->search : '';
+        $invoices = Invoice::with('account.client', 'items')
+            ->whereIn('client_id', Client::where('name', 'LIKE', "%$search%")->pluck('id'))
+            ->orderBy('created_at', 'DESC')
+            ->paginate(5);
         return InvoiceResource::collection($invoices);
     }
 
@@ -37,6 +43,7 @@ class InvoiceController extends Controller
     {
         $account = Account::with('client')->find($request->account_id);
         $client_id = $account->client_id;
+
         $validator = Validator::make($request->all(), [
             'account_id' => 'required|integer|exists:accounts,id',
             'name' => ['required', Rule::unique('invoices', 'name')->where(function ($query) use ($client_id) {
@@ -144,7 +151,11 @@ class InvoiceController extends Controller
             $invoice->items()->save($item);
         }
 
-        AccountController::transact($account, $invoice->name, 'DR', $invoice->amount(), $invoice->id);
+        $transaction = Transaction::where('invoice_id', $invoice->id)
+            ->where('type', 'DR')
+            ->first();
+
+        AccountController::transact($account, $invoice->name, 'DR', $invoice->amount(), $invoice->id, $transaction->id);
 
         $invoice->load('items');
 

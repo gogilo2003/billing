@@ -159,6 +159,7 @@ class AccountController extends Controller
         }
 
         $account->transactions()->save($transaction);
+        return;
     }
 
     public function downloadAccount($id)

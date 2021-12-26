@@ -3786,12 +3786,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
+      search: "",
       invoices: {
         data: [],
         links: {}
@@ -3806,12 +3814,15 @@ __webpack_require__.r(__webpack_exports__);
         name: null,
         created_at: null,
         amount: null,
-        client: {
+        account: {
           id: null,
-          name: "",
-          phone: "",
-          email: "",
-          postal_address: ""
+          client: {
+            id: null,
+            name: "",
+            phone: "",
+            email: "",
+            postal_address: ""
+          }
         },
         items: []
       }
@@ -3829,12 +3840,14 @@ __webpack_require__.r(__webpack_exports__);
         name: null,
         created_at: null,
         amount: null,
-        client: {
-          id: null,
-          name: "",
-          phone: "",
-          email: "",
-          postal_address: ""
+        account: {
+          client: {
+            id: null,
+            name: "",
+            phone: "",
+            email: "",
+            postal_address: ""
+          }
         },
         items: []
       };
@@ -3853,6 +3866,10 @@ __webpack_require__.r(__webpack_exports__);
     nextPage: function nextPage(url) {
       var _this = this;
 
+      if (this.search) {
+        url += "?search=" + this.search;
+      }
+
       axios.get(url).then(function (response) {
         _this.invoices = response.data;
       });
@@ -3860,7 +3877,8 @@ __webpack_require__.r(__webpack_exports__);
     getInvoices: function getInvoices() {
       var _this2 = this;
 
-      axios.get("/api/invoices").then(function (response) {
+      var url = this.search ? "/api/invoices?search=" + this.search : "/api/invoices?";
+      axios.get(url).then(function (response) {
         _this2.invoices = response.data;
       });
     }
@@ -44319,6 +44337,37 @@ var render = function() {
                 }
               },
               [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.search,
+                      expression: "search"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", placeholder: "Search" },
+                  domProps: { value: _vm.search },
+                  on: {
+                    keypress: function($event) {
+                      if (
+                        !$event.type.indexOf("key") &&
+                        $event.keyCode !== 13
+                      ) {
+                        return null
+                      }
+                      return _vm.getInvoices.apply(null, arguments)
+                    },
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.search = $event.target.value
+                    }
+                  }
+                }),
+                _vm._v(" "),
                 _c(
                   "label",
                   {

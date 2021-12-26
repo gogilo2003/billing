@@ -13,6 +13,13 @@
                             align-items: flex-start;
                         "
                     >
+                        <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Search"
+                            v-model="search"
+                            @keypress.13="getInvoices"
+                        />
                         <!-- Button trigger modal -->
                         <label
                             class="btn btn-success btn-sm"
@@ -187,6 +194,7 @@ import InvoiceView from "./View.vue";
 export default {
     data() {
         return {
+            search: "",
             invoices: {
                 data: [],
                 links: {},
@@ -201,12 +209,15 @@ export default {
                 name: null,
                 created_at: null,
                 amount: null,
-                client: {
+                account: {
                     id: null,
-                    name: "",
-                    phone: "",
-                    email: "",
-                    postal_address: "",
+                    client: {
+                        id: null,
+                        name: "",
+                        phone: "",
+                        email: "",
+                        postal_address: "",
+                    },
                 },
                 items: [],
             },
@@ -224,12 +235,14 @@ export default {
                 name: null,
                 created_at: null,
                 amount: null,
-                client: {
-                    id: null,
-                    name: "",
-                    phone: "",
-                    email: "",
-                    postal_address: "",
+                account: {
+                    client: {
+                        id: null,
+                        name: "",
+                        phone: "",
+                        email: "",
+                        postal_address: "",
+                    },
                 },
                 items: [],
             };
@@ -246,12 +259,18 @@ export default {
             $("#invoiceViewModalDialog").modal("show");
         },
         nextPage(url) {
+            if (this.search) {
+                url += "?search=" + this.search;
+            }
             axios.get(url).then((response) => {
                 this.invoices = response.data;
             });
         },
         getInvoices() {
-            axios.get("/api/invoices").then((response) => {
+            let url = this.search
+                ? "/api/invoices?search=" + this.search
+                : "/api/invoices?";
+            axios.get(url).then((response) => {
                 this.invoices = response.data;
             });
         },
