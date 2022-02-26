@@ -58,7 +58,6 @@ class InvoiceController extends Controller
         if ($validator->fails()) {
             return $this->validationError($validator);
         }
-
         $invoice = new Invoice;
 
         $invoice->name = $request->name;
