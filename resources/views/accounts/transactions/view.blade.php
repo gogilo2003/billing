@@ -18,8 +18,11 @@
             let transaction = JSON.parse(e.relatedTarget.getAttribute('data-transaction'))
             $('#viewTransactionModal .modal-footer a').attr('href','/accounts/transactions/download/'+transaction.id)
 
-            let body = `
-                <div class="text-right">RECEIPT</div>
+            let body = `<div class="receipt">
+                <div class="text-center" style="font-size: 16pt">RECEIPTs</div>
+                <div class="text-center">
+                    <div class="">Kshs ${transaction.amount}</div>
+                </div>
                 <div class="my-3">
                     <div style="width: 49%" class="d-inline-block"><b>Date: </b> ${transaction.receipt_date}</div>
                     <div style="width: 49%" class="d-inline-block text-right"><b>Receipt No: </b> ${transaction.receipt_no}</div>
@@ -27,6 +30,7 @@
                 <p><b>Received From </b><span class="underline">${transaction.account.client.name}</span> the amount of <span class="underline">Kenya shillings ${transaction.amount_word} only(Kshs ${transaction.amount}/-)</span> being payment for <span class="underline">${transaction.particulars}</span></p>
 
                 <p><b>Payment method: </b>${transaction.method}</p>
+                </div>
             `
             $('#viewTransactionModal .modal-body').html(body)
 
