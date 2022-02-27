@@ -26,6 +26,13 @@
             return formatter.format(number);
         }
 
+        const formatDate = (date) => {
+            let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            let d = new Date(date)
+            let strDate = d.getDate() + '-' + months[d.getMonth()] + '-' + d.getFullYear()
+            return strDate
+        }
+
         $('#viewTransactionModal').on('show.bs.modal', function(e) {
             let transaction = JSON.parse(e.relatedTarget.getAttribute('data-transaction'))
             $('#viewTransactionModal .modal-footer a').attr('href', '/accounts/transactions/download/' + transaction
@@ -41,26 +48,32 @@
                     <div class="postal_address">{{ config('app.address') }}</div>
                 </div>
                 <div class="text-center title">RECEIPT</div>
-                <div class="from">
-                    <div class="caption">FROM</div>
-                    <div class="value">${transaction.account.client.name}</div>
-                </div>
-                <div class="amount">
-                    <div class="number">${formatCurrency(transaction.amount)}</div>
-                    <div class="word">Kenya shillings ${transaction.amount_word}</div>
-                    <div class="method">${transaction.method ? transaction.method : ''}</div>
-                </div>
-                <div class="particulars">
-                    <div class="caption">Being payment for</div>
-                    <div class="value">${transaction.particulars}</div>
-                </div>
-                <div class="receipt_number">
+                <div class="text-center receipt_number">
                     <div class="number">
                         <div class="caption">Receipt Number</div>
                         <div class="value">#${transaction.id}</div>
                     </div>
                     <div class="barcode"><img src="${transaction.barcode}"/></div>
                 </div>
+                <div class="text-center date">
+                    <div class="value">${formatDate(transaction.created_at)}</div>
+                </div>
+                <div class="text-center from">
+                    <div class="caption">RECEIVED FROM</div>
+                    <div class="underline"></div>
+                    <div class="value">${transaction.account.client.name}</div>
+                </div>
+                <div class="text-center amount">
+                    <div class="number">${formatCurrency(transaction.amount)}</div>
+                    <div class="word">Kenya shillings ${transaction.amount_word}</div>
+                    <div class="method">${transaction.method ? transaction.method : ''}</div>
+                </div>
+                <div class="text-center particulars">
+                    <div class="caption">Being payment for</div>
+                    <div class="underline"></div>
+                    <div class="value">${transaction.particulars}</div>
+                </div>
+                <div class="text-center thank">Than you for your Business!</div>
             </div>
             `
             $('#viewTransactionModal .modal-body').html(body)

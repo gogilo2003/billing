@@ -3,12 +3,24 @@
 @import './fonts/Poppins/P500';
 @import './fonts/Poppins/P600';
 
+@media screen {
+    body {
+        .receipt {
+            font-size: 0.85rem;
+        }
+    }
+}
+
+@media print {
+    body {
+        .receipt {
+            font-size: 14pt;
+        }
+    }
+}
+
 body {
-    font-family: "Poppins",
-        sans-serif;
-    font-size: 12pt;
-    font-weight: 400;
-    color: #525f7f;
+
 
     .receipt {
         background-color: #fff;
@@ -17,6 +29,10 @@ body {
         min-height: 8.89in;
         margin: 1rem auto;
         line-height: 1.9;
+        font-family: "Poppins",
+            sans-serif;
+        font-weight: 400;
+        color: #525f7f;
 
         .logo {
             width: 3in;
@@ -40,8 +56,9 @@ body {
         .title {
             font-size: 16pt;
             color: #FFA948;
-            margin-bottom: 2rem;
-            margin-top: 2rem;
+            margin-bottom: 1rem;
+            margin-top: 1rem;
+            font-weight: 600;
         }
 
         .amount {
@@ -62,32 +79,46 @@ body {
 
             .method {
                 margin-top: 1rem;
+                text-align: left;
             }
         }
 
         .particulars,
-        .from {
+        .from,
+        .date {
             margin: 2rem 1rem;
             // text-align: center;
 
             .caption {
-                display: inline-block;
-                font-weight: 700;
-                border-bottom: 1px solid #999;
-                padding-bottom: 0.5rem;
-                margin-bottom: 0.5rem;
-                margin-left: 2.5rem;
+                display: block;
+                font-weight: 600;
+
+                // margin-left: 2.5rem;
+                // margin-right: 2.5rem;
+                +.underline {
+                    height: 1px;
+                    background-color: #525f7f;
+                    display: block;
+                    width: 100px;
+                    margin: 0 auto;
+                    margin-bottom: 1rem;
+                }
             }
 
             .value {
                 font-weight: 400;
-                padding-left: 2.5rem;
-                padding-right: 2.5rem;
+                // padding-left: 2.5rem;
+                // padding-right: 2.5rem;
             }
         }
 
+        .date {
+            margin: 0.5rem 1rem 2rem 1rem;
+        }
+
         .receipt_number {
-            margin-left: 3.5rem;
+            // margin-left: 3.5rem;
+            // margin-right: 3.5rem;
 
             .number {
 
@@ -110,6 +141,14 @@ body {
                     border-radius: 0;
                 }
             }
+        }
+
+        .thank {
+            padding: 1rem 1.5rem;
+            font-size: .8rem;
+            font-weight: 300;
+            border-top: 1px solid #FFA948;
+            font-style: italic;
         }
     }
 }
