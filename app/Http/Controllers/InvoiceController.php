@@ -68,6 +68,7 @@ class InvoiceController extends Controller
 
         $invoice->name         = $request->input('name');
         $invoice->client_id = $account->client_id;
+        $invoice->account_id = $account->id;
 
         $invoice->save();
 
