@@ -17,7 +17,7 @@
                     <h3 class="modal-title text-uppercase">{{ title }}</h3>
                 </div>
                 <div class="modal-body">
-                    <h3 class="modal-title text-center text-uppercase">
+                    <h3 class="modal-title text-center text-uppercase mb-5">
                         Invoice
                     </h3>
                     <div class="row">
@@ -33,10 +33,37 @@
                                 {{ invoice.account.client.email }},
                                 {{ invoice.account.client.phone }}
                             </p>
+                            <div
+                                style="
+                                    display: grid;
+                                    grid-template-columns: 90px auto;
+                                    align-items: center;
+                                "
+                                class="mb-1"
+                            >
+                                <h6 class="text-uppercase text-info mb-0">
+                                    Date Issued:
+                                </h6>
+                                <p class="mb-0">{{ invoice.created_at }}</p>
+                                <h6 class="text-uppercase text-info mb-0">
+                                    Invoice No:
+                                </h6>
+                                <p class="mb-0">#{{ invoice.id }}</p>
+                            </div>
                         </div>
                         <div class="col-md-7">
-                            <h4 class="text-uppercase text-info mb-1">FOR:</h4>
-                            <p>{{ invoice.name }}</p>
+                            <div>
+                                <h4 class="text-uppercase text-info mb-1">
+                                    FOR:
+                                </h4>
+                                <p>{{ invoice.name }}</p>
+                            </div>
+                            <div v-if="invoice.ref">
+                                <h4 class="text-uppercase text-info mb-1">
+                                    REF:
+                                </h4>
+                                <p>{{ invoice.ref }}</p>
+                            </div>
                         </div>
                         <div class="col-md-12 mt-4">
                             <table class="table table-bordered">

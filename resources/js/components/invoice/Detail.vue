@@ -26,7 +26,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-row">
-                        <div class="form-group col-md-5">
+                        <div class="form-group col-md-6">
                             <label for="clientInput">Account</label>
                             <select
                                 class="form-control"
@@ -49,7 +49,23 @@
                                 </optgroup>
                             </select>
                         </div>
-                        <div class="form-group col-md-7">
+                        <div class="form-group col-md-6">
+                            <label for="nameInput"
+                                >REF<small
+                                    >(LPO Number/LSO Number/PO Number)</small
+                                ></label
+                            >
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="nameInput"
+                                id="nameInput"
+                                aria-describedby="helpId"
+                                placeholder="LPO Number/LSO Number/PO Number"
+                                v-model="selectedInvoice.ref"
+                            />
+                        </div>
+                        <div class="form-group col-md-12">
                             <label for="nameInput">Invoice Name</label>
                             <input
                                 type="text"
@@ -259,6 +275,7 @@ export default {
                 invoice: null,
                 name: null,
                 account_id: null,
+                ref: null,
                 items: [],
             },
             title: "Manage Invoice",

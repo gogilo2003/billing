@@ -1,0 +1,123 @@
+@import './fonts/Poppins/P300';
+@import './fonts/Poppins/P400';
+
+thead {
+    display: table-header-group
+}
+
+tfoot {
+    display: table-row-group
+}
+
+tr {
+    page-break-inside: avoid
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    position: relative;
+}
+
+body {
+    font-family: 'Poppins',
+        sans-serif !important;
+    font-weight: 300;
+}
+
+header {
+    // border-bottom:2px dashed rgba($color: #000000, $alpha: 0.25);
+    padding: 2.5rem 5rem 0rem;
+    display: flex;
+    align-items: center;
+
+    // background-color: rgba($color: indigo, $alpha: 0.25);
+    .banner {
+        width: 500px;
+
+        img {
+            display: block;
+            width: 400px;
+            border-radius: 10rem;
+        }
+    }
+
+    .text {
+        padding: 2.5rem;
+
+        .contact {
+            display: flex;
+            align-items: center;
+
+            img {
+                float: left;
+                width: 22px;
+                padding: 5px;
+            }
+
+            .value {
+                float: right;
+                padding: 5px;
+                width: 280px;
+            }
+        }
+
+    }
+}
+
+.title {
+    h4 {
+        text-align: center;
+        padding: 0 5rem 2.5rem;
+        text-transform: uppercase;
+        color: #116AC3;
+        font-size: 18pt;
+    }
+}
+
+.wrapper {
+    padding: 0 5rem;
+
+    .container {
+        table.table {
+            width: 100%;
+            margin-top: 2.5rem;
+            border-radius: 2.5rem;
+            overflow: hidden;
+
+            tr {
+
+                th,
+                td {
+                    padding: 1rem 0.5rem;
+
+                    &.text-right {
+                        text-align: right;
+                    }
+
+                    &.text-left {
+                        text-align: left;
+                    }
+
+                    &.text-center {
+                        text-align: center;
+                    }
+                }
+
+                th {
+                    background-color: #116AC3;
+                    color: #fff;
+                    text-transform: uppercase;
+                }
+
+                td {
+                    // border-bottom: 1px solid #116AC3;
+                }
+
+                &:nth-child(even) {
+                    background-color: rgba($color: #116AC3, $alpha: 0.15);
+                }
+            }
+        }
+    }
+}

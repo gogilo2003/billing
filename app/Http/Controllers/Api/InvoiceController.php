@@ -61,6 +61,7 @@ class InvoiceController extends Controller
         $invoice = new Invoice;
 
         $invoice->name = $request->name;
+        $invoice->ref = $request->ref;
         $invoice->client_id = $account->client_id;
         $invoice->account_id = $account->id;
 
@@ -109,7 +110,7 @@ class InvoiceController extends Controller
     public function update(Request $request)
     {
         $account = Account::find($request->account_id);
-        $client_id = $account->client_id;
+        // $client_id = $account->client_id;
         $validator = Validator::make($request->all(), [
             'id' => 'required|integer|exists:invoices,id',
             'account_id' => 'required|integer|exists:accounts,id',
@@ -130,6 +131,7 @@ class InvoiceController extends Controller
         $invoice = Invoice::find($request->id);
 
         $invoice->name = $request->name;
+        $invoice->ref = $request->ref;
         $invoice->client_id = $account->client_id;
         $invoice->account_id = $account->id;
 
@@ -154,7 +156,7 @@ class InvoiceController extends Controller
             ->where('type', 'DR')
             ->first();
 
-        AccountController::transact($account, $invoice->name, 'DR', $invoice->amount(), $invoice->id, $transaction->id);
+        $transaction->amount = $invoice->amount();
 
         $invoice->load('items');
 

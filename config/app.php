@@ -16,7 +16,7 @@ return [
     'phone' => '+254711347184',
     'email' => 'billing@micartech.co.ke',
     'address' => 'P.O. Box 6546 - 00300, NAIROBI',
-    'mpesa'=>['buy_goods'=>5986813],
+    'mpesa' => ['buy_goods' => 5986813, 'name' => 'MICARTECH LTD'],
 
     /*
     |--------------------------------------------------------------------------
