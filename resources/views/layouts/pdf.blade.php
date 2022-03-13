@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>{{ config('app.name') }}</title>
     <style>
-        {{ file_get_contents(public_path('css/pdf.css')) }}
+        @import url('{{ asset('/css/pdf.css') }}');
 
     </style>
     @stack('styles')

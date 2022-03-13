@@ -3,7 +3,7 @@
 <head>
     <title>Receipt</title>
     <style>
-        {{ file_get_contents(public_path('css/receipt.css')) }}
+        @import url('{{ asset('css/receipt.css') }}');
 
     </style>
 </head>

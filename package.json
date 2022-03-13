@@ -26,6 +26,7 @@
         "vue2-datepicker": "^3.10.1"
     },
     "dependencies": {
+        "@fontsource/poppins": "^4.5.2",
         "bootstrap-notify": "^3.1.3"
     }
 }

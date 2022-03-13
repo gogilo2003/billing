@@ -76,7 +76,7 @@
                     <li>Enter Your PIN and confirm sending to <strong>{{ config('app.mpesa.name') }}</strong></li>
                 </ol>
                 <h4 class="text-uppercase">Cheque Payment</h4>
-                <p class="category">Make all cheques payable to {{ config('app.name') }}.
+                <p class="category">Make all cheques payable to <strong>{{ config('app.name') }}</strong>.
                     <br>All prices inclusive of {{ config('app.vat') }} VAT
                 </p>
             </div>

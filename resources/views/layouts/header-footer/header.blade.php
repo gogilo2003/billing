@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <style type="text/css">
-        @import url('http://fonts.googleapis.com/css?family=Poppins:300,400&display=swap');
-        @import url('{!! url('css/pdf.min.css') !!}');
+        @import url('{{ asset('css/pdf.css') }}');
 
     </style>
 </head>
