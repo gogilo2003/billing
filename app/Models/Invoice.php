@@ -29,12 +29,18 @@ class Invoice extends Model
 
     public function subTotal()
     {
-        return $this->amount() * (100 / (100 + (int)config('app.tax.vat')));
+        if (config('app.tax.vat.type') === 'inclusive')
+            return $this->amount() * (100 / (100 + (int)config('app.tax.vat.rate')));
+
+        return $this->amount() - $this->tax();
     }
 
     public function tax()
     {
-        return $this->amount() * config('app.tax.vat') / (100 + (int)config('app.tax.vat'));
+        if (config('app.tax.vat.type') === 'inclusive')
+            return $this->amount() * (config('app.tax.vat.rate') / (100 + (int)config('app.tax.vat.rate')));
+
+        return $this->amount() * (config('app.tax.vat.rate') / 100);
     }
 
     public function amount()
@@ -43,7 +49,11 @@ class Invoice extends Model
         foreach ($this->items as $item) {
             $amount += $item->amount();
         }
-        return $amount;
+
+        if (config('app.tax.vat.type') === 'inclusive')
+            return $amount;
+
+        return $amount + $this->tax();
     }
 
     public function delivery()

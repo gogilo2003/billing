@@ -56,20 +56,22 @@
                     @endforeach
                 </tbody>
                 <tfoot>
-                    <tr>
-                        <td class="text-right" colspan="4" style="font-weight:bold;">
-                            SUB-TOTAL
-                        </td>
-                        <td style="font-weight: bold; font-size: 1.1em; border-bottom: 1px double #333"
-                            class="text-right">KES {{ number_format($invoice->subTotal(), 2) }}</td>
-                    </tr>
-                    <tr>
-                        <td class="text-right" colspan="4" style="font-weight:bold;">
-                            TAX
-                        </td>
-                        <td style="font-weight: bold; font-size: 1.1em; border-bottom: 1px double #333"
-                            class="text-right">KES {{ number_format($invoice->tax(), 2) }}</td>
-                    </tr>
+                    @if (config('app.tax.show'))
+                        <tr>
+                            <td class="text-right" colspan="4" style="font-weight:bold;">
+                                SUB-TOTAL
+                            </td>
+                            <td style="font-weight: bold; font-size: 1.1em; border-bottom: 1px double #333"
+                                class="text-right">KES {{ number_format($invoice->subTotal(), 2) }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-right" colspan="4" style="font-weight:bold;">
+                                TAX
+                            </td>
+                            <td style="font-weight: bold; font-size: 1.1em; border-bottom: 1px double #333"
+                                class="text-right">KES {{ number_format($invoice->tax(), 2) }}</td>
+                        </tr>
+                    @endif
                     <tr>
                         <td class="text-right" colspan="4" style="font-weight:bold;">
                             TOTAL

@@ -18,8 +18,11 @@ return [
     'address' => 'P.O. Box 6546 - 00300, NAIROBI',
     'mpesa' => ['buy_goods' => 5986813, 'name' => 'MICARTECH LTD'],
     'tax' => [
-        'vat' => 16, //Write in percentage not fraction
-        'type' => ''
+        'show' => false,
+        'vat' => [
+            'rate' => 16, //Write in percentage not fraction
+            'type' => 'inclusive', //possible values are inclusive or exclusive
+        ]
     ],
 
     /*
