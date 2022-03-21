@@ -43,17 +43,22 @@ header {
   padding: 2.5rem 5rem 0rem;
   display: flex;
   align-items: center;
+  clear: both;
 }
 header .banner {
-  width: 500px;
+  float: left;
+  width: 54%;
+  padding: 0 2.5rem 2.5rem 2.5rem;
 }
 header .banner img {
   display: block;
-  width: 400px;
+  width: 100%;
   border-radius: 10rem;
 }
 header .text {
-  padding: 2.5rem;
+  width: 46%;
+  padding: 0 2.5rem 2.5rem 2.5rem;
+  float: right;
 }
 header .text .contact {
   display: flex;
@@ -110,4 +115,10 @@ header .text .contact .value {
 }
 .wrapper .container table.table tr:nth-child(even) {
   background-color: rgba(17, 106, 195, 0.15);
+}
+.wrapper .container table.table tfoot tr {
+  background-color: transparent;
+}
+.wrapper .container table.table tfoot tr td {
+  background-color: #fff;
 }

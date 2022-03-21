@@ -33,18 +33,26 @@ header {
     align-items: center;
 
     // background-color: rgba($color: indigo, $alpha: 0.25);
+    clear: both;
+
     .banner {
-        width: 500px;
+        float: left;
+        // background-color: rgba($color: #ff0000, $alpha: 0.35);
+        width: 54%;
+        padding: 0 2.5rem 2.5rem 2.5rem;
 
         img {
             display: block;
-            width: 400px;
+            width: 100%;
             border-radius: 10rem;
         }
     }
 
     .text {
-        padding: 2.5rem;
+        width: 46%;
+        padding: 0 2.5rem 2.5rem 2.5rem;
+        float: right;
+        // background-color: rgba($color: #000000, $alpha: 0.35);
 
         .contact {
             display: flex;
@@ -117,6 +125,16 @@ header {
 
                 &:nth-child(even) {
                     background-color: rgba($color: #116AC3, $alpha: 0.15);
+                }
+            }
+
+            tfoot {
+                tr {
+                    background-color: transparent;
+
+                    td {
+                        background-color: #fff;
+                    }
                 }
             }
         }

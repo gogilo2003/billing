@@ -27,6 +27,16 @@ class Invoice extends Model
         return $this->hasMany(Transaction::class);
     }
 
+    public function subTotal()
+    {
+        return $this->amount() * (100 / (100 + (int)config('app.tax.vat')));
+    }
+
+    public function tax()
+    {
+        return $this->amount() * config('app.tax.vat') / (100 + (int)config('app.tax.vat'));
+    }
+
     public function amount()
     {
         $amount = 0;
