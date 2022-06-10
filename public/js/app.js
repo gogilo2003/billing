@@ -4020,34 +4020,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     invoice: {
@@ -44783,6 +44755,43 @@ var render = function() {
                 [_vm._v("\n                    Invoice\n                ")]
               ),
               _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticStyle: {
+                    "text-align": "center",
+                    "margin-bottom": "1.5rem"
+                  }
+                },
+                [
+                  _c("h6", { staticClass: "text-uppercase text-info mb-0" }, [
+                    _vm._v("Invoice Number")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticStyle: { "margin-bottom": "-10px" } }, [
+                    _vm._v("#" + _vm._s(_vm.invoice.id))
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "barcode" }, [
+                    _c("img", { attrs: { src: _vm.invoice.barcode } })
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "h6",
+                    { staticClass: "text-uppercase text-info mb-0 mt-3" },
+                    [
+                      _vm._v(
+                        "\n                        Date Issued:\n                    "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "mb-0" }, [
+                    _vm._v(_vm._s(_vm.invoice.created_at))
+                  ])
+                ]
+              ),
+              _vm._v(" "),
               _c("div", { staticClass: "row" }, [
                 _c("div", { staticClass: "col-md-5" }, [
                   _c("h4", { staticClass: "text-uppercase text-info mb-1" }, [
@@ -44811,48 +44820,7 @@ var render = function() {
                         _vm._s(_vm.invoice.account.client.phone) +
                         "\n                        "
                     )
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      staticClass: "mb-1",
-                      staticStyle: {
-                        display: "grid",
-                        "grid-template-columns": "90px auto",
-                        "align-items": "center"
-                      }
-                    },
-                    [
-                      _c(
-                        "h6",
-                        { staticClass: "text-uppercase text-info mb-0" },
-                        [
-                          _vm._v(
-                            "\n                                Date Issued:\n                            "
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c("p", { staticClass: "mb-0" }, [
-                        _vm._v(_vm._s(_vm.invoice.created_at))
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "h6",
-                        { staticClass: "text-uppercase text-info mb-0" },
-                        [
-                          _vm._v(
-                            "\n                                Invoice No:\n                            "
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c("p", { staticClass: "mb-0" }, [
-                        _vm._v("#" + _vm._s(_vm.invoice.id))
-                      ])
-                    ]
-                  )
+                  ])
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "col-md-7" }, [

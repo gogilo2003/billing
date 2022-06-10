@@ -29,6 +29,7 @@ class InvoiceResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'amount' => number_format($amount, 2),
+            'barcode' => $this->barcode,
             'created_at' => $this->created_at->format('D, j-M-Y'),
             'account_id' => $this->account_id,
         ];

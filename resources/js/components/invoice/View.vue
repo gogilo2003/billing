@@ -1,17 +1,7 @@
 <template>
-    <div
-        class="modal fade"
-        id="invoiceViewModalDialog"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="modelTitleId"
-        aria-hidden="true"
-    >
-        <div
-            class="modal-dialog modal-dialog-lg"
-            role="document"
-            style="min-width: 800px; max-width: 800px"
-        >
+    <div class="modal fade" id="invoiceViewModalDialog" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-lg" role="document" style="min-width: 800px; max-width: 800px">
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title text-uppercase">{{ title }}</h3>
@@ -20,6 +10,15 @@
                     <h3 class="modal-title text-center text-uppercase mb-5">
                         Invoice
                     </h3>
+                    <div style="text-align: center; margin-bottom: 1.5rem">
+                        <h6 class="text-uppercase text-info mb-0">Invoice Number</h6>
+                        <div style="margin-bottom:-10px">#{{ invoice.id }}</div>
+                        <div class="barcode"><img :src="invoice.barcode" /></div>
+                        <h6 class="text-uppercase text-info mb-0 mt-3">
+                            Date Issued:
+                        </h6>
+                        <p class="mb-0">{{ invoice.created_at }}</p>
+                    </div>
                     <div class="row">
                         <div class="col-md-5">
                             <h4 class="text-uppercase text-info mb-1">
@@ -28,28 +27,11 @@
                             <p>
                                 {{ invoice.account.client.name }},<br />
                                 {{
-                                    invoice.account.client.postal_address
+                                        invoice.account.client.postal_address
                                 }},<br />
                                 {{ invoice.account.client.email }},
                                 {{ invoice.account.client.phone }}
                             </p>
-                            <div
-                                style="
-                                    display: grid;
-                                    grid-template-columns: 90px auto;
-                                    align-items: center;
-                                "
-                                class="mb-1"
-                            >
-                                <h6 class="text-uppercase text-info mb-0">
-                                    Date Issued:
-                                </h6>
-                                <p class="mb-0">{{ invoice.created_at }}</p>
-                                <h6 class="text-uppercase text-info mb-0">
-                                    Invoice No:
-                                </h6>
-                                <p class="mb-0">#{{ invoice.id }}</p>
-                            </div>
                         </div>
                         <div class="col-md-7">
                             <div>
@@ -77,10 +59,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr
-                                        v-for="(item, i) in invoice.items"
-                                        :key="i"
-                                    >
+                                    <tr v-for="(item, i) in invoice.items" :key="i">
                                         <td>{{ i + 1 }}</td>
                                         <td>{{ item.particulars }}</td>
                                         <td class="text-right">
@@ -109,17 +88,10 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button
-                        type="button"
-                        class="btn btn-secondary btn-round"
-                        data-dismiss="modal"
-                    >
+                    <button type="button" class="btn btn-secondary btn-round" data-dismiss="modal">
                         Close
                     </button>
-                    <a
-                        :href="`/invoices/download/${invoice.id}`"
-                        class="btn btn-primary btn-round"
-                    >
+                    <a :href="`/invoices/download/${invoice.id}`" class="btn btn-primary btn-round">
                         Download
                     </a>
                 </div>
@@ -170,7 +142,7 @@ export default {
         };
     },
     methods: {},
-    mounted() {},
+    mounted() { },
     watch: {
         invoice(val) {
             this.selectedInvoice = val;
@@ -180,13 +152,12 @@ export default {
 </script>
 <style lang="scss">
 .bg-secondary {
-    background-image: linear-gradient(
-        to bottom left,
-        #344675,
-        #263148,
-        #344675
-    );
+    background-image: linear-gradient(to bottom left,
+            #344675,
+            #263148,
+            #344675);
     color: rgba(255, 255, 255, 0.7);
+
     tr {
         th {
             color: rgba(255, 255, 255, 0.7) !important;

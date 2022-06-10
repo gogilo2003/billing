@@ -26,7 +26,7 @@
     @stack('styles')
     @yield('scripts_top')
     @stack('scripts_top')
-
+    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 </head>
 
 <body class="white-content {{ $class ?? '' }}">

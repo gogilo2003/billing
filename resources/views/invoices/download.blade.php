@@ -5,6 +5,15 @@
 @endsection
 
 @section('content')
+    <div style="text-align: center; margin-bottom: 1.5rem">
+        <h4 class="text-uppercase text-info mb-0 mt-3" style="color: #116AC3">Invoice Number</h4>
+        <div style="margin-bottom:0px">#{{ $invoice->id }}</div>
+        <div class="barcode"><img src="{{ $invoice->barcode }}" /></div>
+        <h4 class="text-uppercase text-info mb-0 mt-3" style="color: #116AC3">
+            Date Issued
+        </h4>
+        <div class="date">{{ date_create($invoice->created_at)->format('D, j-M-Y') }}</div>
+    </div>
     <div>
         <div>
             <table style="width: 100%">
@@ -14,7 +23,7 @@
                             <b style="color: #116AC3">INVOICE TO:</b><br>
                             {{ $invoice->client->name }}<br>
                             P.O. Box
-                            {{ $invoice->client->box_no .($invoice->client->post_code ? ' - ' . $invoice->client->post_code : '') .($invoice->client->town ? ', ' . $invoice->client->town : '') }}<br>
+                            {{ $invoice->client->box_no . ($invoice->client->post_code ? ' - ' . $invoice->client->post_code : '') . ($invoice->client->town ? ', ' . $invoice->client->town : '') }}<br>
                             {{ $invoice->client->email }}, {{ $invoice->client->phone }}
                         </p>
                     </td>
@@ -23,10 +32,12 @@
                             <b style="color: #116AC3">FOR:</b>
                             <br>{{ $invoice->name }}
                         </p>
-                        <p class="category">
-                            <b style="color: #116AC3">REF:</b>
-                            <br>{{ $invoice->ref }}
-                        </p>
+                        @if ($invoice->ref)
+                            <p class="category">
+                                <b style="color: #116AC3">REF:</b>
+                                <br>{{ $invoice->ref }}
+                            </p>
+                        @endif
                     </td>
                 </tr>
             </table>
@@ -113,6 +124,5 @@
         .text-uppercase {
             text-transform: uppercase;
         }
-
     </style>
 @endpush
