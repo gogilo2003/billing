@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\AccountController;
 use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ProductCategoryController;
+use App\Http\Controllers\Api\QuotationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,13 +22,13 @@ use App\Http\Controllers\Api\ProductCategoryController;
 |
  */
 
-Route::group(['namespace' => 'App\Http\Controllers'], function () {
+Route::name('api')->namespace('App\Http\Controllers')->group(function () {
     Route::middleware('auth:api')->get('/user', function (Request $request) {
         return $request->user();
-    });
+    })->name('-user');
 
-    Route::post('accounts', ['as' => 'api-accounts', 'uses' => 'Api\AccountController@getAccounts']);
-    Route::post('accounts/months', ['as' => 'api-accounts-months', 'uses' => 'Api\AccountController@getMonths']);
+    Route::post('accounts', ['as' => '-accounts', 'uses' => 'Api\AccountController@getAccounts']);
+    Route::post('accounts/months', ['as' => '-accounts-months', 'uses' => 'Api\AccountController@getMonths']);
 
     Route::get('categories', function () {
         $categories = ProductCategory::orderBy('name', 'ASC')->get()->map(function ($category) {
@@ -39,26 +40,26 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         $success = true;
 
         return response()->json(compact('success', 'categories'));
-    });
+    })->name('-categories');
 
-    Route::group(['as' => 'api-accounts-', 'prefix' => 'accounts'], function () {
+    Route::group(['as' => '-accounts', 'prefix' => 'accounts'], function () {
         Route::get('', [AccountController::class, 'index']);
-        Route::group(['as' => 'notification-', 'prefix' => 'notification'], function () {
-            Route::post('update', [AccountController::class, 'updateNotification'])->name('update');
-            Route::get('show', [AccountController::class, 'showNotification'])->name('show');
+        Route::group(['as' => '-notification', 'prefix' => 'notification'], function () {
+            Route::post('update', [AccountController::class, 'updateNotification'])->name('-update');
+            Route::get('show', [AccountController::class, 'showNotification'])->name('-show');
         });
     });
 
-    Route::group(['as' => 'api-clients-', 'prefix' => 'clients'], function () {
-        Route::group(['as' => 'notification-', 'prefix' => 'notification'], function () {
-            Route::post('update', [ClientController::class, 'updateNotification'])->name('update');
-            Route::get('show', [ClientController::class, 'showNotification'])->name('show');
+    Route::group(['as' => '-clients', 'prefix' => 'clients'], function () {
+        Route::group(['as' => '-notification', 'prefix' => 'notification'], function () {
+            Route::post('update', [ClientController::class, 'updateNotification'])->name('-update');
+            Route::get('show', [ClientController::class, 'showNotification'])->name('-show');
         });
-        Route::get('', [ClientController::class, 'index'])->name('list');
-        Route::get('accounts', [ClientController::class, 'accounts']);
+        Route::get('', [ClientController::class, 'index'])->name('-list');
+        Route::get('accounts', [ClientController::class, 'accounts'])->name('-accounts');
     });
 
-    Route::group(['as' => 'api-domains', 'prefix' => 'domains'], function () {
+    Route::group(['as' => '-domains', 'prefix' => 'domains'], function () {
         Route::get('/{status?}', [DomainController::class, 'index']);
         Route::post('', [DomainController::class, 'store'])->name('-create');
         Route::patch('', [DomainController::class, 'update'])->name('-update');
@@ -69,7 +70,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::post('renew', [DomainController::class, 'renew'])->name('-renew');
     });
 
-    Route::group(['as' => 'api-products', 'prefix' => 'products'], function () {
+    Route::group(['as' => '-products', 'prefix' => 'products'], function () {
         Route::get('/{id?}', [ProductController::class, 'index']);
         Route::post('', [ProductController::class, 'store'])->name('-create');
         Route::patch('', [ProductController::class, 'update'])->name('-update');
@@ -77,7 +78,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::post('import', [ProductController::class, 'import'])->name('-import');
     });
 
-    Route::group(['as' => 'api-product-categories', 'prefix' => 'product-categories'], function () {
+    Route::group(['as' => '-product-categories', 'prefix' => 'product-categories'], function () {
         Route::get('/{id?}', [ProductCategoryController::class, 'index']);
         Route::post('', [ProductCategoryController::class, 'store'])->name('-create');
         Route::patch('', [ProductCategoryController::class, 'update'])->name('-update');
@@ -94,11 +95,19 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     //     return response()->json([compact('d1', 'd2'), 'data' => $diff]);
     // })->name('test');
 
-    Route::prefix('invoices')->group(function () {
+    Route::prefix('invoices')->name('-invoices')->group(function () {
         Route::get('', [InvoiceController::class, 'index']);
-        Route::get('/show/{id}', [InvoiceController::class, 'show']);
-        Route::post('', [InvoiceController::class, 'store']);
-        Route::patch('', [InvoiceController::class, 'update']);
-        Route::delete('', [InvoiceController::class, 'destroy']);
+        Route::get('/show/{id}', [InvoiceController::class, 'show'])->name('-show');
+        Route::post('', [InvoiceController::class, 'store'])->name('-store');
+        Route::patch('', [InvoiceController::class, 'update'])->name('-update');
+        Route::delete('', [InvoiceController::class, 'destroy'])->name('-destroy');
+    });
+
+    Route::prefix('quotations')->name('-quotations')->group(function () {
+        Route::get('', [QuotationController::class, 'index']);
+        Route::get('/show/{id}', [QuotationController::class, 'show'])->name('-show');
+        Route::post('', [QuotationController::class, 'store'])->name('-store');
+        Route::patch('', [QuotationController::class, 'update'])->name('-update');
+        Route::delete('', [QuotationController::class, 'destroy'])->name('-destroy');
     });
 });

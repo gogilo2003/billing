@@ -108,4 +108,14 @@ class Client extends Model
     {
         return $this->hasManyThrough(Transaction::class, Account::class);
     }
+
+    /**
+     * Get all of the quotations for the Client
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function quotations(): HasMany
+    {
+        return $this->hasMany(Quotation::class);
+    }
 }
