@@ -15,4 +15,5 @@ yarn-error.log
 /.idea
 /.vscode
 /public/pdf/*
-composer-lock.json
+composer.lock
+package-lock.json

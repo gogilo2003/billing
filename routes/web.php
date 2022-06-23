@@ -86,6 +86,10 @@ Route::group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'], fu
     Route::get('/domains', function () {
         return view('domains.index');
     })->name('domains');
+
+    Route::get('/quotations', function () {
+        return view('quotations.index');
+    })->name('quotations');
 });
 
 Route::get('test', function () {

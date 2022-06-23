@@ -15,21 +15,21 @@
 
             <li>
                 <a data-toggle="collapse" href="#navbar-clients" aria-expanded="false">
-                    <i class="fas fa-users" ></i>
-                    <span class="nav-link-text" >{{ __('Clients') }}</span>
+                    <i class="fas fa-users"></i>
+                    <span class="nav-link-text">{{ __('Clients') }}</span>
                     <b class="caret mt-1"></b>
                 </a>
 
                 <div class="collapse" id="navbar-clients">
                     <ul class="nav pl-4">
                         <li @if ($pageSlug == 'clients') class="active " @endif>
-                            <a href="{{ route('clients')  }}">
+                            <a href="{{ route('clients') }}">
                                 <i class="tim-icons icon-bullet-list-67"></i>
                                 <p>{{ _('List') }}</p>
                             </a>
                         </li>
                         <li @if ($pageSlug == 'clients/create') class="active " @endif>
-                            <a href="{{ route('clients-create')  }}">
+                            <a href="{{ route('clients-create') }}">
                                 <i class="tim-icons icon-simple-add"></i>
                                 <p>{{ _('New') }}</p>
                             </a>
@@ -40,21 +40,21 @@
 
             <li>
                 <a data-toggle="collapse" href="#navbar-accounts" aria-expanded="false">
-                    <i class="tim-icons icon-bank" ></i>
-                    <span class="nav-link-text" >{{ __('Accounts') }}</span>
+                    <i class="tim-icons icon-bank"></i>
+                    <span class="nav-link-text">{{ __('Accounts') }}</span>
                     <b class="caret mt-1"></b>
                 </a>
 
                 <div class="collapse" id="navbar-accounts">
                     <ul class="nav pl-4">
                         <li @if ($pageSlug == 'accounts') class="active " @endif>
-                            <a href="{{ route('accounts')  }}">
+                            <a href="{{ route('accounts') }}">
                                 <i class="tim-icons icon-bullet-list-67"></i>
                                 <p>{{ _('List') }}</p>
                             </a>
                         </li>
                         <li @if ($pageSlug == 'accounts/create') class="active " @endif>
-                            <a href="{{ route('accounts-create')  }}">
+                            <a href="{{ route('accounts-create') }}">
                                 <i class="tim-icons icon-simple-add"></i>
                                 <p>{{ _('New') }}</p>
                             </a>
@@ -63,8 +63,7 @@
                 </div>
             </li>
 
-{{--
-            <li>
+            {{-- <li>
                 <a data-toggle="collapse" href="#navbar-invoices" aria-expanded="false">
                     <i class="tim-icons icon-paper" ></i>
                     <span class="nav-link-text" >{{ __('Invoices') }}</span>
@@ -86,8 +85,13 @@
                         </li>
                     </ul>
                 </div>
+            </li> --}}
+            <li @if ($pageSlug == 'quotations') class="active " @endif>
+                <a href="{{ route('quotations') }}">
+                    <i class="tim-icons icon-bag-16"></i>
+                    <p>{{ _('Quotations') }}</p>
+                </a>
             </li>
-             --}}
             <li @if ($pageSlug == 'invoices') class="active " @endif>
                 <a href="{{ route('invoices') }}">
                     <i class="tim-icons icon-bag-16"></i>
@@ -96,21 +100,21 @@
             </li>
             <li>
                 <a data-toggle="collapse" href="#navbar-messages" aria-expanded="false">
-                    <i class="tim-icons icon-chat-33" ></i>
-                    <span class="nav-link-text" >{{ __('Messages') }}</span>
+                    <i class="tim-icons icon-chat-33"></i>
+                    <span class="nav-link-text">{{ __('Messages') }}</span>
                     <b class="caret mt-1"></b>
                 </a>
 
                 <div class="collapse" id="navbar-messages">
                     <ul class="nav pl-4">
                         <li @if ($pageSlug == 'messages') class="active " @endif>
-                            <a href="{{ route('messages')  }}">
+                            <a href="{{ route('messages') }}">
                                 <i class="tim-icons icon-bullet-list-67"></i>
                                 <p>{{ _('List') }}</p>
                             </a>
                         </li>
                         <li @if ($pageSlug == 'messages/create') class="active " @endif>
-                            <a href="{{ route('messages-create')  }}">
+                            <a href="{{ route('messages-create') }}">
                                 <i class="tim-icons icon-email-85"></i>
                                 <p>{{ _('Create Message') }}</p>
                             </a>
