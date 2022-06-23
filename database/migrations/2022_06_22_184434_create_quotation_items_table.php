@@ -19,7 +19,7 @@ class CreateQuotationItemsTable extends Migration
             $table->string('particulars', 255);
             $table->unsignedInteger('quantity');
             $table->decimal('price');
-            $table->string('unit');
+            $table->string('unit')->nullable();
             $table->timestamps();
             $table->foreign('quotation_id')
                 ->references('id')

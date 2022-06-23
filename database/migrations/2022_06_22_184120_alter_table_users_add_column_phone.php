@@ -14,7 +14,7 @@ class AlterTableUsersAddColumnPhone extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('phone', 13)->nullable();
+            $table->string('phone', 13)->nullable()->after('email');
         });
     }
 

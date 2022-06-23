@@ -103,7 +103,7 @@ Route::name('api')->namespace('App\Http\Controllers')->group(function () {
         Route::delete('', [InvoiceController::class, 'destroy'])->name('-destroy');
     });
 
-    Route::prefix('quotations')->name('-quotations')->group(function () {
+    Route::prefix('quotations')->name('-quotations')->middleware('auth:api')->group(function () {
         Route::get('', [QuotationController::class, 'index']);
         Route::get('/show/{id}', [QuotationController::class, 'show'])->name('-show');
         Route::post('', [QuotationController::class, 'store'])->name('-store');

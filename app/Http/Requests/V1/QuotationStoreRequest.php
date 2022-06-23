@@ -25,9 +25,11 @@ class QuotationStoreRequest extends FormRequest
     {
         return [
             'client_id' => 'required|integer|exists:clients,id',
-            'user_id' => 'required',
-            'validity' => 'required',
-            'items' => 'required',
+            'validity' => 'required|integer|min:1',
+            'items' => 'required|array|min:1',
+            'items.*.particulars' => 'required',
+            'items.*.quantity' => 'required|integer|min:1',
+            'items.*.price' => 'required|numeric|min:1',
         ];
     }
 }

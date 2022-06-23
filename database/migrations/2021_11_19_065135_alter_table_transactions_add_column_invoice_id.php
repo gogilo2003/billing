@@ -15,7 +15,11 @@ class AlterTableTransactionsAddColumnInvoiceId extends Migration
     {
         Schema::table('transactions', function (Blueprint $table) {
             $table->unsignedInteger('invoice_id')->nullable()->after('account_id');
-            $table->foreign('invoice_id')->references('id')->on('invoices')->onDelete('cascade');
+            $table->foreign('invoice_id')
+                ->references('id')
+                ->on('invoices')
+                ->cascadeOnUpdate()
+                ->cascadeOnUpdate();
         });
     }
 

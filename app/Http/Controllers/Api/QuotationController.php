@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Quotation;
-use Illuminate\Http\Request;
 use Ogilo\ApiResponseHelpers;
 use App\Services\QuotationService;
 use App\Http\Controllers\Controller;
@@ -21,7 +20,7 @@ class QuotationController extends Controller
      */
     public function index()
     {
-        return response()->json(QuotationResource::collection(Quotation::all()));
+        return QuotationResource::collection(Quotation::with('items')->get());
     }
 
     /**
@@ -32,7 +31,13 @@ class QuotationController extends Controller
      */
     public function store(QuotationStoreRequest $request, QuotationService $service)
     {
-        $quotation =  $service->store($request->client_id, $request->user()->id, $request->validity, $request->items, $request->description);
+        $quotation = new QuotationResource($service->store(
+            $request->client_id,
+            $request->user()->id,
+            $request->validity,
+            $request->items,
+            $request->description
+        ));
         return $this->storeSuccess('Quotation stored', compact('quotation'));
     }
 
@@ -42,9 +47,11 @@ class QuotationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Quotation $quotation)
+    public function show(int $id)
     {
-        return response()->json(QuotationResource::make($quotation));
+        $quotation = Quotation::with('items', 'client', 'user')->findOrFail($id);
+        $quotation->unsetRelation('user.accounts');
+        return new QuotationResource($quotation);
     }
 
     /**
@@ -54,9 +61,16 @@ class QuotationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(QuotationUpdateRequest $request, int $id, QuotationService $service)
+    public function update(QuotationUpdateRequest $request, QuotationService $service)
     {
-        $quotation = $service->update($id, $request->client_id, $request->user()->id, $request->validity, $request->items, $request->description);
+        $quotation = new QuotationResource($service->update(
+            $request->id,
+            $request->client_id,
+            $request->user()->id,
+            $request->validity,
+            $request->items,
+            $request->description
+        ));
         return $this->updateSuccess("Quotation updated", compact('quotation'));
     }
 
