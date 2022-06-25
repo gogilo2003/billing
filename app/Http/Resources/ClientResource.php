@@ -22,6 +22,7 @@ class ClientResource extends JsonResource
             'email' => $this->email,
             'postal_address' => 'P.O. Box ' . $this->box_no . '-' . $this->post_code . ', ' . $this->town,
             'address' => $this->address,
+            "accounts" => $this->relationLoaded('accounts') ? AccountResource::collection($this->accounts) : AccountResource::collection([]),
         ];
     }
 }

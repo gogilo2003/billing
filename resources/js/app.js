@@ -24,7 +24,7 @@ Vue.component('domains', require('./components/Domains.vue').default);
 Vue.component('products', require('./components/Products.vue').default);
 Vue.component('import', require('./components/Import.vue').default);
 Vue.component('invoices', require('./components/invoice/List.vue').default);
-Vue.component('quotations', require('./components/Quotations.vue').default);
+Vue.component('quotations', require('./components/Quotations/List.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

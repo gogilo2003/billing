@@ -1,5 +1,6 @@
 <?php
 
+use App\Services\QuotationService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -87,9 +88,14 @@ Route::group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'], fu
         return view('domains.index');
     })->name('domains');
 
-    Route::get('/quotations', function () {
-        return view('quotations.index');
-    })->name('quotations');
+    Route::prefix('quotations')->name('quotations')->group(function () {
+        Route::get('', function () {
+            return view('quotations.index');
+        })->name('');
+        Route::get("download/{id}", function (int $id, QuotationService $service) {
+            return $service->download($id)->download();
+        })->name('-download');
+    });
 });
 
 Route::get('test', function () {

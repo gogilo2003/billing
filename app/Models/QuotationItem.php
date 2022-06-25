@@ -19,4 +19,9 @@ class QuotationItem extends Model
     {
         return $this->belongsTo(Quotation::class);
     }
+
+    public function amount()
+    {
+        return $this->quantity * $this->price;
+    }
 }

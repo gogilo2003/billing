@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use CodeItNow\BarcodeBundle\Utils\BarcodeGenerator;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -38,5 +39,29 @@ class Quotation extends Model
     public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class);
+    }
+
+    public function getBarcodeAttribute()
+    {
+        $barcode = new BarcodeGenerator();
+        $barcode->setText(str_pad($this->id, 6, '0', STR_PAD_LEFT));
+        $barcode->setType(BarcodeGenerator::Code39);
+        $barcode->setScale(2);
+        $barcode->setThickness(10);
+        $barcode->setFontSize(14);
+        $barcode->setLabel("");
+        $code = $barcode->generate();
+
+        return 'data:image/png;base64,' . $code;
+    }
+
+    public function amount()
+    {
+        $amount = 0;
+        $this->load('items');
+        foreach ($this->items as $item) {
+            $amount += $item->amount();
+        }
+        return $amount;
     }
 }

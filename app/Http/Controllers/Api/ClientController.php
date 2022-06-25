@@ -34,7 +34,7 @@ class ClientController extends Controller
             };
         });
 
-        return response()->json($clients->toArray());
+        return response()->json(['data' => $clients->toArray()]);
     }
 
     public function createClient(Request $request)

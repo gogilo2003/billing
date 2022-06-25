@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Client;
 use App\Models\Quotation;
+use Illuminate\Http\Request;
 use Ogilo\ApiResponseHelpers;
 use App\Services\QuotationService;
 use App\Http\Controllers\Controller;
@@ -18,9 +20,15 @@ class QuotationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return QuotationResource::collection(Quotation::with('items')->get());
+        $search = $request->has('search') ? $request->search : '';
+        $quotations = Quotation::with('client', 'user', 'items')
+            ->whereIn('client_id', Client::where('name', 'LIKE', "%$search%")->pluck('id'))
+            ->orderBy('created_at', 'DESC')
+            ->paginate(5);
+
+        return QuotationResource::collection($quotations);
     }
 
     /**

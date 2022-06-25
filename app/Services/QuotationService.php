@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Quotation;
 use App\Models\QuotationItem;
+use Illuminate\Support\Facades\App;
 
 class QuotationService
 {
@@ -76,5 +77,28 @@ class QuotationService
         $quotation->load('items');
 
         return $quotation;
+    }
+
+    /**
+     * Prepare quotation for download
+     *
+     * @param int $id
+     *
+     * return PDF
+     */
+    public function download(int $id)
+    {
+        $quotation = Quotation::with('client')->find($id);
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadView('quotations.download', compact('quotation'))
+            ->setOption('no-outline', true)
+            ->setOption('margin-left', 0)
+            ->setOption('margin-right', 0)
+            ->setOption('margin-top', 48)
+            ->setOption('margin-bottom', 13)
+            ->setOption('header-html', public_path('pdf/header.html'))
+            ->setOption('footer-html', public_path('pdf/footer.html'));
+
+        return $pdf;
     }
 }

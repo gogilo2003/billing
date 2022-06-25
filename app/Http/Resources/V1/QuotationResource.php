@@ -17,13 +17,30 @@ class QuotationResource extends JsonResource
     public function toArray($request)
     {
         // return parent::toArray($request);
+        $amount = 0;
+
+        if ($this->relationLoaded('items')) {
+            foreach ($this->items as $item) {
+                $amount += ($item->quantity * $item->price);
+            }
+        }
         return [
             "id" => $this->id,
             "description" => $this->description,
             "validity" => $this->validity,
-            "client" => $this->relationLoaded('client') ? new ClientResource($this->client) : $this->client_id,
-            "user" => $this->relationLoaded('user') ? new UserResource($this->client) : $this->client_id,
-            "created_at" => date_create($this->created_at)->format('j-M-Y h:i:s A')
+            "amount" => $amount,
+            "client" => $this->relationLoaded('client')
+                ? new ClientResource($this->client)
+                : $this->client_id,
+            "user" => $this->relationLoaded('user')
+                ? new UserResource($this->user)
+                : $this->user_id,
+            "items" => $this->relationLoaded('items')
+                ? QuotationItemResource::collection($this->items)
+                : QuotationItemResource::collection([]),
+            "barcode" => $this->barcode,
+            "created_at" => date_create($this->created_at)
+                ->format('j-M-Y h:i:s A'),
         ];
     }
 }

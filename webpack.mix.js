@@ -15,4 +15,5 @@ mix.js('resources/js/app.js', 'public/js')
     .vue()
     .sass('resources/scss/receipt.scss', 'public/css')
     .sass('resources/scss/pdf.scss', 'public/css')
-    .sass('resources/sass/app.scss', 'public/css');
+    .sass('resources/scss/pdf-footer.scss', 'public/css')
+    .sass('resources/scss/app.scss', 'public/css');

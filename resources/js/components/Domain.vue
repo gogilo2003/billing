@@ -1,22 +1,11 @@
 <template>
-    <div
-        class="modal fade"
-        id="domainsModalDialog"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="modelTitleId"
-        aria-hidden="true"
-    >
+    <div class="modal fade" id="domainsModalDialog" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">{{ title }}</h5>
-                    <button
-                        type="button"
-                        class="close"
-                        data-dismiss="modal"
-                        aria-label="Close"
-                    >
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -24,103 +13,54 @@
                     <div class="form-row">
                         <div class="form-group col-md-8">
                             <label for="clientInput">Client</label>
-                            <select
-                                class="form-control"
-                                name="clientInput"
-                                id="clientInput"
-                                v-model="selectedDomain.client_id"
-                            >
-                                <option
-                                    v-for="item in clients"
-                                    :key="item.id"
-                                    :value="item.id"
-                                    v-html="item.name"
-                                ></option>
+                            <select class="form-control" name="clientInput" id="clientInput"
+                                v-model="selectedDomain.client_id">
+                                <option v-for="item in clients" :key="item.id" :value="item.id" v-html="item.name">
+                                </option>
                             </select>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="statusInput">Status</label>
-                            <select
-                                class="form-control"
-                                name="statusInput"
-                                id="statusInput"
-                                v-model="selectedDomain.status"
-                            >
-                                <option
-                                    v-for="item in states"
-                                    :key="item"
-                                    :value="item"
-                                    v-html="item"
-                                ></option>
+                            <select class="form-control" name="statusInput" id="statusInput"
+                                v-model="selectedDomain.status">
+                                <option v-for="item in states" :key="item" :value="item" v-html="item"></option>
                             </select>
                         </div>
                         <div class="form-group col-md-12">
                             <label for="domainInput">Domain</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                name="domainInput"
-                                id="domainInput"
-                                aria-describedby="helpId"
-                                placeholder="Domain"
-                                v-model="selectedDomain.domain"
-                            />
+                            <input type="text" class="form-control" name="domainInput" id="domainInput"
+                                aria-describedby="helpId" placeholder="Domain" v-model="selectedDomain.domain" />
                         </div>
                         <div class="form-group col-md-6">
                             <label for="registeredOnInput">Registered On</label>
-                            <date-picker
-                                v-model="selectedDomain.registered_on"
-                                style="width: 100%"
-                                placeholder="Expires On"
-                                :input-attr="{
+                            <date-picker v-model="selectedDomain.registered_on" style="width: 100%"
+                                placeholder="Expires On" :input-attr="{
                                     class: 'form-control',
                                     id: 'registeredOnInput',
-                                }"
-                                value-type="format"
-                                format="YYYY-MM-DD HH:mm:ss"
-                            >
+                                }" value-type="format" format="YYYY-MM-DD HH:mm:ss">
                             </date-picker>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="expiresOnInput">Expires On</label>
-                            <date-picker
-                                v-model="selectedDomain.expires_on"
-                                style="width: 100%"
-                                placeholder="Expires On"
-                                :input-attr="{
+                            <date-picker v-model="selectedDomain.expires_on" style="width: 100%"
+                                placeholder="Expires On" :input-attr="{
                                     class: 'form-control',
                                     id: 'expiresOnInput',
-                                }"
-                                value-type="format"
-                                format="YYYY-MM-DD HH:mm:ss"
-                            >
+                                }" value-type="format" format="YYYY-MM-DD HH:mm:ss">
                             </date-picker>
                         </div>
                         <div class="form-group col-md-12">
                             <label for="remarksInput">Remarks</label>
-                            <textarea
-                                v-model="selectedDomain.remarks"
-                                class="form-control"
-                                name="remarksInput"
-                                id="remarksInput"
-                                rows="3"
-                            ></textarea>
+                            <textarea v-model="selectedDomain.remarks" class="form-control" name="remarksInput"
+                                id="remarksInput" rows="3"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button
-                        type="button"
-                        class="btn btn-secondary"
-                        data-dismiss="modal"
-                    >
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
                         Close
                     </button>
-                    <button
-                        type="button"
-                        class="btn btn-primary"
-                        @click="save()"
-                    >
+                    <button type="button" class="btn btn-primary" @click="save()">
                         Save
                     </button>
                 </div>
@@ -174,7 +114,7 @@ export default {
         },
         getClients() {
             axios.get("/api/clients").then((response) => {
-                this.clients = response.data;
+                this.clients = response.data.data;
             });
         },
         save() {

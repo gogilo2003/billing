@@ -21,6 +21,11 @@
     <!-- CSS -->
     <link href="{{ asset('white') }}/css/white-dashboard.css?v=1.0.0" rel="stylesheet" />
     <link href="{{ asset('white') }}/css/theme.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+
+    <script>
+        window.API_TOKEN = "@api_token()"
+    </script>
 
     @yield('styles')
     @stack('styles')

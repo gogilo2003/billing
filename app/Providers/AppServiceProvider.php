@@ -5,6 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\Collection;
 use App\Services\MobitechSmsGateway;
 use App\Services\SmsGatewayContract;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -16,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(SmsGatewayContract::class,function($app){
+        $this->app->singleton(SmsGatewayContract::class, function ($app) {
             return new MobitechSmsGateway();
         });
 
@@ -25,8 +27,8 @@ class AppServiceProvider extends ServiceProvider
             require_once($helper);
         }
 
-        file_put_contents(public_path('pdf/header.html'),view('layouts.header-footer.header')->render());
-        file_put_contents(public_path('pdf/footer.html'),view('layouts.header-footer.footer')->render());
+        file_put_contents(public_path('pdf/header.html'), view('layouts.header-footer.header')->render());
+        file_put_contents(public_path('pdf/footer.html'), view('layouts.header-footer.footer')->render());
     }
 
     /**
@@ -49,6 +51,10 @@ class AppServiceProvider extends ServiceProvider
             return $this->sortBy(function ($datum) use ($column) {
                 return strtotime($datum->$column);
             }, SORT_REGULAR, true);
+        });
+
+        Blade::directive('api_token', function () {
+            return Auth::check() ? request()->user()->api_token : null;
         });
     }
 }

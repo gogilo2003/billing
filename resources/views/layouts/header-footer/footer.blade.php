@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +15,9 @@
                     vars[temp_var[0]] = decodeURI(temp_var[1]);
                 }
             }
-            var css_selector_classes = ['page', 'frompage', 'topage', 'webpage', 'section', 'subsection', 'date', 'isodate', 'time', 'title', 'doctitle', 'sitepage', 'sitepages'];
+            var css_selector_classes = ['page', 'frompage', 'topage', 'webpage', 'section', 'subsection', 'date', 'isodate',
+                'time', 'title', 'doctitle', 'sitepage', 'sitepages'
+            ];
             for (var css_class in css_selector_classes) {
                 if (css_selector_classes.hasOwnProperty(css_class)) {
                     var element = document.getElementsByClassName(css_selector_classes[css_class]);
@@ -26,31 +29,19 @@
         }
     </script>
     <style type="text/css">
-        @import url('http://fonts.googleapis.com/css?family=Poppins:300,400&display=swap');
-        html,body{
-            padding: 0;
-            margin: 0;
-        }
-        body{
-            margin: 0 -5rem;
-            border-top: 1px solid rgba(0, 0, 0, 0.5);
-            color: rgba(0,0,0,0.8);
-            text-align: center;
-            font-size:10pt;
-        }
-        body footer .copyright{
-            padding: 1.5rem 0;
-        }
+        @import url('{{ asset('css/pdf-footer.css') }}');
     </style>
 </head>
+
 <body onload="subst()">
     <footer class="footer font-poiret-one">
-            <p class="copyright">
-                <span class=" text-uppercase"> &copy; {{ date('Y') }} {{ config('app.name') }}</span>
-                <!--<br>
+        <p class="copyright">
+            <span class=" text-uppercase"> &copy; {{ date('Y') }} {{ config('app.name') }}</span>
+            <!--<br>
                 <small>Page <span class="page"></span> of <span class="topage"></span></small>
                 -->
-            </p>
+        </p>
     </footer>
 </body>
+
 </html>

@@ -20,10 +20,16 @@ class SelectClientResource extends JsonResource
         // return parent::toArray($request);
 
         $accounts = $this->relationLoaded('accounts') ? SelectAccountResource::collection($this->accounts) : null;
-        return [
+
+        $clients = [
             'id' => $this->id,
             'name' => strtoupper($this->name),
-            'accounts' => $accounts
         ];
+
+        if ($accounts) {
+            $clients['accounts'] = $accounts;
+        }
+
+        return $clients;
     }
 }

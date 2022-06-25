@@ -13,10 +13,10 @@ try {
     require('bootstrap');
     require('bootstrap-notify');
     $.notifyDefaults({
-        z_index:10000,
+        z_index: 10000,
         delay: 8000,
-        onShow:()=>{
-            document.querySelectorAll('.alert .close').forEach(item=>{ item.style.top = "20px"})
+        onShow: () => {
+            document.querySelectorAll('.alert .close').forEach(item => { item.style.top = "20px"; item.style.right = "20px" })
         },
     })
 } catch (e) {

@@ -15,7 +15,7 @@
 
             <li>
                 <a data-toggle="collapse" href="#navbar-clients" aria-expanded="false">
-                    <i class="fas fa-users"></i>
+                    <i class="tim-icons icon-single-02"></i>
                     <span class="nav-link-text">{{ __('Clients') }}</span>
                     <b class="caret mt-1"></b>
                 </a>
@@ -62,39 +62,15 @@
                     </ul>
                 </div>
             </li>
-
-            {{-- <li>
-                <a data-toggle="collapse" href="#navbar-invoices" aria-expanded="false">
-                    <i class="tim-icons icon-paper" ></i>
-                    <span class="nav-link-text" >{{ __('Invoices') }}</span>
-                    <b class="caret mt-1"></b>
-                </a>
-                <div class="collapse" id="navbar-invoices">
-                    <ul class="nav pl-4">
-                        <li @if ($pageSlug == 'invoices') class="active " @endif>
-                            <a href="{{ route('invoices')  }}">
-                                <i class="tim-icons icon-bullet-list-67"></i>
-                                <p>{{ _('List') }}</p>
-                            </a>
-                        </li>
-                        <li @if ($pageSlug == 'invoices/create') class="active " @endif>
-                            <a href="{{ route('invoices-create')  }}">
-                                <i class="tim-icons icon-simple-add"></i>
-                                <p>{{ _('New') }}</p>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </li> --}}
             <li @if ($pageSlug == 'quotations') class="active " @endif>
                 <a href="{{ route('quotations') }}">
-                    <i class="tim-icons icon-bag-16"></i>
+                    <i class="tim-icons icon-notes"></i>
                     <p>{{ _('Quotations') }}</p>
                 </a>
             </li>
             <li @if ($pageSlug == 'invoices') class="active " @endif>
                 <a href="{{ route('invoices') }}">
-                    <i class="tim-icons icon-bag-16"></i>
+                    <i class="tim-icons icon-paper"></i>
                     <p>{{ _('Invoices') }}</p>
                 </a>
             </li>

@@ -29,7 +29,6 @@ class UserResource extends JsonResource
             "latest_cr_date" => date_create($this->latest_cr_date)->format('j-M-Y h:i:s A'),
             "latest_dr_date" => date_create($this->latest_dr_date)->format('j-M-Y h:i:s A'),
             "latest_transaction_date" => date_create($this->latest_transaction_date)->format('j-M-Y h:i:s A'),
-            "accounts" => $this->relationLoaded('accounts') ? AccountResource::collection($this->accounts) : AccountResource::collection([]),
             "created_at" => date_create($this->created_at)->format('j-M-Y h:i:s A'),
         ];
     }
