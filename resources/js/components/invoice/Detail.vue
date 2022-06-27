@@ -1,26 +1,11 @@
 <template>
-    <div
-        class="modal fade"
-        id="invoicesModalDialog"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="modelTitleId"
-        aria-hidden="true"
-    >
-        <div
-            class="modal-dialog"
-            role="document"
-            style="max-width: 800px; min-width: 800px"
-        >
+    <div class="modal fade" id="invoicesModalDialog" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document" style="max-width: 800px; min-width: 800px">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">{{ title }}</h5>
-                    <button
-                        type="button"
-                        class="close"
-                        data-dismiss="modal"
-                        aria-label="Close"
-                    >
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -28,126 +13,71 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="clientInput">Account</label>
-                            <select
-                                class="form-control"
-                                name="clientInput"
-                                id="clientInput"
-                                v-model="selectedInvoice.account_id"
-                                :value="selectedInvoice.account_id"
-                            >
-                                <optgroup
-                                    v-for="client in clients"
-                                    :key="client.id"
-                                    :label="client.name"
-                                >
-                                    <option
-                                        v-for="account in client.accounts"
-                                        :key="account.id"
-                                        :value="account.id"
-                                        v-html="account.name"
-                                    ></option>
+                            <select class="form-control" name="clientInput" id="clientInput"
+                                v-model="selectedInvoice.account_id" :value="selectedInvoice.account_id">
+                                <optgroup v-for="client in clients" :key="client.id" :label="client.name">
+                                    <option v-for="account in client.accounts" :key="account.id" :value="account.id"
+                                        v-html="account.name"></option>
                                 </optgroup>
                             </select>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="nameInput"
-                                >REF<small
-                                    >(LPO Number/LSO Number/PO Number)</small
-                                ></label
-                            >
-                            <input
-                                type="text"
-                                class="form-control"
-                                name="nameInput"
-                                id="nameInput"
-                                aria-describedby="helpId"
-                                placeholder="LPO Number/LSO Number/PO Number"
-                                v-model="selectedInvoice.ref"
-                            />
+                            <label for="nameInput">REF<small>(LPO Number/LSO Number/PO Number)</small></label>
+                            <input type="text" class="form-control" name="nameInput" id="nameInput"
+                                aria-describedby="helpId" placeholder="LPO Number/LSO Number/PO Number"
+                                v-model="selectedInvoice.ref" />
                         </div>
                         <div class="form-group col-md-12">
                             <label for="nameInput">Invoice Name</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                name="nameInput"
-                                id="nameInput"
-                                aria-describedby="helpId"
-                                placeholder="Invoice name"
-                                v-model="selectedInvoice.name"
-                            />
+                            <input type="text" class="form-control" name="nameInput" id="nameInput"
+                                aria-describedby="helpId" placeholder="Invoice name" v-model="selectedInvoice.name" />
                         </div>
                         <div class="col-md-12">
                             <h4>Invoice Items</h4>
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th
-                                            style="width: 55%"
-                                            class="text-left"
-                                        >
+                                        <th style="width: 55%" class="text-left">
                                             Particulars
                                         </th>
-                                        <th
-                                            style="width: 15%"
-                                            class="text-left"
-                                        >
+                                        <th style="width: 15%" class="text-left">
                                             Price
                                         </th>
-                                        <th
-                                            style="width: 15%"
-                                            class="text-left"
-                                        >
+                                        <th style="width: 15%" class="text-left">
                                             Quantity
                                         </th>
-                                        <th
-                                            style="width: 15%"
-                                            class="text-left"
-                                        >
+                                        <th style="width: 15%" class="text-left">
                                             Amount
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr
-                                        v-for="(
+                                    <tr v-for="(
                                             item, index
-                                        ) in selectedInvoice.items"
-                                        :key="index"
-                                    >
+                                        ) in selectedInvoice.items" :key="index">
                                         <td>{{ item.particulars }}</td>
                                         <td>{{ item.price }}</td>
                                         <td>{{ item.quantity }}</td>
                                         <td>{{ item.amount }}</td>
                                         <td>
                                             <div class="btn-group">
-                                                <button
-                                                    class="
+                                                <button class="
                                                         btn btn-link
                                                         text-success
-                                                    "
-                                                    @click="editItem(item)"
-                                                >
-                                                    <span
-                                                        class="
+                                                    " @click="editItem(item)">
+                                                    <span class="
                                                             tim-icons
                                                             icon-pencil
-                                                        "
-                                                    ></span>
+                                                        "></span>
                                                 </button>
-                                                <button
-                                                    class="
+                                                <button class="
                                                         btn btn-link
                                                         text-danger
-                                                    "
-                                                    @click="removeItem(index)"
-                                                >
-                                                    <span
-                                                        class="
+                                                    " @click="removeItem(index)">
+                                                    <span class="
                                                             tim-icons
                                                             icon-simple-remove
-                                                        "
-                                                    ></span>
+                                                        "></span>
                                                 </button>
                                             </div>
                                         </td>
@@ -156,64 +86,31 @@
                                 <tfoot>
                                     <tr>
                                         <td>
-                                            <input
-                                                type="text"
-                                                class="form-control"
-                                                name="particulars"
-                                                id="particulars"
-                                                aria-describedby="particularsHelpId"
-                                                placeholder="particulars"
-                                                v-model="item.particulars"
-                                            />
+                                            <input type="text" class="form-control" name="particulars" id="particulars"
+                                                aria-describedby="particularsHelpId" placeholder="particulars"
+                                                v-model="item.particulars" />
                                         </td>
                                         <td>
-                                            <input
-                                                type="text"
-                                                class="form-control"
-                                                name="price"
-                                                id="price"
-                                                aria-describedby="priceHelpId"
-                                                placeholder="price"
-                                                @change="setAmount"
-                                                v-model="item.price"
-                                            />
+                                            <input type="text" class="form-control" name="price" id="price"
+                                                aria-describedby="priceHelpId" placeholder="price" @change="setAmount"
+                                                v-model="item.price" />
                                         </td>
                                         <td>
-                                            <input
-                                                type="text"
-                                                class="form-control"
-                                                name="quantity"
-                                                id="quantity"
-                                                aria-describedby="quantityHelpId"
-                                                placeholder="quantity"
-                                                @change="setAmount"
-                                                v-model="item.quantity"
-                                            />
+                                            <input type="text" class="form-control" name="quantity" id="quantity"
+                                                aria-describedby="quantityHelpId" placeholder="quantity"
+                                                @change="setAmount" v-model="item.quantity" />
                                         </td>
                                         <td>
-                                            <input
-                                                type="text"
-                                                class="form-control"
-                                                name="amount"
-                                                id="amount"
-                                                aria-describedby="amountHelpId"
-                                                placeholder="amount"
-                                                v-model="item.amount"
-                                                readonly
-                                            />
+                                            <input type="text" class="form-control" name="amount" id="amount"
+                                                aria-describedby="amountHelpId" placeholder="amount"
+                                                v-model="item.amount" readonly />
                                         </td>
                                         <td>
-                                            <button
-                                                @click="addItem"
-                                                class="btn btn-link text-info"
-                                                :disabled="!filled"
-                                            >
-                                                <span
-                                                    class="
+                                            <button @click="addItem" class="btn btn-link text-info" :disabled="!filled">
+                                                <span class="
                                                         tim-icons
                                                         icon-simple-add
-                                                    "
-                                                ></span>
+                                                    "></span>
                                             </button>
                                         </td>
                                     </tr>
@@ -223,18 +120,10 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button
-                        type="button"
-                        class="btn btn-secondary btn-round"
-                        data-dismiss="modal"
-                    >
+                    <button type="button" class="btn btn-secondary btn-round" data-dismiss="modal">
                         Close
                     </button>
-                    <button
-                        type="button"
-                        class="btn btn-primary btn-round"
-                        @click="save()"
-                    >
+                    <button type="button" class="btn btn-primary btn-round" @click="save()">
                         Save
                     </button>
                 </div>
@@ -306,7 +195,7 @@ export default {
             this.item.amount = isNaN(this.item.amount) ? 0 : this.item.amount;
         },
         async getAccounts() {
-            await axios.get("/api/clients/accounts").then((response) => {
+            await axios.get(`/api/clients/accounts?api_token=${window.API_TOKEN}`).then((response) => {
                 this.clients = response.data.data.filter(
                     (item) => item.accounts.length
                 );

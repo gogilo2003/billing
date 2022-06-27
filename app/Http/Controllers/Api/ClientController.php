@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ClientResource;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\SelectClientResource;
 
@@ -22,6 +23,12 @@ class ClientController extends Controller
     }
 
     public function index()
+    {
+        $clients = Client::all()->sortBy('balance');
+        return ClientResource::collection($clients)->chunk(10);
+    }
+
+    public function minList()
     {
         $clients = Client::orderBy('name', 'ASC')->get()->map(function ($item) {
             return new class($item->id, $item->name)

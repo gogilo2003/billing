@@ -50,13 +50,14 @@ Route::name('api')->namespace('App\Http\Controllers')->group(function () {
         });
     });
 
-    Route::group(['as' => '-clients', 'prefix' => 'clients'], function () {
+    Route::name('-clients')->prefix('clients')->middleware('auth:api')->group(function () {
+        Route::get('', [ClientController::class, 'index']);
+        Route::get('list', [ClientController::class, 'minList'])->name('-list');
+        Route::get('accounts', [ClientController::class, 'accounts'])->name('-accounts');
         Route::group(['as' => '-notification', 'prefix' => 'notification'], function () {
             Route::post('update', [ClientController::class, 'updateNotification'])->name('-update');
             Route::get('show', [ClientController::class, 'showNotification'])->name('-show');
         });
-        Route::get('', [ClientController::class, 'index'])->name('-list');
-        Route::get('accounts', [ClientController::class, 'accounts'])->name('-accounts');
     });
 
     Route::group(['as' => '-domains', 'prefix' => 'domains'], function () {

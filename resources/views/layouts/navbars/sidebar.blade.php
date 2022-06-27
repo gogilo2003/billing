@@ -12,8 +12,13 @@
                     <p>{{ _('Dashboard') }}</p>
                 </a>
             </li>
-
-            <li>
+            <li @if ($pageSlug == 'clients') class="active " @endif>
+                <a href="{{ route('clients') }}">
+                    <i class="tim-icons icon-single-02"></i>
+                    <p>{{ _('Clients') }}</p>
+                </a>
+            </li>
+            {{-- <li>
                 <a data-toggle="collapse" href="#navbar-clients" aria-expanded="false">
                     <i class="tim-icons icon-single-02"></i>
                     <span class="nav-link-text">{{ __('Clients') }}</span>
@@ -22,12 +27,7 @@
 
                 <div class="collapse" id="navbar-clients">
                     <ul class="nav pl-4">
-                        <li @if ($pageSlug == 'clients') class="active " @endif>
-                            <a href="{{ route('clients') }}">
-                                <i class="tim-icons icon-bullet-list-67"></i>
-                                <p>{{ _('List') }}</p>
-                            </a>
-                        </li>
+
                         <li @if ($pageSlug == 'clients/create') class="active " @endif>
                             <a href="{{ route('clients-create') }}">
                                 <i class="tim-icons icon-simple-add"></i>
@@ -36,7 +36,7 @@
                         </li>
                     </ul>
                 </div>
-            </li>
+            </li> --}}
 
             <li>
                 <a data-toggle="collapse" href="#navbar-accounts" aria-expanded="false">

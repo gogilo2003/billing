@@ -6,25 +6,14 @@
                     <div class="col-md-6 text-uppercase">
                         <h3 class="card-title">Invoices</h3>
                     </div>
-                    <div
-                        class="col-md-6 d-flex"
-                        style="
+                    <div class="col-md-6 d-flex" style="
                             justify-content: flex-end;
                             align-items: flex-start;
-                        "
-                    >
-                        <input
-                            type="text"
-                            class="form-control"
-                            placeholder="Search"
-                            v-model="search"
-                            @keypress.13="getInvoices"
-                        />
+                        ">
+                        <input type="text" class="form-control" placeholder="Search" v-model="search"
+                            @keypress.13="getInvoices" />
                         <!-- Button trigger modal -->
-                        <label
-                            class="btn btn-success btn-sm"
-                            @click="newInvoice"
-                        >
+                        <label class="btn btn-success btn-sm" @click="newInvoice">
                             NEW
                         </label>
                     </div>
@@ -44,16 +33,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr
-                                v-for="(invoice, index) in invoices.data"
-                                :key="invoice.id"
-                            >
+                            <tr v-for="(invoice, index) in invoices.data" :key="invoice.id">
                                 <td>{{ index + 1 }}</td>
                                 <td>
                                     {{
-                                        invoice.account.client
-                                            ? invoice.account.client.name
-                                            : ""
+                                            invoice.account.client
+                                                ? invoice.account.client.name
+                                                : ""
                                     }}
                                 </td>
                                 <td>{{ invoice.name }}</td>
@@ -61,21 +47,11 @@
                                 <td class="text-right">{{ invoice.amount }}</td>
                                 <td>
                                     <div class="btn-group">
-                                        <button
-                                            class="btn btn-link"
-                                            @click="editInvoice(invoice)"
-                                        >
-                                            <span
-                                                class="tim-icons icon-pencil"
-                                            ></span>
+                                        <button class="btn btn-link" @click="editInvoice(invoice)">
+                                            <span class="tim-icons icon-pencil"></span>
                                         </button>
-                                        <button
-                                            class="btn btn-link"
-                                            @click="viewInvoice(invoice)"
-                                        >
-                                            <span
-                                                class="tim-icons icon-paper"
-                                            ></span>
+                                        <button class="btn btn-link" @click="viewInvoice(invoice)">
+                                            <span class="tim-icons icon-paper"></span>
                                         </button>
                                     </div>
                                 </td>
@@ -83,96 +59,68 @@
                             <tr>
                                 <td colspan="7">
                                     <div class="btn-group">
-                                        <button
-                                            @click="
-                                                nextPage(invoices.links.first)
-                                            "
-                                            style="cursor: pointer"
-                                            :disabled="
-                                                invoices.links.first == null ||
-                                                invoices.meta.current_page == 1
-                                            "
-                                            class="
+                                        <button @click="
+                                            nextPage(invoices.links.first)
+                                        " style="cursor: pointer" :disabled="
+    invoices.links.first == null ||
+    invoices.meta.current_page == 1
+" class="
                                                 btn
                                                 btn-sm
                                                 btn-primary
                                                 btn-simple
-                                            "
-                                        >
-                                            <span
-                                                class="
+                                            ">
+                                            <span class="
                                                     tim-icons
                                                     icon-double-left
-                                                "
-                                            ></span>
+                                                "></span>
                                         </button>
-                                        <button
-                                            @click="
-                                                nextPage(invoices.links.prev)
-                                            "
-                                            style="cursor: pointer"
-                                            :disabled="
-                                                invoices.links.prev == null
-                                            "
-                                            class="
+                                        <button @click="
+                                            nextPage(invoices.links.prev)
+                                        " style="cursor: pointer" :disabled="
+    invoices.links.prev == null
+" class="
                                                 btn
                                                 btn-sm
                                                 btn-primary
                                                 btn-simple
-                                            "
-                                        >
-                                            <span
-                                                class="
+                                            ">
+                                            <span class="
                                                     tim-icons
                                                     icon-minimal-left
-                                                "
-                                            ></span>
+                                                "></span>
                                         </button>
-                                        <button
-                                            @click="
-                                                nextPage(invoices.links.next)
-                                            "
-                                            style="cursor: pointer"
-                                            :disabled="
-                                                invoices.links.next == null
-                                            "
-                                            class="
+                                        <button @click="
+                                            nextPage(invoices.links.next)
+                                        " style="cursor: pointer" :disabled="
+    invoices.links.next == null
+" class="
                                                 btn
                                                 btn-sm
                                                 btn-primary
                                                 btn-simple
-                                            "
-                                        >
-                                            <span
-                                                class="
+                                            ">
+                                            <span class="
                                                     tim-icons
                                                     icon-minimal-right
-                                                "
-                                            ></span>
+                                                "></span>
                                         </button>
-                                        <button
-                                            @click="
-                                                nextPage(invoices.links.last)
-                                            "
-                                            style="cursor: pointer"
-                                            :disabled="
-                                                invoices.links.last == null ||
-                                                invoices.meta.current_page ==
-                                                    invoices.meta.last_page
-                                            "
-                                            class="
+                                        <button @click="
+                                            nextPage(invoices.links.last)
+                                        " style="cursor: pointer" :disabled="
+    invoices.links.last == null ||
+    invoices.meta.current_page ==
+    invoices.meta.last_page
+" class="
                                                 btn
                                                 btn-sm
                                                 btn-primary
                                                 btn-simple
-                                            "
-                                        >
-                                            <span
-                                                class="
+                                            ">
+                                            <span class="
                                                     tim-icons
                                                     icon-double-right
-                                                "
-                                            ></span>
+                                                "></span>
                                         </button>
                                     </div>
                                 </td>
@@ -259,17 +207,18 @@ export default {
             $("#invoiceViewModalDialog").modal("show");
         },
         nextPage(url) {
+            url += `&api_token=${window.API_TOKEN}`
             if (this.search) {
-                url += "?search=" + this.search;
+                url += `&search=${this.search}`;
             }
             axios.get(url).then((response) => {
                 this.invoices = response.data;
             });
         },
         getInvoices() {
-            let url = this.search
-                ? "/api/invoices?search=" + this.search
-                : "/api/invoices?";
+            let url = `/api/invoices?api_token=${window.API_TOKEN}` + (this.search
+                ? "&search=" + this.search
+                : "");
             axios.get(url).then((response) => {
                 this.invoices = response.data;
             });
@@ -284,12 +233,14 @@ export default {
 .modal-open .modal.show {
     display: flex !important;
 }
+
 .modal.show .modal-dialog {
     -webkit-transform: translate(0, 0);
     transform: translate(0, 0);
     align-self: center;
     width: 500px;
 }
+
 .alert span ol {
     padding-left: 0;
     margin-left: 1rem;
