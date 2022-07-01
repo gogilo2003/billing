@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
     <script>
-        window.API_TOKEN = "@api_token()"
+        window.API_TOKEN = "{{ auth()->check() ? request()->user()->api_token : null }}"
     </script>
 
     @yield('styles')
