@@ -93,7 +93,7 @@ Route::group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'], fu
             return view('quotations.index');
         })->name('');
         Route::get("download/{id}", function (int $id, QuotationService $service) {
-            return $service->download($id)->download();
+            return $service->download($id)->download('Quotation#' . str_pad($id, 4, '0', 0) . '.pdf');
         })->name('-download');
     });
 });

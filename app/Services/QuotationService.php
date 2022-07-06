@@ -38,7 +38,7 @@ class QuotationService
             $quote->save();
         }
 
-        $quotation->load('items');
+        $quotation->load('items', 'user', 'client');
 
         return $quotation;
     }
@@ -74,7 +74,7 @@ class QuotationService
             $quote->save();
         }
 
-        $quotation->load('items');
+        $quotation->load('items', 'user', 'client');
 
         return $quotation;
     }

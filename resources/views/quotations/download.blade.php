@@ -25,7 +25,7 @@
                 <tr>
                     <td valign="top" width="50%">
                         <p class="category">
-                            <b style="color: #116AC3">INVOICE TO:</b><br>
+                            <b style="color: #116AC3">QUOTATION FOR:</b><br>
                             {{ $quotation->client->name }}<br>
                             P.O. Box
                             {{ $quotation->client->box_no . ($quotation->client->post_code ? ' - ' . $quotation->client->post_code : '') . ($quotation->client->town ? ', ' . $quotation->client->town : '') }}<br>

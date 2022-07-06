@@ -179,6 +179,39 @@ export default {
                 items: [],
                 created_at: null,
             },
+            emptyQuotation: {
+                id: null,
+                description: null,
+                validity: 0,
+                amount: null,
+                client: {
+                    id: null,
+                    name: null,
+                    phone: null,
+                    email: null,
+                    postal_address: null,
+                    address: null,
+                    accounts: []
+                },
+                user: {
+                    id: null,
+                    name: null,
+                    phone: null,
+                    email: null,
+                    box_no: null,
+                    post_code: null,
+                    town: null,
+                    address: null,
+                    notification: null,
+                    balance: null,
+                    latest_cr_date: null,
+                    latest_dr_date: null,
+                    latest_transaction_date: null,
+                    created_at: null
+                },
+                items: [],
+                created_at: null,
+            },
             title: "Manage Quotation",
             clients: [],
             states: [],
@@ -229,8 +262,15 @@ export default {
         },
         save() {
             if (this.edit) {
+                let data = {
+                    id: this.selectedQuotation.id,
+                    client_id: this.selectedQuotation.client.id,
+                    validity: this.selectedQuotation.validity,
+                    description: this.selectedQuotation.description,
+                    items: this.selectedQuotation.items
+                }
                 axios
-                    .patch("/api/quotations", this.selectedQuotation)
+                    .patch(`/api/quotations?api_token=${window.API_TOKEN}`, data)
                     .then((response) => {
                         $.notify(
                             {
@@ -240,26 +280,22 @@ export default {
                                 type: "success",
                             }
                         );
-                        this.selectedQuotation = {
-                            quotation: null,
-                            name: null,
-                            account_id: null,
-                            items: [],
-                        };
+                        this.$emit("updated", response.data.quotation)
+                        this.selectedQuotation = this.emptyQuotation;
                         $("#quotationsModalDialog").modal("hide");
                     })
                     .catch((error) => {
                         if (error.response.status == 415) {
-                            let details = `<ol>`;
+                            let details = `< ol > `;
                             for (const [key, value] of Object.entries(
                                 error.response.data.details
                             )) {
-                                details += `<li class="text-white">${value}</li>`;
+                                details += `< li class= "text-white" > ${value}</ > `;
                             }
-                            details += `</ol>`;
+                            details += `</ol > `;
                             $.notify(
                                 {
-                                    title: `<h4 class="text-white text-uppercase">${error.response.data.message}</h4>`,
+                                    title: `< h4 class= "text-white text-uppercase" > ${error.response.data.message}</ > `,
                                     message: details,
                                 },
                                 {
@@ -271,8 +307,14 @@ export default {
                         }
                     });
             } else {
+                let data = {
+                    client_id: this.selectedQuotation.client.id,
+                    validity: this.selectedQuotation.validity,
+                    description: this.selectedQuotation.description,
+                    items: this.selectedQuotation.items
+                }
                 axios
-                    .post("/api/quotations", this.selectedQuotation)
+                    .post(`/api/quotations?api_token=${window.API_TOKEN}`, data)
                     .then((response) => {
                         $.notify(
                             {
@@ -282,27 +324,22 @@ export default {
                                 type: "success",
                             }
                         );
-                        this.selectedQuotation = {
-                            quotation: null,
-                            name: null,
-                            account_id: null,
-                            items: [],
-                        };
+                        this.$emit("stored", response.data.quotation)
+                        this.selectedQuotation = this.emptyQuotation;
                         $("#quotationsModalDialog").modal("hide");
-                        this.quotations.unshift(response.data.quotation);
                     })
                     .catch((error) => {
                         if (error.response.status == 415) {
-                            let details = `<ol>`;
+                            let details = `< ol > `;
                             for (const [key, value] of Object.entries(
                                 error.response.data.details
                             )) {
-                                details += `<li class="text-white">${value}</li>`;
+                                details += `< li class= "text-white" > ${value}</ > `;
                             }
-                            details += `</ol>`;
+                            details += `</ol > `;
                             $.notify(
                                 {
-                                    title: `<h4 class="text-white text-uppercase">${error.response.data.message}</h4>`,
+                                    title: `< h4 class= "text-white text-uppercase" > ${error.response.data.message}</ > `,
                                     message: details,
                                 },
                                 {

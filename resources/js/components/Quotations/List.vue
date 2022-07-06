@@ -135,7 +135,8 @@
             </div>
         </div>
         <!-- Modals -->
-        <quotation-detail :quotation="selectedQuotation" :edit.sync="edit" />
+        <quotation-detail :quotation="selectedQuotation" :edit.sync="edit" @updated="quotationUpdated"
+            @stored="quotationStored" />
         <quotation-view :quotation="selectedQuotation" />
     </div>
 </template>
@@ -197,6 +198,12 @@ export default {
         QuotationView,
     },
     methods: {
+        quotationUpdated() {
+            this.getQuotations()
+        },
+        quotationStored() {
+            this.getQuotations()
+        },
         newQuotation() {
             this.selectedQuotation = {
                 id: null,
