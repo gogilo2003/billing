@@ -4,8 +4,8 @@ namespace App\Models;
 
 use NumberFormatter;
 use Illuminate\Database\Eloquent\Model;
-use CodeItNow\BarcodeBundle\Utils\QrCode;
-use CodeItNow\BarcodeBundle\Utils\BarcodeGenerator;
+use Ogilo\BarcodeBundle\Utils\QrCode;
+use Ogilo\BarcodeBundle\Utils\BarcodeGenerator;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Transaction extends Model

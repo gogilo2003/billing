@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use CodeItNow\BarcodeBundle\Utils\QrCode;
-use CodeItNow\BarcodeBundle\Utils\BarcodeGenerator;
+use Ogilo\BarcodeBundle\Utils\QrCode;
+use Ogilo\BarcodeBundle\Utils\BarcodeGenerator;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
