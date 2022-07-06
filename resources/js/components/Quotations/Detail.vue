@@ -207,7 +207,7 @@ export default {
             this.item.amount = isNaN(this.item.amount) ? 0 : this.item.amount;
         },
         async getClients() {
-            await axios.get(`/api/clients?api_token=${window.API_TOKEN}`).then((response) => {
+            await axios.get(`/api/clients/list?api_token=${window.API_TOKEN}`).then((response) => {
                 this.clients = response.data.data
             });
         },

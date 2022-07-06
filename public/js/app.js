@@ -3561,7 +3561,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return axios.get("/api/clients?api_token=".concat(window.API_TOKEN)).then(function (response) {
+                return axios.get("/api/clients/list?api_token=".concat(window.API_TOKEN)).then(function (response) {
                   _this.clients = response.data.data;
                 });
 
