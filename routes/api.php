@@ -43,7 +43,7 @@ Route::name('api')->namespace('App\Http\Controllers')->group(function () {
     })->name('-categories');
 
     Route::group(['as' => '-accounts', 'prefix' => 'accounts'], function () {
-        Route::get('', [AccountController::class, 'index']);
+        Route::get('', [AccountController::class, 'index'])->name('-index');
         Route::group(['as' => '-notification', 'prefix' => 'notification'], function () {
             Route::post('update', [AccountController::class, 'updateNotification'])->name('-update');
             Route::get('show', [AccountController::class, 'showNotification'])->name('-show');

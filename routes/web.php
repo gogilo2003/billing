@@ -58,7 +58,7 @@ Route::group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'], fu
     });
 
     Route::group(['as' => 'products', 'prefix' => 'products'], function () {
-        Route::get('list/{category_id?}', ['as' => '', 'uses' => 'ProductController@index']);
+        Route::get('list/{category_id?}', ['as' => '-list', 'uses' => 'ProductController@index']);
         Route::get('edit/{id}', ['as' => '-edit', 'uses' => 'ProductController@getEdit']);
         Route::get('view/{id}', ['as' => '-view', 'uses' => 'ProductController@getView']);
         Route::get('download/{id}', ['as' => '-download', 'uses' => 'ProductController@downloadProduct']);
@@ -72,7 +72,7 @@ Route::group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'], fu
         Route::get('view/{id}', ['as' => '-view', 'uses' => 'ServiceController@getView']);
         Route::post('update/{id}', ['as' => '-update', 'uses' => 'ServiceController@postUpdate']);
         Route::post('create', ['as' => '-create', 'uses' => 'ServiceController@postCreate']);
-        Route::post('update', ['as' => '-update', 'uses' => 'ServiceController@postUpdate']);
+        Route::post('delete', ['as' => '-delete', 'uses' => 'ServiceController@postDelete']);
     });
 
     Route::group(['prefix' => 'setup', 'as' => 'setup'], function () {
