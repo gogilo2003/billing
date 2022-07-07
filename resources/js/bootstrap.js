@@ -1,3 +1,11 @@
+window.$ = window.jQuery = require('jquery');
+
+window.Popper = require('popper.js').default;
+require('perfect-scrollbar')
+require('bootstrap')
+
+// import popper from 'popper.js'
+//     window.Popper = popper
 window._ = require('lodash');
 
 /**
@@ -7,10 +15,10 @@ window._ = require('lodash');
  */
 
 try {
-    window.Popper = require('popper.js').default;
-    window.$ = window.jQuery = require('jquery');
+    // window.Popper = require('popper.js').default;
 
-    require('bootstrap');
+
+    // require('bootstrap');
     require('bootstrap-notify');
     $.notifyDefaults({
         z_index: 10000,
@@ -19,6 +27,7 @@ try {
             document.querySelectorAll('.alert .close').forEach(item => { item.style.top = "20px"; item.style.right = "20px" })
         },
     })
+
 } catch (e) {
     console.log(e)
 }

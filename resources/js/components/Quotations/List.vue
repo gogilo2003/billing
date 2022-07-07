@@ -251,8 +251,9 @@ export default {
             $("#quotationViewModalDialog").modal("show");
         },
         nextPage(url) {
+            url += `&api_token=${window.API_TOKEN}`
             if (this.search) {
-                url += `?api_token=${window.API_TOKEN}&search=${this.search}`;
+                url += `&search=${this.search}`;
             }
             axios.get(url).then((response) => {
                 this.quotations = response.data;

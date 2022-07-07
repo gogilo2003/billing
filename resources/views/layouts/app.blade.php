@@ -14,8 +14,8 @@
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('white') }}/img/apple-icon.png">
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
-    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    {{-- <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" /> --}}
+    {{-- <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet"> --}}
     <!-- Icons -->
     <link href="{{ asset('white') }}/css/nucleo-icons.css" rel="stylesheet" />
     <!-- CSS -->
@@ -68,18 +68,19 @@
         @endauth
 
     </div>
-
-    <script src="{{ asset('white') }}/js/core/jquery.min.js"></script>
+    <script src="{{ mix('js/app.js') }}"></script>
+    {{-- <script src="{{ asset('white') }}/js/core/jquery.min.js"></script>
     <script src="{{ asset('white') }}/js/core/popper.min.js"></script>
     <script src="{{ asset('white') }}/js/core/bootstrap.min.js"></script>
-    <script src="{{ asset('white') }}/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-    <!--  Google Maps Plugin    -->
-    <!-- Place this tag in your head or just before your close body tag. -->
+    <script src="{{ asset('white') }}/js/plugins/perfect-scrollbar.jquery.min.js"></script> --}}
+    <!-- Google Maps Plugin -->
+    <!-- Place this tag in your head or just before your close body tag.
+        -->
     {{-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script> --}}
     <!-- Chart JS -->
-    <script src="{{ asset('white') }}/js/plugins/chartjs.min.js"></script>
+    {{-- <script src="{{ asset('white') }}/js/plugins/chartjs.min.js"></script>npm install chart --}}
     <!--  Notifications Plugin    -->
-    <script src="{{ asset('white') }}/js/plugins/bootstrap-notify.js"></script>
+    {{-- <script src="{{ asset('white') }}/js/plugins/bootstrap-notify.js"></script> --}}
 
     <script src="{{ asset('white') }}/js/white-dashboard.min.js?v=1.0.0"></script>
     <script src="{{ asset('white') }}/js/theme.js"></script>
