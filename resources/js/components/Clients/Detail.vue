@@ -11,7 +11,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="container-fluid">
+                    <div class="">
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -22,20 +22,19 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="phone">Phone</label>
-                                    <input type="text" class="form-control" id="phone" v-model="client.phone"
-                                        placeholder="Enter phone">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
                                     <label for="email">Email</label>
                                     <input type="text" class="form-control" id="email" v-model="client.email"
                                         placeholder="Enter email">
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="phone">Phone</label>
+                                    <input type="text" class="form-control" id="phone" v-model="client.phone"
+                                        placeholder="Enter phone">
+                                </div>
+                            </div>
+
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="box_no">Box No</label>
@@ -57,8 +56,7 @@
                                         placeholder="Enter town">
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
+
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="address">Address</label>
@@ -79,7 +77,6 @@
 
 </template>
 <script>
-import { tsImportEqualsDeclaration } from '@babel/types'
 import axios from 'axios'
 
 export default {

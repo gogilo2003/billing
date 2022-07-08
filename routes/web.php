@@ -17,7 +17,7 @@ Route::group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'], fu
         Route::get('edit/{id}', ['as' => '-edit', 'uses' => 'ClientController@getEdit']);
         Route::get('view/{id}', ['as' => '-view', 'uses' => 'ClientController@getView']);
         Route::get('download/{id}', ['as' => '-download', 'uses' => 'ClientController@downloadClient']);
-        Route::get('clients-download', ['as' => '-clients-download', 'uses' => 'ClientController@downloadClients']);
+        Route::get('download-all', ['as' => '-clients-download', 'uses' => 'ClientController@downloadClients']);
         Route::post('create', ['as' => '-create-post', 'uses' => 'ClientController@postCreate']);
         Route::post('update', ['as' => '-update', 'uses' => 'ClientController@postUpdate']);
         Route::post('delete', ['as' => '-delete', 'uses' => 'ClientController@postDelete']);

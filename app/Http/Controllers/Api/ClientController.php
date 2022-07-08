@@ -24,8 +24,8 @@ class ClientController extends Controller
 
     public function index()
     {
-        $clients = Client::all()->sortBy('balance');
-        return ClientResource::collection($clients)->chunk(10);
+        $clients = Client::with('accounts', 'invoices')->get();
+        return ClientResource::collection($clients);
     }
 
     public function minList()

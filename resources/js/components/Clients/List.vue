@@ -8,95 +8,78 @@
                 </button>
             </div>
             <div class="card-body">
-                <table class="table table-hover table-striped">
-                    <thead>
-                        <tr class="d-sm-table-row d-none">
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Phone</th>
-                            <th>Balance</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="d-sm-table-row d-flex flex-column" v-for="(client, index) in page" :key="client.id">
-                            <td>{{ index + 1 }}</td>
-                            <td>{{ client.name.toUpperCase() }}</td>
-                            <td>{{ client.phone }}</td>
-                            <td>{{ new Intl.NumberFormat("en-US", {
-                                    style: "currency", currency: "KES"
-                                }).format(client.balance)
-                            }}</td>
-                            <td>
-                                <div class="btn-group">
-                                    <button type="button" @click="editButton(client)" title="Edit"
-                                        class="btn btn-sm btn-link">
-                                        <i class="tim-icons icon-pencil"></i>
+                <div class="table-responsive">
+                    <data-table title="News" :rows="clients" :columns="columns" style="width:100%">
+                        <th slot="thead-tr">
+                            Actions
+                        </th>
+                        <template slot="tbody-tr" scope="props">
+                            <td class="text-center actions" style="overflow: visible">
+                                <div class="tasks-wraper">
+                                    <button class="btn btn-link btn-primary" type="button"
+                                        @click="showTasks(`taskButtons-${props.row.id}`)">
+                                        <font-awesome-icon icon="fas fa-ellipsis-h" />
                                     </button>
-                                    <button type="button" @click="viewButton(client.id)" title="View"
-                                        class="btn btn-sm btn-link">
-                                        <i class="tim-icons icon-single-copy-04"></i>
-                                    </button>
-                                    <button type="button" @click="downloadButton(client.id)" title="Download"
-                                        class="btn btn-sm btn-link">
-                                        <i class="tim-icons icon-cloud-download-93"></i>
-                                    </button>
-                                    <button type="button" @click="accountsButton(client.id)" title="Accounts"
-                                        class="btn btn-sm btn-link">
-                                        <i class="tim-icons icon-bank"></i>
-                                    </button>
-                                    <button type="button" @click="quotationsButton(client.id)" title="Quotations"
-                                        class="btn btn-sm btn-link">
-                                        <i class="tim-icons icon-notes"></i>
-                                    </button>
-                                    <button type="button" @click="invoicesButton(client.id)" title="Invoices"
-                                        class="btn btn-sm btn-link">
-                                        <i class="tim-icons icon-paper"></i>
-                                    </button>
-                                    <button type="button" @click="deleteButton(client.id)" title="Delete"
-                                        class="btn btn-sm btn-danger btn-link">
-                                        <i class="tim-icons icon-trash-simple"></i>
-                                    </button>
+                                    <div class="task-buttons" :id="`taskButtons-${props.row.id}`">
+                                        <button type="button" @click="(e) => editButton(props.row, e)" title="Edit"
+                                            class="btn btn-sm btn-link">
+                                            <i class="tim-icons icon-pencil"></i>
+                                        </button>
+                                        <button type="button" @click="(e) => viewButton(props.row, e)" title="View"
+                                            class="btn btn-sm btn-link">
+                                            <i class="tim-icons icon-single-copy-04"></i>
+                                        </button>
+                                        <a type="button" target="_BLANK" :href="`/clients/download/${props.row.id}`"
+                                            title="Download" class="btn btn-sm btn-link">
+                                            <i class="tim-icons icon-cloud-download-93"></i>
+                                        </a>
+                                        <button type="button" @click="(e) => accountsButton(props.row.id, e)"
+                                            title="Accounts" class="btn btn-sm btn-link">
+                                            <i class="tim-icons icon-bank"></i>
+                                        </button>
+                                        <button type="button" @click="(e) => quotationsButton(props.row.id, e)"
+                                            title="Quotations" class="btn btn-sm btn-link">
+                                            <i class="tim-icons icon-notes"></i>
+                                        </button>
+                                        <button type="button" @click="(e) => invoicesButton(props.row.id, e)"
+                                            title="Invoices" class="btn btn-sm btn-link">
+                                            <i class="tim-icons icon-paper"></i>
+                                        </button>
+                                        <button type="button" @click="(e) => deleteButton(props.row.id, e)"
+                                            title="Delete" class="btn btn-sm btn-danger btn-link">
+                                            <i class="tim-icons icon-trash-simple"></i>
+                                        </button>
+                                        <button type="button" @click="(e) => hideTasks(e)" title="Close Tasks"
+                                            class="btn btn-sm btn-secondary btn-link">
+                                            <i class="tim-icons icon-simple-remove"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="5" class="text-center">
-                                <div class="btn-group">
-                                    <button class="btn btn-sm btn-primary btn-simple"
-                                        @click="nextPage(pageIndex > 0 ? --pageIndex : 0)">
-                                        <i class="tim-icons icon-double-left"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-primary btn-simple"
-                                        @click="nextPage(pageIndex > 0 ? --pageIndex : 0)">
-                                        <i class="tim-icons icon-minimal-left"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-primary btn-simple"
-                                        @click="nextPage(pageIndex < clients.length ? ++pageIndex : clients.length)">
-                                        <i class="tim-icons icon-minimal-right"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-primary btn-simple"
-                                        @click="nextPage(pageIndex < clients.length ? ++pageIndex : clients.length)">
-                                        <i class="tim-icons icon-double-right"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
+                        </template>
+                    </data-table>
+                </div>
             </div>
         </div>
         <client-detail :client="client" :edit.sync="edit" @updated="clientUpdated" @stored="clientStored" />
+        <client-view :client="client" />
     </div>
 </template>
 <script>
 import ClientDetail from './Detail.vue'
+import ClientView from './View.vue'
+import DataTable from "vue-materialize-datatable";
 export default {
     data: () => {
         return {
             clients: [],
+            columns: [
+                { label: 'ID', field: 'id' },
+                { label: 'Name', field: 'name' },
+                { label: 'Phone', field: 'phone' },
+                { label: 'Email', field: 'email' },
+                { label: 'Balance', field: 'balance' },
+            ],
             page: [],
             pageIndex: 0,
             edit: false,
@@ -105,9 +88,20 @@ export default {
     },
     methods: {
         async getClients() {
+
+            // $('#clientsDataTable').DataTable({
+            //     ajax: {
+            //         url: `/api/clients?api_token=${window.API_TOKEN}`,
+            //         dataSrc: ''
+            //     },
+            //     columns: [
+            //         { data: 'id' },
+            //         { data: 'name' },
+            //         { data: 'phone' }
+            //     ]
+            // });
             return await axios.get(`/api/clients?api_token=${window.API_TOKEN}`).then(response => {
-                this.clients = response.data
-                this.nextPage(0)
+                this.clients = response.data.data
             })
         },
         nextPage(page) {
@@ -123,8 +117,9 @@ export default {
             this.client = client
             $('#clientDetailModal').modal('show')
         },
-        viewButton(id) {
-            alert(`View ${id}`)
+        viewButton(client) {
+            this.client = client
+            $('#clientViewModal').modal('show')
         },
         downloadButton(id) {
             alert(`Download ${id}`)
@@ -147,12 +142,51 @@ export default {
         clientStored() {
             this.getClients()
         },
+        showTasks(id) {
+            document.querySelectorAll('.task-buttons').forEach(item => { item.classList.remove('show') })
+            document.getElementById(id).classList.add('show')
+        },
+        hideTasks() {
+            document.querySelectorAll('.task-buttons').forEach(item => { item.classList.remove('show') })
+        }
     },
     components: {
-        ClientDetail
+        ClientDetail,
+        ClientView,
+        DataTable
     },
     mounted() {
         this.getClients()
     }
 }
 </script>
+<style lang="scss" scoped>
+td.actions {
+
+    .tasks-wraper {
+        position: relative;
+        overflow: visible;
+
+        .task-buttons {
+            position: absolute;
+            right: 48px;
+            top: 0px;
+            background-color: rgba($color: #fff, $alpha: 0.9);
+            padding: 0.175rem 0;
+            border-top-left-radius: 2rem;
+            border-bottom-left-radius: 2rem;
+            box-shadow: 10px 10px 20px rgba($color: #000000, $alpha: 0.35);
+            display: flex;
+            width: 0;
+            overflow: hidden;
+            transition: all 300ms ease-in-out;
+        }
+
+        .task-buttons.show {
+            display: flex;
+            flex-direction: row;
+            width: 388px;
+        }
+    }
+}
+</style>

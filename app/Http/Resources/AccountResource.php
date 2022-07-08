@@ -23,6 +23,9 @@ class AccountResource extends JsonResource
         $res = [
             'id' => $this->id,
             'name' => $this->name,
+            'credit' => $this->cr,
+            'debit' => $this->dr,
+            'balance' => $this->balance,
         ];
 
         if ($client) {
