@@ -2,145 +2,140 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use App\Models\Client;
-use Validator;
 use App;
+
 use PDF;
+use Validator;
+use App\Models\Client;
+use Illuminate\Http\Request;
+use Ogilo\ApiResponseHelpers;
+use App\Services\ClientService;
+use App\Http\Resources\ClientResource;
+use App\Http\Requests\V1\ClientViewRequest;
+use App\Http\Requests\V1\ClientStoreRequest;
+use App\Http\Requests\V1\ClientUpdateRequest;
 
 class ClientController extends Controller
 {
+    use ApiResponseHelpers;
+
     public function index()
     {
-    	$clients = Client::with('accounts.transactions','invoices.items')->get()->sortBy('balance');
-    	return view('clients.index',compact('clients'));
+        $clients = Client::with('accounts.transactions', 'invoices.items')->get()->sortBy('balance');
+        return view('clients.index', compact('clients'));
     }
 
     public function getCreate()
     {
-    	return view('clients.new');
+        return view('clients.new');
     }
 
-    public function postCreate(Request $request)
+    public function postCreate(ClientStoreRequest $request, ClientService $clientService)
     {
-    	$validator = Validator::make($request->all(),[
-    			'name'=>'required|unique:clients',
-    			'phone'=>'unique:clients',
-    			'email'=>'required|email|unique:clients',
-    		]);
 
-    	if ($validator->fails()) {
-    		return redirect()
-    				->back()
-    				->withErrors($validator)
-    				->withInput()
-    				->with('global-warning','Some fields failed validation. Please check and try again');
-    	}
+        // return response()->json($request->all());
 
-    	$client = new Client;
+        $client = $clientService->store(
+            $request->name,
+            $request->email,
+            $request->phone,
+            $request->box_no,
+            $request->post_code,
+            $request->town,
+            $request->address
+        );
 
-    	$client->name 		= $request->input('name');
-    	$client->email 		= $request->input('email');
-    	$client->phone 		= $request->input('phone');
-    	$client->box_no 	= $request->input('box_no');
-    	$client->post_code 	= $request->input('post_code');
-    	$client->town 		= $request->input('town');
-    	$client->address 	= $request->input('address');
+        if ($request->wantsJson()) {
+            return $this->storeSuccess("Client has been created", ['client' => ClientResource::make($client)]);
+        }
 
-    	$client->save();
-
-    	return redirect()
-    			->route('clients')
-    			->with('global-success','Account has been created');
+        return redirect()
+            ->route('clients')
+            ->with('global-success', 'Client has been created');
     }
 
     public function getEdit($id)
     {
-    	if ($client = Client::find($id)) {
-    		return view('clients.edit',compact('client'));
-    	}else{
-    		return abort(404,'Client not found');
-    	}
-
+        if ($client = Client::find($id)) {
+            return view('clients.edit', compact('client'));
+        } else {
+            return abort(404, 'Client not found');
+        }
     }
 
-    public function postUpdate(Request $request)
+    public function postUpdate(ClientUpdateRequest $request, ClientService $clientService)
     {
-    	$validator = Validator::make($request->all(),[
-    			'name'=>'required|unique:clients,name,'.$request->input('id'),
-    			'phone'=>'unique:clients,phone,'.$request->input('id'),
-    			'email'=>'required|email|unique:clients,email,'.$request->input('id'),
-    		]);
 
-    	if ($validator->fails()) {
-    		return redirect()
-    				->back()
-    				->withErrors($validator)
-    				->withInput()
-    				->with('global-warning','Some fields failed validation. Please check and try again');
-    	}
+        $client = $clientService->update(
+            $request->id,
+            $request->name,
+            $request->email,
+            $request->phone,
+            $request->box_no,
+            $request->post_code,
+            $request->town,
+            $request->address
+        );
 
-    	$client = Client::find($request->input('id'));
-
-    	$client->name 		= $request->input('name');
-    	$client->email 		= $request->input('email');
-    	$client->phone 		= $request->input('phone');
-    	$client->box_no 	= $request->input('box_no');
-    	$client->post_code 	= $request->input('post_code');
-    	$client->town 		= $request->input('town');
-    	$client->address 	= $request->input('address');
-
-    	$client->save();
-
-    	return redirect()
-    			->back()
-    			->with('global-success','Account has been updated');
+        if ($request->wantsJson()) {
+            return $this->updateSuccess("Client has been updated", ['client' => ClientResource::make($client)]);
+        }
+        return redirect()
+            ->back()
+            ->with('global-success', 'Client has been updated');
     }
 
-    public function getView($id)
+    public function getView(ClientViewRequest $request)
     {
-    	$client = Client::with(['accounts.transactions','invoices.items', 'accounts'])->find($id);
-    	return view('clients.view',compact('client'));
+        $client = Client::with(['accounts.transactions', 'invoices.items', 'accounts'])->find($request->id);
+
+        if (request()->wantsJson()) {
+            return ClientResource::make($client);
+        }
+
+        return view('clients.view', compact('client'));
     }
 
     public function postDelete(Request $request)
     {
-    	$client = Client::find($request->input('id'));
+        $client = Client::find($request->input('id'));
 
-    	$client->delete();
+        $client->delete();
 
-    	return redirect()
-    			->route('clients')
-    			->with('global-success','Client Deleted');
+        if ($request->wantsJson()) {
+            return $this->deleteSuccess();
+        }
+
+        return redirect()
+            ->route('clients')
+            ->with('global-success', 'Client Deleted');
     }
 
     public function downloadClient($id)
     {
         $client = Client::with('accounts.transactions')->find($id);
         $pdf = App::make('snappy.pdf.wrapper');
-        $pdf->loadView('clients.download',compact('client'))->setOption('no-outline',true);
-        return $pdf->setOption('margin-left',0)
-                    ->setOption('margin-right',0)
-                    ->setOption('margin-top',48)
-                    ->setOption('margin-bottom',13)
-                    ->setOption('header-html', public_path('pdf/header.html'))
-                    ->setOption('footer-html', public_path('pdf/footer.html'))
-                    ->download(str_slug($client->name).'.pdf');
+        $pdf->loadView('clients.download', compact('client'))->setOption('no-outline', true);
+        return $pdf->setOption('margin-left', 0)
+            ->setOption('margin-right', 0)
+            ->setOption('margin-top', 48)
+            ->setOption('margin-bottom', 13)
+            ->setOption('header-html', public_path('pdf/header.html'))
+            ->setOption('footer-html', public_path('pdf/footer.html'))
+            ->download(str_slug($client->name) . '.pdf');
     }
 
     public function downloadClients()
     {
-        $clients = Client::with('accounts.transactions')->orderBy('name','ASC')->get();
+        $clients = Client::with('accounts.transactions')->orderBy('name', 'ASC')->get();
         $pdf = App::make('snappy.pdf.wrapper');
         $pdf->setOrientation('landscape');
-        $pdf->loadView('clients.clients-download',compact('clients'));
-        return $pdf->setOption('margin-left',0)
-                    ->setOption('margin-right',0)
-                    ->setOption('margin-top',48)
-                    ->setOption('margin-bottom',13)->setOption('header-html', public_path('pdf/header.html'))
-                    ->setOption('footer-html', public_path('pdf/footer.html'))
-                    ->download('clients_'.time().'.pdf');
+        $pdf->loadView('clients.clients-download', compact('clients'));
+        return $pdf->setOption('margin-left', 0)
+            ->setOption('margin-right', 0)
+            ->setOption('margin-top', 48)
+            ->setOption('margin-bottom', 13)->setOption('header-html', public_path('pdf/header.html'))
+            ->setOption('footer-html', public_path('pdf/footer.html'))
+            ->download('clients_' . time() . '.pdf');
     }
-
 }

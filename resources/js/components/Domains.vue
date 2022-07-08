@@ -10,57 +10,27 @@
                         </h5>
                         <h5 class="card-title" v-else>Expired Domains</h5>
                     </div>
-                    <div
-                        class="col-md-6 d-flex"
-                        style="
+                    <div class="col-md-6 d-flex" style="
                             justify-content: flex-end;
                             align-items: flex-start;
-                        "
-                    >
+                        ">
                         <!-- Button trigger modal -->
-                        <label
-                            class="btn btn-success btn-sm"
-                            @click="newDomain"
-                        >
+                        <label class="btn btn-success btn-sm" @click="newDomain">
                             NEW
                         </label>
-                        <label
-                            class="btn btn-dark btn-sm"
-                            @click="importDomains"
-                        >
+                        <label class="btn btn-dark btn-sm" @click="importDomains">
                             IMPORT
                         </label>
                         <div class="btn-group btn-group-toggle">
-                            <label
-                                class="btn btn-primary btn-sm btn-simple"
-                                :class="{ active: isActive }"
-                                for="activeDomainsRadio"
-                                >ACTIVE</label
-                            >
-                            <label
-                                class="btn btn-primary btn-sm btn-simple"
-                                :class="{ active: !isActive }"
-                                for="expiredDomainsRadio"
-                                >EXPIRED</label
-                            >
+                            <label class="btn btn-primary btn-sm btn-simple" :class="{ active: isActive }"
+                                for="activeDomainsRadio">ACTIVE</label>
+                            <label class="btn btn-primary btn-sm btn-simple" :class="{ active: !isActive }"
+                                for="expiredDomainsRadio">EXPIRED</label>
                         </div>
-                        <input
-                            type="radio"
-                            name="test"
-                            id="activeDomainsRadio"
-                            :value="true"
-                            v-model="isActive"
-                            v-show="false"
-                            checked
-                        />
-                        <input
-                            type="radio"
-                            name="test"
-                            id="expiredDomainsRadio"
-                            :value="false"
-                            v-model="isActive"
-                            v-show="false"
-                        />
+                        <input type="radio" name="test" id="activeDomainsRadio" :value="true" v-model="isActive"
+                            v-show="false" checked />
+                        <input type="radio" name="test" id="expiredDomainsRadio" :value="false" v-model="isActive"
+                            v-show="false" />
                     </div>
                 </div>
             </div>
@@ -79,284 +49,196 @@
                             </tr>
                         </thead>
                         <tbody v-if="isActive">
-                            <tr
-                                v-for="(domain, index) in active.data"
-                                :key="domain.id"
-                            >
+                            <tr v-for="(domain, index) in active.data" :key="domain.id">
                                 <td>{{ index + 1 }}</td>
                                 <td>{{ domain.domain }}</td>
                                 <td>{{ domain.registered_on }}</td>
                                 <td>{{ domain.expires_on }}</td>
                                 <td>{{ dateDiff(domain.expires_on) }}</td>
                                 <td>
-                                    <input
-                                        type="checkbox"
-                                        v-model="active.data[index].notify"
-                                        @change="setNotify(domain.id)"
-                                    />
+                                    <input type="checkbox" v-model="active.data[index].notify"
+                                        @change="setNotify(domain.id)" />
                                 </td>
                                 <td>
-                                    <button
-                                        class="btn btn-link"
-                                        @click="renewDomain(domain.id)"
-                                    >
-                                        <span
-                                            class="tim-icons icon-refresh-01"
-                                        ></span>
+                                    <button class="btn btn-link" @click="renewDomain(domain.id)">
+                                        <span class="tim-icons icon-refresh-01"></span>
                                     </button>
-                                    <button
-                                        class="btn btn-link"
-                                        @click="editDomain(domain)"
-                                    >
-                                        <span
-                                            class="tim-icons icon-pencil"
-                                        ></span>
+                                    <button class="btn btn-link" @click="editDomain(domain)">
+                                        <span class="tim-icons icon-pencil"></span>
                                     </button>
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="7">
                                     <div class="btn-group">
-                                        <button
-                                            @click="
-                                                nextActivePage(
-                                                    active.links.first
-                                                )
-                                            "
-                                            style="cursor: pointer"
-                                            :disabled="
-                                                active.links.first == null ||
-                                                active.meta.current_page == 1
-                                            "
-                                            class="
+                                        <button @click="
+                                            nextActivePage(
+                                                active.links.first
+                                            )
+                                        " style="cursor: pointer" :disabled="
+    active.links.first == null ||
+    active.meta.current_page == 1
+" class="
                                                 btn
                                                 btn-sm
                                                 btn-primary
                                                 btn-simple
-                                            "
-                                        >
-                                            <span
-                                                class="
+                                            ">
+                                            <span class="
                                                     tim-icons
                                                     icon-double-left
-                                                "
-                                            ></span>
+                                                "></span>
                                         </button>
-                                        <button
-                                            @click="
-                                                nextActivePage(
-                                                    active.links.prev
-                                                )
-                                            "
-                                            style="cursor: pointer"
-                                            :disabled="
-                                                active.links.prev == null
-                                            "
-                                            class="
+                                        <button @click="
+                                            nextActivePage(
+                                                active.links.prev
+                                            )
+                                        " style="cursor: pointer" :disabled="
+    active.links.prev == null
+" class="
                                                 btn
                                                 btn-sm
                                                 btn-primary
                                                 btn-simple
-                                            "
-                                        >
-                                            <span
-                                                class="
+                                            ">
+                                            <span class="
                                                     tim-icons
                                                     icon-minimal-left
-                                                "
-                                            ></span>
+                                                "></span>
                                         </button>
-                                        <button
-                                            @click="
-                                                nextActivePage(
-                                                    active.links.next
-                                                )
-                                            "
-                                            style="cursor: pointer"
-                                            :disabled="
-                                                active.links.next == null
-                                            "
-                                            class="
+                                        <button @click="
+                                            nextActivePage(
+                                                active.links.next
+                                            )
+                                        " style="cursor: pointer" :disabled="
+    active.links.next == null
+" class="
                                                 btn
                                                 btn-sm
                                                 btn-primary
                                                 btn-simple
-                                            "
-                                        >
-                                            <span
-                                                class="
+                                            ">
+                                            <span class="
                                                     tim-icons
                                                     icon-minimal-right
-                                                "
-                                            ></span>
+                                                "></span>
                                         </button>
-                                        <button
-                                            @click="
-                                                nextActivePage(
-                                                    active.links.last
-                                                )
-                                            "
-                                            style="cursor: pointer"
-                                            :disabled="
-                                                active.links.last == null ||
-                                                active.meta.current_page ==
-                                                    active.meta.last_page
-                                            "
-                                            class="
+                                        <button @click="
+                                            nextActivePage(
+                                                active.links.last
+                                            )
+                                        " style="cursor: pointer" :disabled="
+    active.links.last == null ||
+    active.meta.current_page ==
+    active.meta.last_page
+" class="
                                                 btn
                                                 btn-sm
                                                 btn-primary
                                                 btn-simple
-                                            "
-                                        >
-                                            <span
-                                                class="
+                                            ">
+                                            <span class="
                                                     tim-icons
                                                     icon-double-right
-                                                "
-                                            ></span>
+                                                "></span>
                                         </button>
                                     </div>
                                 </td>
                             </tr>
                         </tbody>
                         <tbody v-else>
-                            <tr
-                                v-for="(domain, index) in expired.data"
-                                :key="domain.id"
-                            >
+                            <tr v-for="(domain, index) in expired.data" :key="domain.id">
                                 <td>{{ index + 1 }}</td>
                                 <td>{{ domain.domain }}</td>
                                 <td>{{ domain.registered_on }}</td>
                                 <td>{{ domain.expires_on }}</td>
                                 <td>{{ dateDiff(domain.expires_on) }}</td>
                                 <td>
-                                    <input
-                                        type="checkbox"
-                                        v-model="expired.data[index].notify"
-                                        @change="setNotify(domain.id)"
-                                    />
+                                    <input type="checkbox" v-model="expired.data[index].notify"
+                                        @change="setNotify(domain.id)" />
                                 </td>
                                 <td>
-                                    <button
-                                        class="btn btn-link"
-                                        @click="renewDomain(domain.id)"
-                                    >
-                                        <span
-                                            class="tim-icons icon-refresh-01"
-                                        ></span>
+                                    <button class="btn btn-link" @click="renewDomain(domain.id)">
+                                        <span class="tim-icons icon-refresh-01"></span>
                                     </button>
-                                    <button
-                                        class="btn btn-link"
-                                        @click="editDomain(domain)"
-                                    >
-                                        <span
-                                            class="tim-icons icon-pencil"
-                                        ></span>
+                                    <button class="btn btn-link" @click="editDomain(domain)">
+                                        <span class="tim-icons icon-pencil"></span>
                                     </button>
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="7">
                                     <div class="btn-group">
-                                        <button
-                                            @click="
-                                                nextActivePage(
-                                                    expired.links.first
-                                                )
-                                            "
-                                            style="cursor: pointer"
-                                            :disabled="
-                                                expired.links.first == null ||
-                                                expired.meta.current_page == 1
-                                            "
-                                            class="
+                                        <button @click="
+                                            nextActivePage(
+                                                expired.links.first
+                                            )
+                                        " style="cursor: pointer" :disabled="
+    expired.links.first == null ||
+    expired.meta.current_page == 1
+" class="
                                                 btn
                                                 btn-sm
                                                 btn-primary
                                                 btn-simple
-                                            "
-                                        >
-                                            <span
-                                                class="
+                                            ">
+                                            <span class="
                                                     tim-icons
                                                     icon-double-left
-                                                "
-                                            ></span>
+                                                "></span>
                                         </button>
-                                        <button
-                                            @click="
-                                                nextExpiredPage(
-                                                    expired.links.prev
-                                                )
-                                            "
-                                            style="cursor: pointer"
-                                            :disabled="
-                                                expired.links.prev == null
-                                            "
-                                            class="
+                                        <button @click="
+                                            nextExpiredPage(
+                                                expired.links.prev
+                                            )
+                                        " style="cursor: pointer" :disabled="
+    expired.links.prev == null
+" class="
                                                 btn
                                                 btn-sm
                                                 btn-primary
                                                 btn-simple
-                                            "
-                                        >
-                                            <span
-                                                class="
+                                            ">
+                                            <span class="
                                                     tim-icons
                                                     icon-minimal-left
-                                                "
-                                            ></span>
+                                                "></span>
                                         </button>
-                                        <button
-                                            @click="
-                                                nextExpiredPage(
-                                                    expired.links.next
-                                                )
-                                            "
-                                            style="cursor: pointer"
-                                            :disabled="
-                                                expired.links.next == null
-                                            "
-                                            class="
+                                        <button @click="
+                                            nextExpiredPage(
+                                                expired.links.next
+                                            )
+                                        " style="cursor: pointer" :disabled="
+    expired.links.next == null
+" class="
                                                 btn
                                                 btn-sm
                                                 btn-primary
                                                 btn-simple
-                                            "
-                                        >
-                                            <span
-                                                class="
+                                            ">
+                                            <span class="
                                                     tim-icons
                                                     icon-minimal-right
-                                                "
-                                            ></span>
+                                                "></span>
                                         </button>
-                                        <button
-                                            @click="
-                                                nextExpiredPage(
-                                                    expired.links.last
-                                                )
-                                            "
-                                            style="cursor: pointer"
-                                            :disabled="
-                                                expired.links.last == null ||
-                                                expired.meta.current_page ==
-                                                    expired.meta.last_page
-                                            "
-                                            class="
+                                        <button @click="
+                                            nextExpiredPage(
+                                                expired.links.last
+                                            )
+                                        " style="cursor: pointer" :disabled="
+    expired.links.last == null ||
+    expired.meta.current_page ==
+    expired.meta.last_page
+" class="
                                                 btn
                                                 btn-sm
                                                 btn-primary
                                                 btn-simple
-                                            "
-                                        >
-                                            <span
-                                                class="
+                                            ">
+                                            <span class="
                                                     tim-icons
                                                     icon-double-right
-                                                "
-                                            ></span>
+                                                "></span>
                                         </button>
                                     </div>
                                 </td>
@@ -478,17 +360,4 @@ export default {
 };
 </script>
 <style>
-.modal-open .modal.show {
-    display: flex !important;
-}
-.modal.show .modal-dialog {
-    -webkit-transform: translate(0, 0);
-    transform: translate(0, 0);
-    align-self: center;
-    width: 500px;
-}
-.alert span ol {
-    padding-left: 0;
-    margin-left: 1rem;
-}
 </style>

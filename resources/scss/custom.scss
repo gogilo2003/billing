@@ -47,6 +47,20 @@ body {
     }
 }
 
+/* .modal-open .modal.show {
+    // display: flex !important;
+} */
+
+.modal.show .modal-dialog {
+    transform: translate(0, 0);
+    // align-self: center;
+    // width: 500px;
+}
+
+.alert span ol {
+    padding-left: 0;
+    margin-left: 1rem;
+}
 
 .modal {
     .modal-dialog {
@@ -54,6 +68,16 @@ body {
             .modal-header {
                 background: linear-gradient(0deg, #e14eca 0%, #ba54f5 100%);
                 padding-bottom: 1.2rem;
+
+                .close {
+                    opacity: 1;
+                    color: #fff;
+                    transition: all 300ms ease-in-out;
+
+                    &:hover {
+                        opacity: 0.5;
+                    }
+                }
 
                 .modal-title {
                     color: #fff;
@@ -65,6 +89,20 @@ body {
                     right: 16px;
                 }
             }
+        }
+    }
+}
+
+.bg-secondary {
+    background-image: linear-gradient(to bottom left,
+            #344675,
+            #263148,
+            #344675);
+    color: rgba(255, 255, 255, 0.7);
+
+    tr {
+        th {
+            color: rgba(255, 255, 255, 0.7) !important;
         }
     }
 }

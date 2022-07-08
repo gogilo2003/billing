@@ -88,7 +88,7 @@
                 </table>
             </div>
         </div>
-        <client-detail :client="client" :edit.sync="edit" />
+        <client-detail :client="client" :edit.sync="edit" @updated="clientUpdated" @stored="clientStored" />
     </div>
 </template>
 <script>
@@ -119,7 +119,7 @@ export default {
             $('#clientDetailModal').modal('show')
         },
         editButton(client) {
-            this.edit = false
+            this.edit = true
             this.client = client
             $('#clientDetailModal').modal('show')
         },
@@ -140,6 +140,12 @@ export default {
         },
         deleteButton(id) {
             alert(`Delete ${id}`)
+        },
+        clientUpdated() {
+            this.getClients()
+        },
+        clientStored() {
+            this.getClients()
         },
     },
     components: {

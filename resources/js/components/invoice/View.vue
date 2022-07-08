@@ -1,7 +1,7 @@
 <template>
     <div class="modal fade" id="invoiceViewModalDialog" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-lg" role="document" style="min-width: 800px; max-width: 800px">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title text-uppercase">{{ title }}</h3>
@@ -151,17 +151,4 @@ export default {
 };
 </script>
 <style lang="scss">
-.bg-secondary {
-    background-image: linear-gradient(to bottom left,
-            #344675,
-            #263148,
-            #344675);
-    color: rgba(255, 255, 255, 0.7);
-
-    tr {
-        th {
-            color: rgba(255, 255, 255, 0.7) !important;
-        }
-    }
-}
 </style>

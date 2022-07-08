@@ -274,19 +274,4 @@ export default {
 };
 </script>
 <style>
-.modal-open .modal.show {
-    display: flex !important;
-}
-
-.modal.show .modal-dialog {
-    -webkit-transform: translate(0, 0);
-    transform: translate(0, 0);
-    align-self: center;
-    width: 500px;
-}
-
-.alert span ol {
-    padding-left: 0;
-    margin-left: 1rem;
-}
 </style>

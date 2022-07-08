@@ -37,9 +37,9 @@
                                 <td>{{ index + 1 }}</td>
                                 <td>
                                     {{
-                                            invoice.account.client
-                                                ? invoice.account.client.name
-                                                : ""
+                                    invoice.account.client
+                                    ? invoice.account.client.name
+                                    : ""
                                     }}
                                 </td>
                                 <td>{{ invoice.name }}</td>
@@ -62,9 +62,9 @@
                                         <button @click="
                                             nextPage(invoices.links.first)
                                         " style="cursor: pointer" :disabled="
-    invoices.links.first == null ||
-    invoices.meta.current_page == 1
-" class="
+                                            invoices.links.first == null ||
+                                            invoices.meta.current_page == 1
+                                        " class="
                                                 btn
                                                 btn-sm
                                                 btn-primary
@@ -78,8 +78,8 @@
                                         <button @click="
                                             nextPage(invoices.links.prev)
                                         " style="cursor: pointer" :disabled="
-    invoices.links.prev == null
-" class="
+                                            invoices.links.prev == null
+                                        " class="
                                                 btn
                                                 btn-sm
                                                 btn-primary
@@ -93,8 +93,8 @@
                                         <button @click="
                                             nextPage(invoices.links.next)
                                         " style="cursor: pointer" :disabled="
-    invoices.links.next == null
-" class="
+                                            invoices.links.next == null
+                                        " class="
                                                 btn
                                                 btn-sm
                                                 btn-primary
@@ -108,10 +108,10 @@
                                         <button @click="
                                             nextPage(invoices.links.last)
                                         " style="cursor: pointer" :disabled="
-    invoices.links.last == null ||
-    invoices.meta.current_page ==
-    invoices.meta.last_page
-" class="
+                                            invoices.links.last == null ||
+                                            invoices.meta.current_page ==
+                                            invoices.meta.last_page
+                                        " class="
                                                 btn
                                                 btn-sm
                                                 btn-primary
@@ -230,19 +230,4 @@ export default {
 };
 </script>
 <style>
-.modal-open .modal.show {
-    display: flex !important;
-}
-
-.modal.show .modal-dialog {
-    -webkit-transform: translate(0, 0);
-    transform: translate(0, 0);
-    align-self: center;
-    width: 500px;
-}
-
-.alert span ol {
-    padding-left: 0;
-    margin-left: 1rem;
-}
 </style>

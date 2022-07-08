@@ -54,6 +54,10 @@ Route::name('api')->namespace('App\Http\Controllers')->group(function () {
         Route::get('', [ClientController::class, 'index']);
         Route::get('list', [ClientController::class, 'minList'])->name('-list');
         Route::get('accounts', [ClientController::class, 'accounts'])->name('-accounts');
+        Route::post('', [\App\Http\Controllers\ClientController::class, 'postCreate'])->name('-store');
+        Route::patch('', [\App\Http\Controllers\ClientController::class, 'postUpdate'])->name('-update');
+        Route::delete('', [\App\Http\Controllers\ClientController::class, 'postDelete'])->name('-delete');
+        Route::get('show', [\App\Http\Controllers\ClientController::class, 'getView'])->name('-view');
         Route::group(['as' => '-notification', 'prefix' => 'notification'], function () {
             Route::post('update', [ClientController::class, 'updateNotification'])->name('-update');
             Route::get('show', [ClientController::class, 'showNotification'])->name('-show');
