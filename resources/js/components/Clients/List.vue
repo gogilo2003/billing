@@ -69,6 +69,7 @@
 import ClientDetail from './Detail.vue'
 import ClientView from './View.vue'
 import DataTable from "vue-materialize-datatable";
+import Dialog from "../shared/Dialog"
 export default {
     data: () => {
         return {
@@ -153,7 +154,8 @@ export default {
     components: {
         ClientDetail,
         ClientView,
-        DataTable
+        DataTable,
+        Dialog
     },
     mounted() {
         this.getClients()
