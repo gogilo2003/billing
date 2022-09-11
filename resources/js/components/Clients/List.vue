@@ -63,13 +63,15 @@
         </div>
         <client-detail :client="client" :edit.sync="edit" @updated="clientUpdated" @stored="clientStored" />
         <client-view :client="client" />
+        <client-accounts :accounts="accounts" :show="showAccounts" />
     </div>
 </template>
 <script>
 import ClientDetail from './Detail.vue'
 import ClientView from './View.vue'
-import DataTable from "vue-materialize-datatable";
-import Dialog from "../shared/Dialog"
+import ClientAccounts from './Accounts.vue'
+import DataTable from "vue-materialize-datatable"
+
 export default {
     data: () => {
         return {
@@ -84,7 +86,9 @@ export default {
             page: [],
             pageIndex: 0,
             edit: false,
-            client: {}
+            client: {},
+            showAccounts: false,
+            accounts: []
         }
     },
     methods: {
@@ -126,7 +130,7 @@ export default {
             alert(`Download ${id}`)
         },
         accountsButton(id) {
-            alert(`Accounts ${id}`)
+            this.showAccounts = true
         },
         quotationsButton(id) {
             alert(`Quotations ${id}`)
@@ -149,13 +153,13 @@ export default {
         },
         hideTasks() {
             document.querySelectorAll('.task-buttons').forEach(item => { item.classList.remove('show') })
-        }
+        },
     },
     components: {
         ClientDetail,
         ClientView,
+        ClientAccounts,
         DataTable,
-        Dialog
     },
     mounted() {
         this.getClients()

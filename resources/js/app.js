@@ -26,6 +26,7 @@ Vue.component('import', require('./components/Import.vue').default);
 Vue.component('invoices', require('./components/invoice/List.vue').default);
 Vue.component('quotations', require('./components/Quotations/List.vue').default);
 Vue.component('clients', require('./components/Clients/List.vue').default);
+Vue.component('modal', require('./components/shared/Modal.vue').default)
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faEllipsisV, faEllipsisH } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'

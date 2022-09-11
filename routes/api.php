@@ -53,7 +53,7 @@ Route::name('api')->namespace('App\Http\Controllers')->group(function () {
     Route::name('-clients')->prefix('clients')->middleware('auth:api')->group(function () {
         Route::get('', [ClientController::class, 'index']);
         Route::get('list', [ClientController::class, 'minList'])->name('-list');
-        Route::get('accounts', [ClientController::class, 'accounts'])->name('-accounts');
+        Route::get('{client_id}/accounts', [ClientController::class, 'accounts'])->name('-accounts');
         Route::post('', [\App\Http\Controllers\ClientController::class, 'postCreate'])->name('-store');
         Route::patch('', [\App\Http\Controllers\ClientController::class, 'postUpdate'])->name('-update');
         Route::delete('', [\App\Http\Controllers\ClientController::class, 'postDelete'])->name('-delete');
