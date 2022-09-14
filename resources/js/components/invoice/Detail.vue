@@ -16,8 +16,8 @@
                             <select class="form-control" name="clientInput" id="clientInput"
                                 v-model="selectedInvoice.account_id" :value="selectedInvoice.account_id">
                                 <optgroup v-for="client in clients" :key="client.id" :label="client.name">
-                                    <option v-for="account in client.accounts" :key="account.id" :value="account.id"
-                                        v-html="account.name"></option>
+                                    <option v-for="account in client.accounts" :key="account.id" :value="account.id">
+                                        ({{ client.name }})- {{ account.name }}</option>
                                 </optgroup>
                             </select>
                         </div>
@@ -53,8 +53,8 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="(
-                                            item, index
-                                        ) in selectedInvoice.items" :key="index">
+                                        item, index
+                                    ) in selectedInvoice.items" :key="index">
                                         <td>{{ item.particulars }}</td>
                                         <td>{{ item.price }}</td>
                                         <td>{{ item.quantity }}</td>
@@ -194,8 +194,9 @@ export default {
 
             this.item.amount = isNaN(this.item.amount) ? 0 : this.item.amount;
         },
-        async getAccounts() {
-            await axios.get(`/api/clients/accounts?api_token=${window.API_TOKEN}`).then((response) => {
+        async getAccounts(id = null) {
+            let url = id ? `/api/clients/${id}/accounts` : `/api/clients`
+            await axios.get(`${url}?api_token=${window.API_TOKEN}`).then((response) => {
                 this.clients = response.data.data.filter(
                     (item) => item.accounts.length
                 );
@@ -239,7 +240,8 @@ export default {
                         $("#invoicesModalDialog").modal("hide");
                     })
                     .catch((error) => {
-                        if (error.response.status == 415) {
+                        console.log(error)
+                        if (error.status == 415) {
                             let details = `<ol>`;
                             for (const [key, value] of Object.entries(
                                 error.response.data.details
@@ -257,7 +259,8 @@ export default {
                                 }
                             );
                         } else {
-                            console.log(error.response.data.message);
+                            console.log(error);
+                            // console.log(error.response.data.message);
                         }
                     });
             } else {
@@ -279,10 +282,10 @@ export default {
                             items: [],
                         };
                         $("#invoicesModalDialog").modal("hide");
-                        this.invoices.unshift(response.data.invoice);
+                        this.$emit('created', response.data.invoice);
                     })
                     .catch((error) => {
-                        if (error.response.status == 415) {
+                        if (error.status == 415) {
                             let details = `<ol>`;
                             for (const [key, value] of Object.entries(
                                 error.response.data.details
@@ -301,7 +304,7 @@ export default {
                                 }
                             );
                         } else {
-                            console.log(error.response.data.message);
+                            console.log(error);
                         }
                     });
             }

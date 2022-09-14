@@ -113,7 +113,7 @@ export default {
             });
         },
         getClients() {
-            axios.get("/api/clients").then((response) => {
+            axios.get(`/api/clients?api_token=${window.API_TOKEN}`).then((response) => {
                 this.clients = response.data.data;
             });
         },

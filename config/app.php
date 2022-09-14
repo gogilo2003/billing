@@ -13,15 +13,26 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
-    'phone' => '+254711347184',
-    'email' => 'billing@micartech.co.ke',
-    'address' => 'P.O. Box 6546 - 00300, NAIROBI',
-    'mpesa' => ['buy_goods' => 5986813, 'name' => 'MICARTECH LTD'],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Custom configuration for billing
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'phone' => env('BILLING_PHONE', ''),
+    'email' => env('BILLING_EMAIL', ''),
+    'address' => env('BILLING_ADDRESS', ''),
+    'mpesa' => [
+        'buy_goods' => env('BILLING_MPESA_BUY_GOODS', ''),
+        'name' => env('BILLING_MPESA_NAME')
+    ],
     'tax' => [
-        'show' => false,
+        'show' => env('BILLING_TAX_SHOW', FALSE),
         'vat' => [
-            'rate' => 16, //Write in percentage not fraction
-            'type' => 'inclusive', //possible values are inclusive or exclusive
+            'rate' => env('BILLING_TAX_VAT_TYPE', ''),
+            'type' => env('BILLING_TAX_VAT_TYPE', ''),
         ]
     ],
 

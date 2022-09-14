@@ -131,7 +131,7 @@
             </div>
         </div>
         <!-- Modals -->
-        <invoice-detail :invoice="selectedInvoice" :edit.sync="edit" />
+        <invoice-detail :invoice="selectedInvoice" :edit.sync="edit" @created="created" @updated="updated" />
         <invoice-view :invoice="selectedInvoice" />
     </div>
 </template>
@@ -223,6 +223,12 @@ export default {
                 this.invoices = response.data;
             });
         },
+        created(invoice) {
+            this.getInvoices()
+        },
+        updated(invoice) {
+            this.invoices.data[this.invoices.data.findInex(item => item.id === invoice.id)] == invoice
+        }
     },
     mounted() {
         this.getInvoices();
@@ -230,4 +236,5 @@ export default {
 };
 </script>
 <style>
+
 </style>
