@@ -32,15 +32,15 @@ class Invoice extends Model
         if (config('app.tax.vat.type') === 'inclusive')
             return $this->amount() * (100 / (100 + (int)config('app.tax.vat.rate')));
 
-        return $this->amount() - $this->tax();
+        return $this->amount();
     }
 
     public function tax()
     {
         if (config('app.tax.vat.type') === 'inclusive')
-            return $this->amount() * (config('app.tax.vat.rate') / (100 + (int)config('app.tax.vat.rate')));
+            return $this->amount() * ((int)config('app.tax.vat.rate') / (100 + (int)config('app.tax.vat.rate')));
 
-        return $this->amount() * (config('app.tax.vat.rate') / 100);
+        return $this->amount() * ((int)config('app.tax.vat.rate') / 100);
     }
 
     public function amount()
@@ -50,10 +50,15 @@ class Invoice extends Model
             $amount += $item->amount();
         }
 
-        if (config('app.tax.vat.type') === 'inclusive')
-            return $amount;
+        return $amount;
+    }
 
-        return $amount + $this->tax();
+    public function grandTotal()
+    {
+        if (config('app.tax.vat.type') === 'inclusive')
+            return $this->amount();
+
+        return $this->amount() + $this->tax();
     }
 
     public function delivery()

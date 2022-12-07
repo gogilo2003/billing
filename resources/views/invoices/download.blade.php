@@ -60,9 +60,12 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $item->particulars }}</td>
-                            <td class="text-right">KES {{ number_format($item->price, 2) }}</td>
+                            <td class="text-right">{{ config('billing.currency') }}
+                                {{ number_format($item->price, 2) }}</td>
                             <td class="text-center">{{ $item->quantity }}</td>
-                            <td class="text-right">KES {{ number_format($item->amount(), 2) }}</td>
+                            <td class="text-right">{{ config('billing.currency') }}
+                                {{ number_format($item->amount(), 2) }}
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -73,37 +76,46 @@
                                 SUB-TOTAL
                             </td>
                             <td style="font-weight: bold; font-size: 1.1em; border-bottom: 1px double #333"
-                                class="text-right">KES {{ number_format($invoice->subTotal(), 2) }}</td>
+                                class="text-right">{{ config('billing.currency') }}
+                                {{ number_format($invoice->subTotal(), 2) }}</td>
                         </tr>
                         <tr>
                             <td class="text-right" colspan="4" style="font-weight:bold;">
                                 TAX
                             </td>
                             <td style="font-weight: bold; font-size: 1.1em; border-bottom: 1px double #333"
-                                class="text-right">KES {{ number_format($invoice->tax(), 2) }}</td>
+                                class="text-right">{{ config('billing.currency') }}
+                                {{ number_format($invoice->tax(), 2) }}
+                            </td>
                         </tr>
                     @endif
                     <tr>
                         <td class="text-right" colspan="4" style="font-weight:bold;">
                             TOTAL
                         </td>
-                        <td style="font-weight: bold; font-size: 1.1em; border-bottom: 1px double #333"
-                            class="text-right">KES {{ number_format($invoice->amount(), 2) }}</td>
+                        <td style="font-weight: bold; font-size: 1.1em; border-bottom: 1px double #333" class="text-right">
+                            {{ config('billing.currency') }} {{ number_format($invoice->grandTotal(), 2) }}</td>
                     </tr>
                 </tfoot>
             </table>
             <div class="invoice-footer">
-                <h4 class="text-uppercase">MPESA</h4>
-                <ol>
-                    <li>Go to Lipa Na M-PESA</li>
-                    <li>Select Buy Goods</li>
-                    <li>Enter the Till Number <strong>{{ config('app.mpesa.buy_goods') }}</strong></li>
-                    <li>Enter the amount (Kshs {{ number_format($invoice->amount(), 2) }})</li>
-                    <li>Enter Your PIN and confirm sending to <strong>{{ config('app.mpesa.name') }}</strong></li>
-                </ol>
+                @if (config('billing.mpesa'))
+                    <h4 class="text-uppercase">MPESA</h4>
+                    <ol>
+                        <li>Go to Lipa Na M-PESA</li>
+                        <li>Select Buy Goods</li>
+                        <li>Enter the Till Number <strong>{{ config('app.mpesa.buy_goods') }}</strong></li>
+                        <li>Enter the amount ({{ config('billing.currency') }} {{ number_format($invoice->amount(), 2) }})
+                        </li>
+                        <li>Enter Your PIN and confirm sending to <strong>{{ config('app.mpesa.name') }}</strong></li>
+                    </ol>
+                @endif
                 <h4 class="text-uppercase">Cheque Payment</h4>
                 <p class="category">Make all cheques payable to <strong>{{ config('app.name') }}</strong>.
-                    <br>All prices inclusive of {{ config('app.vat') }} VAT
+                    @if (config('app.tax.vat.type') === 'inclusive')
+                        <br>All prices inclusive of
+                        {{ config('app.vat.rate') }} VAT
+                    @endif
                 </p>
             </div>
         </div>
