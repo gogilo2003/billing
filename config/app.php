@@ -31,8 +31,8 @@ return [
     'tax' => [
         'show' => env('BILLING_TAX_SHOW', FALSE),
         'vat' => [
-            'rate' => env('BILLING_TAX_VAT_TYPE', ''),
-            'type' => env('BILLING_TAX_VAT_TYPE', ''),
+            'rate' => env('BILLING_TAX_VAT_RATE', 0),
+            'type' => env('BILLING_TAX_VAT_TYPE', 'inclusive'),
         ]
     ],
 
