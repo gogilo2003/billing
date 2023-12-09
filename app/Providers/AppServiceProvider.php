@@ -27,8 +27,8 @@ class AppServiceProvider extends ServiceProvider
             require_once($helper);
         }
 
-        file_put_contents(public_path('pdf/header.html'), view('layouts.header-footer.header')->render());
-        file_put_contents(public_path('pdf/footer.html'), view('layouts.header-footer.footer')->render());
+        if (file_exists(public_path('pdf/header.html'))) file_put_contents(public_path('pdf/header.html'), view('layouts.header-footer.header')->render());
+        if (file_exists(public_path('pdf/footer.html'))) file_put_contents(public_path('pdf/footer.html'), view('layouts.header-footer.footer')->render());
     }
 
     /**
