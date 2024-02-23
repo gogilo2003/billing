@@ -9,7 +9,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <data-table title="News" :rows="clients" :columns="columns" style="width:100%">
+                    <data-table title="Accounts" :rows="accounts" :columns="columns" style="width:100%">
                         <th slot="thead-tr">
                             Actions
                         </th>

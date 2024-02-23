@@ -27,7 +27,7 @@
                             <p>
                                 {{ invoice.account.client.name }},<br />
                                 {{
-                                        invoice.account.client.postal_address
+                                    invoice.account.client.postal_address
                                 }},<br />
                                 {{ invoice.account.client.email }},
                                 {{ invoice.account.client.phone }}
@@ -91,9 +91,14 @@
                     <button type="button" class="btn btn-secondary btn-round" data-dismiss="modal">
                         Close
                     </button>
-                    <a :href="`/invoices/download/${invoice.id}`" class="btn btn-primary btn-round">
-                        Download
-                    </a>
+                    <div>
+                        <a :href="`/invoices/delivery/${invoice.id}`" class="btn btn-primary btn-round">
+                            Delivery
+                        </a>
+                        <a :href="`/invoices/download/${invoice.id}`" class="btn btn-primary btn-round">
+                            Download
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -150,5 +155,4 @@ export default {
     },
 };
 </script>
-<style lang="scss">
-</style>
+<style lang="scss"></style>
